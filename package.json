@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest"
   },
   "dependencies": {
     "expo": "^30.0.1",
@@ -19,5 +20,8 @@
     "enzyme": "^3.6.0",
     "jest": "^23.6.0",
     "jest-enzyme": "^6.1.2"
+  },
+  "jest": {
+    "preset": "react-native"
   }
 }
