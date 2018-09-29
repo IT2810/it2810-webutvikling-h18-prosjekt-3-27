@@ -3,24 +3,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import {createBottomTabNavigator} from 'react-navigation';
 import Home from "./components/Home";
 import Icon from 'react-native-vector-icons/Ionicons';
+import Todo from './components/Todo/Todo.js';
 
 export class App extends Component{
   render() {
     return (
       <View style={styles.container}>
         <Home />
-      </View>
-    );
-  }
-}
-
-
-/*Bare å slette klassene nedenfor, men trengte de for å kunne loade appen og teste tabs*/
-export class Todo extends Component{
-  render() {
-    return (
-      <View>
-        <Text>Test todo</Text>
       </View>
     );
   }
@@ -99,6 +88,7 @@ export default createBottomTabNavigator({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column",
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
