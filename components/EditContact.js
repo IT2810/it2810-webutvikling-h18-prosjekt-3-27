@@ -39,7 +39,8 @@ export default class EditContact extends Component {
   };
 
   render () {
-    this.setState({contacts: navigation.getParam('contacts', [])});
+    const navigation = this.props.navigation;
+    const contacts = navigation.getParam('contacts', []);
     return (
       <View>
         <TextInput
