@@ -6,7 +6,9 @@ import {
   FlatList,
   AsyncStorage,
   TextInput,
+  Button,
 } from "react-native";
+import navigation from "react-navigation";
 
 export default class Contacts extends Component {
   state = {
@@ -14,53 +16,26 @@ export default class Contacts extends Component {
     text: ""
   };
 
-  changeTextHandler = text => {
-    this.setState({ text: text });
-  };
-
-  addContact = () => {
-    let notEmpty = this.state.text.trim().length > 0;
-    if (notEmpty) {
-      this.setState(
-        prevState => {
-          let { contacts, text } = prevState;
-          return {
-            contacts: contacts.concat({ key: contacts.length, text: text }),
-            text: ""
-          };
-        },
-        () => C.save(this.state.contacts)
-      );
-    }
-  };
-
   componentDidMount() {
-    console.log("hello this loadedd");
     C.all(contacts => this.setState({ contacts: contacts}));
   }
 
   render() {
-    console.log("Render is loaded");
     return (
       <View style={styles.container}>
-        <Text>
-          fjdskjfdksfjdkshf
-        </Text>
         <FlatList data={this.state.contacts} keyExtractor={(item) => item.key.toString()} renderItem={({ item }) =>
-            <View>
-              <Text>
-                {item.text}
-              </Text>
-            </View>}
+          <View>
+            <Text style={styles.contact}>
+              {item.text}
+            </Text>
+          </View>}
         />
-        <TextInput style={styles.input}
-          onChangeText={this.changeTextHandler}
-          value={this.state.text}
-          placeholder="Add Contact"
+        <Button
+          title={"Add Contact"}
+          onPress={() => {
+            return this.props.navigation.navigate('EditContact', {contacts: this.state.contacts});
+          }}
         />
-        <Text>
-          Hellellodjfksdjk
-        </Text>
       </View>
     );
   }
@@ -90,11 +65,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-    paddingTop: 20
+    paddingTop: 20,
+    paddingBottom: 50,
   },
   input: {
     justifyContent: "center",
     alignItems: "stretch",
     width: 100
-  }
+  },
+  contact: {
+    paddingTop: 5,
+    paddingBottom: 5,
+    fontSize: 20,
+  },
 });

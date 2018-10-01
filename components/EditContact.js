@@ -3,13 +3,43 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
   AsyncStorage,
   TextInput, Button,
 } from "react-native";
 
+import navigation from 'react-navigation'; // Version can be specified in package.json
+
+import Contacts from "./Contacts";
+
 export default class EditContact extends Component {
+  state = {
+    text: "",
+    contacts: [],
+  };
+
+  changeTextHandler = text => {
+    this.setState({ text: text });
+  };
+
+  add = () => {
+    let notEmpty = this.state.text.trim().length > 0;
+    if (notEmpty) {
+      this.setState(
+        prevState => {
+          let { contacts, text } = prevState;
+          return {
+            contacts: contacts.concat({ key: contacts.length, text: text }),
+            text: ""
+          };
+        },
+        () => C.save(this.state.contacts)
+      );
+    }
+    return this.props.navigation.navigate('Contacts', {contacts: this.state.contacts});
+  };
+
   render () {
+    this.setState({contacts: navigation.getParam('contacts', [])});
     return (
       <View>
         <TextInput
@@ -18,11 +48,20 @@ export default class EditContact extends Component {
           placeholder="Add Contact"
         />
         <Button
-          onPress={this.addContact}
-          title="Add contact"
-          valie={this.state.text}
+          onPress={this.add}
+          value = {this.state.text}
+          title={"Add"}
         />
       </View>
     )
   }
 }
+
+let C = {
+  convertToStringWithSeparators(contacts) {
+    return contacts.map(contacts => contacts.text).join("||");
+  },
+  save(contacts) {
+    AsyncStorage.setItem("CONTACTS", this.convertToStringWithSeparators(contacts));
+  }
+};

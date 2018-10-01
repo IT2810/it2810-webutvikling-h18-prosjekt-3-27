@@ -1,14 +1,19 @@
 import React from 'react';
-import {View } from 'react-native';
-import AppNavigator from './components/AppNavigator';
+import {StyleSheet, View} from 'react-native';
 import Navigator from './components/Navigator';
 
 export default class App extends React.Component {
   render() {
     return (
-      <View>
-        <Navigator/>
+    <View style={styles.container}>
+      <Navigator />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }}
+);

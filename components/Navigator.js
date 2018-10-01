@@ -22,7 +22,8 @@ const EditContactStack = createStackNavigator({
 });
 
 const ContactsStack = createStackNavigator({
-  Contacts: Contacts
+  Contacts: Contacts,
+  EditContact: EditContact
 });
 
 ContactsStack.navigationOptions = {
@@ -54,7 +55,6 @@ CalendarStack.navigationOptions = {
   )
 };
 
-
 export class Todo extends Component{
   render() {
     return (
@@ -78,4 +78,13 @@ export class Calendar extends Component{
 export default createBottomTabNavigator({
   HomeStack,
   ContactsStack,
+  CalendarStack,
+  TodoStack,
 });
+
+const RootStack = createStackNavigator(
+  {
+    Contacts: Contacts,
+    EditContact: EditContact,
+  },
+);
