@@ -8,6 +8,8 @@ import {
   Text,
   TextInput,
   View,
+  Keyboard,
+  Platform
 } from "react-native";
 import randomColor from "randomcolor";
 import TodoItem from "./TodoItem";
@@ -107,6 +109,19 @@ export default class Todo extends Component {
     this.setState({selected: key});
   };
 
+  _handleTextEdit = (text, task) => {
+    const taskKey = task.key;
+    let taskCopy = Object.assign({},task, {text});
+    this.setState((prevState) => {
+      const oldTask = prevState.tasks.find(task => task.key === taskKey);
+      const index = prevState.tasks.indexOf(oldTask);
+      let tasksCopy = [...prevState.tasks];
+      tasksCopy[index] = taskCopy;
+      return {tasks: tasksCopy}
+    });
+    this._save(taskCopy);
+  };
+
   render() {
     return (
       <View
@@ -124,6 +139,7 @@ export default class Todo extends Component {
                   item={item}
                   index={index}
                   selected={this.state.selected}
+                  onTextEdit={this._handleTextEdit}
                   onEditStart={this._handleSelectedTask}
                   toggleComplete={this._handleTaskToggle}/>
               </View>

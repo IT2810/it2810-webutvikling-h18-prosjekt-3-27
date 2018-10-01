@@ -8,12 +8,12 @@ export default class TodoItem extends Component {
     this.props.toggleComplete(this.props.item.key);
   };
 
-  _handleTextEdit = () => {
+  _handleEditStart = () => {
     this.props.onEditStart(this.props.item.key)
   };
 
-  _handleTextChange = () => {
-
+  _handleTextChange = (text) => {
+    this.props.onTextEdit(text, this.props.item);
   };
 
   render() {
@@ -27,7 +27,7 @@ export default class TodoItem extends Component {
             onChangeText={this._handleTextChange}
           />
          :
-          <Text onPress={this._handleTextEdit} style={item.completed ? styles.itemCompleted : styles.item}>
+          <Text onPress={this._handleEditStart} style={item.completed ? styles.itemCompleted : styles.item}>
             {item.text}
           </Text>
 
