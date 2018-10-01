@@ -20,6 +20,22 @@ export default class Contacts extends Component {
     C.all(contacts => this.setState({ contacts: contacts}));
   }
 
+
+  addContact(t) {
+    //denne kjører ikke
+    console.log("addContact i contacts kjører");
+    this.setState(
+      prevState => {
+        let { contacts, text } = prevState;
+        return {
+          contacts: contacts.concat({ key: contacts.length, text: t }),
+          text: ""
+        };
+      },
+      () => C.save(this.state.contacts)
+    );
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -32,12 +48,14 @@ export default class Contacts extends Component {
         />
         <Button
           title={"Add Contact"}
-          onPress={() => {
-            return this.props.navigation.navigate('EditContact', {contacts: this.state.contacts});
-          }}
+          onPress= {this.handlePress.bind(this)}
         />
       </View>
     );
+  }
+
+  handlePress() {
+    return this.props.navigation.navigate('EditContact', {contacts: this.state.contacts});
   }
 }
 
@@ -59,6 +77,7 @@ let C = {
     AsyncStorage.setItem("CONTACTS", this.convertToStringWithSeparators(contacts));
   }
 };
+
 
 const styles = StyleSheet.create({
   container: {
