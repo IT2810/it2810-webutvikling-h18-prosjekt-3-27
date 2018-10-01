@@ -35,7 +35,6 @@ export default class Todo extends Component {
       const tasks = tasksResult
         .map(keyvalue => keyvalue[1])
         .map(objJson => JSON.parse(objJson));
-      console.log(tasksResult, tasks);
       this.setState({tasks: tasks});
     } catch (e) {
       console.error(e);
@@ -49,7 +48,6 @@ export default class Todo extends Component {
       let keyCount = parseInt(keyCountStr);
       keyCount = keyCount + 1;
       await AsyncStorage.setItem("TodoKeyCount", ""+keyCount);
-      console.log(keyCount);
       return keyCount;
     } catch (e) {
       console.error(e);
@@ -58,24 +56,22 @@ export default class Todo extends Component {
 
   _save = async (task) => {
     try {
-      const key = "task_" + task.key;
       const taskKeysJSON = await AsyncStorage.getItem("TASKKEYS") || "[]";
       const taskKeys = JSON.parse(taskKeysJSON);
-      if (!taskKeys.includes(key)) {
-        taskKeys.push(key);
+      if (!taskKeys.includes(task.key)) {
+        taskKeys.push(task.key);
         await AsyncStorage.setItem("TASKKEYS", JSON.stringify(taskKeys));
       }
-      await AsyncStorage.setItem(key, JSON.stringify(task));
+      await AsyncStorage.setItem(task.key, JSON.stringify(task));
     } catch (e) {
       console.error(e);
     }
-
    };
 
   _handleAddTask = async () => {
     if (this.state.text.length > 0) {
-      const key = await this._retrieveAndIncreaseKeyCount();
-      console.log("key:",key);
+      let key = await this._retrieveAndIncreaseKeyCount();
+      key = "task_" + key;
       const task = {
         key: key,
         text: this.state.text,
@@ -95,14 +91,14 @@ export default class Todo extends Component {
     }
   };
 
-  _handleTaskToggle = index => {
+  _handleTaskToggle = key => {
     this.setState(
       prevState => {
-        let tasks = [...prevState.tasks.slice()];
-        tasks[index].completed ? tasks[index].completed = false : tasks[index].completed = true;
+        let tasks = [...prevState.tasks];
+        let task = tasks.find((task) => task.key === key);
+        task.completed ? task.completed = false : task.completed = true;
         let completedTasks = [...prevState.completedTasks.slice()];
-        let completedTask = tasks[index];
-        return {tasks: tasks, completedTasks: completedTasks.concat(completedTask)};
+        return {tasks: tasks, completedTasks: completedTasks.concat(task)};
       }
     );
   };
@@ -120,7 +116,7 @@ export default class Todo extends Component {
           <FlatList
             style={styles.list}
             data={this.state.tasks}
-            keyExtractor={(item) => item.key.toString()}
+            keyExtractor={(item) => item.key}
             extraData={this.state.selected}
             renderItem={({item, index}) =>
               <View>

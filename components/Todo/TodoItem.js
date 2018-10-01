@@ -4,8 +4,8 @@ import React, {Component} from "react";
 
 export default class TodoItem extends Component {
 
-  _handlePress = () => {
-    this.props.toggleComplete(this.props.index);
+  _handleToggleComplete = () => {
+    this.props.toggleComplete(this.props.item.key);
   };
 
   _handleTextEdit = () => {
@@ -18,8 +18,6 @@ export default class TodoItem extends Component {
 
   render() {
     let item = this.props.item;
-    console.log(this.props.selected);
-    console.log(this.props.item.key);
     return (
       <View>
         <View style={styles.itemContainer}>
@@ -35,7 +33,7 @@ export default class TodoItem extends Component {
 
           }
           <Icon style={styles.button} name={item.completed ? "ios-checkmark-circle": "ios-radio-button-off"}  color={item.color} size={50}
-                onPress={this._handlePress}/>
+                onPress={this._handleToggleComplete}/>
         </View>
         <View style={styles.hr}/>
       </View>
