@@ -9,9 +9,8 @@ import {
   TextInput,
   View,
 } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
 import randomColor from "randomcolor";
-import {Button} from "react-native-elements";
+import TodoItem from "./TodoItem";
 
 export default class Todo extends Component {
   constructor(props) {
@@ -19,37 +18,84 @@ export default class Todo extends Component {
     this.state = {
       tasks: [],
       completedTasks: [],
-      text: ""
+      text: "",
+      selected: null,
     };
-    this._handleAddTask = this._handleAddTask.bind(this);
-    this._handleTaskCompletion = this._handleTaskCompletion.bind(this);
   }
 
   componentDidMount() {
-    Tasks._load(tasks => this.setState({ tasks: tasks || [] }));// this.setState({ tasks: tasks || [] }))
+    this._retrieveTasks().done();
   }
 
-  _handleAddTask = () => {
-    if (this.state.text.length > 0) {
-      this.setState(
-        prevState => {
-          let {tasks, text} = prevState;
-          return {
-            tasks: tasks.concat({
-              key: tasks.length,
-              text: text,
-              completed: false,
-              color: randomColor({luminosity: 'dark', hue: "green"})
-            }),
-            text: ""
-          };
-        },
-        () => Tasks._save(this.state.tasks)
-      );
+  _retrieveTasks = async () => {
+    try {
+      const taskKeysJson = await AsyncStorage.getItem("TASKKEYS") || "[]";
+      const taskKeys = JSON.parse(taskKeysJson);
+      const tasksResult = await AsyncStorage.multiGet(taskKeys);
+      const tasks = tasksResult
+        .map(keyvalue => keyvalue[1])
+        .map(objJson => JSON.parse(objJson));
+      console.log(tasksResult, tasks);
+      this.setState({tasks: tasks});
+    } catch (e) {
+      console.error(e);
     }
   };
 
-  _handleTaskCompletion = index => {
+  /*TODO: Move to own UTIL class */
+  _retrieveAndIncreaseKeyCount = async () => {
+    try {
+      const keyCountStr = await AsyncStorage.getItem("TodoKeyCount") || "0";
+      let keyCount = parseInt(keyCountStr);
+      keyCount = keyCount + 1;
+      await AsyncStorage.setItem("TodoKeyCount", ""+keyCount);
+      console.log(keyCount);
+      return keyCount;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  _save = async (task) => {
+    try {
+      const key = "task_" + task.key;
+      const taskKeysJSON = await AsyncStorage.getItem("TASKKEYS") || "[]";
+      const taskKeys = JSON.parse(taskKeysJSON);
+      if (!taskKeys.includes(key)) {
+        taskKeys.push(key);
+        await AsyncStorage.setItem("TASKKEYS", JSON.stringify(taskKeys));
+      }
+      await AsyncStorage.setItem(key, JSON.stringify(task));
+    } catch (e) {
+      console.error(e);
+    }
+
+   };
+
+  _handleAddTask = async () => {
+    if (this.state.text.length > 0) {
+      const key = await this._retrieveAndIncreaseKeyCount();
+      console.log("key:",key);
+      const task = {
+        key: key,
+        text: this.state.text,
+        completed: false,
+        color: randomColor({luminosity: 'dark', hue: "green"})
+      };
+      this.setState(
+        prevState => {
+          let {tasks} = prevState;
+          return {
+            tasks: tasks.concat(task),
+            text: ""
+          };
+        }
+      );
+    this._save(task).done();
+    }
+  };
+
+  _handleTaskToggle = index => {
     this.setState(
       prevState => {
         let tasks = [...prevState.tasks.slice()];
@@ -57,9 +103,12 @@ export default class Todo extends Component {
         let completedTasks = [...prevState.completedTasks.slice()];
         let completedTask = tasks[index];
         return {tasks: tasks, completedTasks: completedTasks.concat(completedTask)};
-      },
-      () => Tasks._save(this.state.tasks)
+      }
     );
+  };
+
+  _handleSelectedTask = key => {
+    this.setState({selected: key});
   };
 
   render() {
@@ -72,18 +121,20 @@ export default class Todo extends Component {
             style={styles.list}
             data={this.state.tasks}
             keyExtractor={(item) => item.key.toString()}
+            extraData={this.state.selected}
             renderItem={({item, index}) =>
               <View>
-                <View style={styles.itemContainer}>
-                  <Text style={item.completed ? styles.itemCompleted : styles.item}>
-                    {item.text}
-                  </Text>
-                  <Icon style={styles.button} name={item.completed ? "ios-checkmark-circle": "ios-radio-button-off"}  color={item.color} size={50}
-                        onPress={() => this._handleTaskCompletion(index)}/>
-                </View>
-                <View style={styles.hr}/>
-              </View>}
+                <TodoItem
+                  item={item}
+                  index={index}
+                  selected={this.state.selected}
+                  onEditStart={this._handleSelectedTask}
+                  toggleComplete={this._handleTaskToggle}/>
+              </View>
+
+            }
           />
+
         </ScrollView>
 
         <KeyboardAvoidingView behavior="position">
@@ -107,27 +158,6 @@ export default class Todo extends Component {
 
 }
 
-let Tasks = {
-  convertToArrayOfObject(tasks, callback) {
-    return callback(
-      tasks ? JSON.parse(tasks).map((task) => ({
-        key: task.key,
-        text: task.text,
-        completed: task.completed,
-        color: task.color
-      })) : []
-    );
-  },
-  _load(callback) {
-    return AsyncStorage.getItem("TASKS", (err, tasks) =>
-      this.convertToArrayOfObject(tasks, callback)
-    );
-  },
-  _save(tasks) {
-    AsyncStorage.setItem("TASKS", JSON.stringify(tasks));
-  },
-
-};
 
 
 const styles = StyleSheet.create({
@@ -153,7 +183,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexWrap: "wrap",
     textDecorationLine: "line-through",
-    color: "#D3D3D3",
+    color: "#afafaf",
     paddingLeft: 10,
     paddingTop: 2,
     paddingBottom: 2,
