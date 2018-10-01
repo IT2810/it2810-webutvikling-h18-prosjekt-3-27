@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import randomColor from "randomcolor";
+import {Button} from "react-native-elements";
 
 export default class Todo extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ export default class Todo extends Component {
       text: ""
     };
     this._handleAddTask = this._handleAddTask.bind(this);
-    this._handleDeleteTask = this._handleDeleteTask.bind(this);
+    this._handleTaskCompletion = this._handleTaskCompletion.bind(this);
   }
 
   componentDidMount() {
@@ -48,19 +49,18 @@ export default class Todo extends Component {
     }
   };
 
-  _handleDeleteTask = index => {
+  _handleTaskCompletion = index => {
     this.setState(
       prevState => {
         let tasks = [...prevState.tasks.slice()];
-        tasks[index].completed = true;
+        tasks[index].completed ? tasks[index].completed = false : tasks[index].completed = true;
         let completedTasks = [...prevState.completedTasks.slice()];
-        let completedTask = tasks.splice(index, 1);
+        let completedTask = tasks[index];
         return {tasks: tasks, completedTasks: completedTasks.concat(completedTask)};
       },
       () => Tasks._save(this.state.tasks)
     );
   };
-
 
   render() {
     return (
@@ -75,11 +75,11 @@ export default class Todo extends Component {
             renderItem={({item, index}) =>
               <View>
                 <View style={styles.itemContainer}>
-                  <Text style={styles.item}>
+                  <Text style={item.completed ? styles.itemCompleted : styles.item}>
                     {item.text}
                   </Text>
-                  <Icon style={styles.button} name="ios-checkmark-circle" color={item.color} size={50}
-                        onPress={() => this._handleDeleteTask(index)}/>
+                  <Icon style={styles.button} name={item.completed ? "ios-checkmark-circle": "ios-radio-button-off"}  color={item.color} size={50}
+                        onPress={() => this._handleTaskCompletion(index)}/>
                 </View>
                 <View style={styles.hr}/>
               </View>}
@@ -90,7 +90,6 @@ export default class Todo extends Component {
           <Text
             style={{textAlign: "center"}}>{this.state.completedTasks.length}/{this.state.tasks.length + this.state.completedTasks.length}</Text>
           <TextInput
-            ref="input"
             style={styles.textInput}
             onChangeText={text => this.setState({text: text})}
             onSubmitEditing={this._handleAddTask}
@@ -126,7 +125,8 @@ let Tasks = {
   },
   _save(tasks) {
     AsyncStorage.setItem("TASKS", JSON.stringify(tasks));
-  }
+  },
+
 };
 
 
@@ -143,6 +143,17 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     flexWrap: "wrap",
+    paddingLeft: 10,
+    paddingTop: 2,
+    paddingBottom: 2,
+    fontSize: 18,
+    margin: 5,
+  },
+  itemCompleted: {
+    flex: 1,
+    flexWrap: "wrap",
+    textDecorationLine: "line-through",
+    color: "#D3D3D3",
     paddingLeft: 10,
     paddingTop: 2,
     paddingBottom: 2,
