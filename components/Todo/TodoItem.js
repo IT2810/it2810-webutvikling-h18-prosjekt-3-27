@@ -2,6 +2,8 @@ import {StyleSheet, Text, View, TextInput} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import React, {Component} from "react";
 
+
+
 export default class TodoItem extends Component {
 
   _handleToggleComplete = () => {
@@ -16,25 +18,37 @@ export default class TodoItem extends Component {
     this.props.onTextEdit(text, this.props.item);
   };
 
+  _handleDeleteTask = () => {
+    this.props.onDeleteClick(this.props.item);
+  };
+
   render() {
     let item = this.props.item;
     return (
       <View>
         <View style={styles.itemContainer}>
           {(this.props.selected === this.props.item.key) ?
-          <TextInput
-            value={this.props.item.text}
-            onChangeText={this._handleTextChange}
-          />
+            <View style={{flexDirection: "row"}}>
+              <Icon style={styles.button} name="ios-close"  color={item.color} size={50}
+                    onPress={this._handleDeleteTask}/>
+              <TextInput
+                value={this.props.item.text}
+                onChangeText={this._handleTextChange}
+                style={styles.item}
+              />
+            </View>
+
          :
-          <Text onPress={this._handleEditStart} style={item.completed ? styles.itemCompleted : styles.item}>
+          <Text
+            onPress={this._handleEditStart}
+            style={item.completed ? styles.itemCompleted : styles.item}>
             {item.text}
           </Text>
-
           }
           <Icon style={styles.button} name={item.completed ? "ios-checkmark-circle": "ios-radio-button-off"}  color={item.color} size={50}
                 onPress={this._handleToggleComplete}/>
         </View>
+
         <View style={styles.hr}/>
       </View>
     );
@@ -67,6 +81,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   button: {
+    marginLeft: 5,
     marginRight: 5,
   },
   hr: {

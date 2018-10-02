@@ -1,18 +1,8 @@
 import React, {Component} from "react";
-import {
-  AsyncStorage,
-  FlatList,
-  KeyboardAvoidingView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Keyboard,
-  Platform
-} from "react-native";
+import {AsyncStorage, FlatList, KeyboardAvoidingView, ScrollView, StyleSheet, TextInput, View,} from "react-native";
 import randomColor from "randomcolor";
 import TodoItem from "./TodoItem";
+import ProgressBar from 'react-native-progress/Bar';
 
 export default class Todo extends Component {
   constructor(props) {
@@ -99,10 +89,10 @@ export default class Todo extends Component {
         let tasks = [...prevState.tasks];
         let task = tasks.find((task) => task.key === key);
         task.completed ? task.completed = false : task.completed = true;
-        let completedTasks = [...prevState.completedTasks.slice()];
-        return {tasks: tasks, completedTasks: completedTasks.concat(task)};
+        return {tasks: tasks};
       }
     );
+    this._save(Object.assign({}, this.state.tasks.find(task => task.key === key), {completed: !this.state.tasks.find(task => task.key === key).completed}));
   };
 
   _handleSelectedTask = key => {
@@ -122,7 +112,24 @@ export default class Todo extends Component {
     this._save(taskCopy);
   };
 
+  _handleDeleteTask = (task) => {
+    const taskKey = task.key;
+    console.log(taskKey);
+    this.setState((prevState) => {
+      const taskToDelete = prevState.tasks.find(task => task.key === taskKey);
+      const index = prevState.tasks.indexOf(taskToDelete);
+      console.log(index);
+      let tasksCopy = [...prevState.tasks];
+      tasksCopy.splice(index,1);
+      return {tasks: tasksCopy}
+    });
+    //TODO: Implement AsyncStorage
+  };
+
+
   render() {
+    let a = this.state.tasks.filter(task => task.completed === true).length;
+    let b = this.state.tasks.length;
     return (
       <View
         style={styles.container}
@@ -139,19 +146,21 @@ export default class Todo extends Component {
                   item={item}
                   index={index}
                   selected={this.state.selected}
+                  onDeleteClick={this._handleDeleteTask}
                   onTextEdit={this._handleTextEdit}
                   onEditStart={this._handleSelectedTask}
                   toggleComplete={this._handleTaskToggle}/>
               </View>
-
             }
           />
 
         </ScrollView>
 
         <KeyboardAvoidingView behavior="position">
-          <Text
-            style={{textAlign: "center"}}>{this.state.completedTasks.length}/{this.state.tasks.length + this.state.completedTasks.length}</Text>
+          <View style={styles.center}>
+            <ProgressBar progress={isNaN(a/b) ? 0 : a/b} color={"#579d5b"}/>
+          </View>
+
           <TextInput
             style={styles.textInput}
             onChangeText={text => this.setState({text: text})}
@@ -166,11 +175,7 @@ export default class Todo extends Component {
       </View>
     );
   }
-
-
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -211,7 +216,10 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: "gray"
   },
-
+  center: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
   textInput: {
     textAlign: "center",
     borderBottomColor: 'gray',
