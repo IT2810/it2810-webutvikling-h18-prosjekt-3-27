@@ -11,7 +11,7 @@ import {
 export default class Contacts extends Component {
   state = {
     contacts: [],
-    text: ""
+    name: ""
   };
 
   componentDidMount() {
@@ -20,16 +20,21 @@ export default class Contacts extends Component {
 
   addContact =() => {
     const { navigation } = this.props;
-    const t = navigation.getParam('text');
-    console.log(t);
-    this.setState({text: t});
+    const na = navigation.getParam('name');
+    console.log(na);
+    this.setState({name: na});
+
+    const nu = navigation.getParam('number');
+    console.log(nu);
+    this.setState({number: nu});
 
     this.setState(
       prevState => {
-        let { contacts, text } = prevState;
+        let { contacts, name, number } = prevState;
         return {
-          contacts: contacts.concat({ key: contacts.length, text: text }),
-          text: ""
+          contacts: contacts.concat({ key: contacts.length, name: name, number: number }),
+          name: "",
+          number: ""
         };
       },
       () => C.save(this.state.contacts)
@@ -42,7 +47,9 @@ export default class Contacts extends Component {
         <FlatList data={this.state.contacts} keyExtractor={(item) => item.key.toString()} renderItem={({ item }) =>
           <View>
             <Text style={styles.contact}>
-              {item.text}
+              {item.name}
+              :   +47
+              {item.number}
             </Text>
           </View>}
         />
@@ -70,17 +77,22 @@ export default class Contacts extends Component {
 let C = {
   convertToArrayOfObject(contacts, callback) {
     return callback(
-      contacts ? contacts.split("||").map((contacts, i) => ({ key: i, text: contacts })) : []
+      contacts ? contacts.split("||").map((contacts, i) => ({ key: i, name: contacts, number: contacts })) : []
     );
   },
+
   convertToStringWithSeparators(contacts) {
-    return contacts.map(contacts => contacts.text).join("||");
+    return contacts.map(contacts => contacts.name, contacts => contacts.number).join("||");
   },
+
+
+
   all(callback) {
     return AsyncStorage.getItem("CONTACTS", (err, contacts) =>
       this.convertToArrayOfObject(contacts, callback)
     );
   },
+
   save(contacts) {
     AsyncStorage.setItem("CONTACTS", this.convertToStringWithSeparators(contacts));
   }
