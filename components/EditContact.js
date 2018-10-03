@@ -5,9 +5,6 @@ import {
   TextInput, Button,
 } from "react-native";
 import Contacts from "./Contacts";
-import addContact from "./Contacts";
-import b from './Contacts';
-
 
 export default class EditContact extends Component {
   state = {
@@ -15,46 +12,49 @@ export default class EditContact extends Component {
   };
 
   changeTextHandler = text => {
-    this.setState({ text: text });
+    this.setState({text: text});
   };
 
   new = () => {
     let notEmpty = this.state.text.trim().length > 0;
     if (notEmpty) {
-      //dette blir logget alt sammen
-      console.log("hejeeh");
-      console.log(this.state.text);
-      //har en sterk mistanke om at måten jeg kaller addCOntact på er ikke helt lov eller riktig
-      addContact(this.state.text);
-      console.log("hefjhdsk");
-      return this.props.navigation.navigate('Contacts');
+      return this.props.navigation.navigate('Contacts', {text: this.state.text});
     }
   };
 
-  render () {
+  render() {
     return (
       <View style={styles.container}>
-        <TextInput
-          onChangeText={this.changeTextHandler}
-          value={this.state.text}
-          placeholder="Add Contact"
+        <TextInput style={styles.input}
+                   onChangeText={this.changeTextHandler}
+                   value={this.state.text}
+                   placeholder="Name"
+        />
+        <TextInput style={styles.input}
+                   placeholder="Phone"
         />
         <Button
+          color='pink'
           onPress={this.new}
-          value = {this.state.text}
+          value={this.state.text}
           title={"Add"}
         />
       </View>
     )
   }
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center",
+    flex: 1,
+    alignItems: "stretch",
     backgroundColor: "white",
-    paddingTop: 20,
-    paddingBottom: 50,
   },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    margin: 20,
+  }
 });
+

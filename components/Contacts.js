@@ -5,10 +5,8 @@ import {
   View,
   FlatList,
   AsyncStorage,
-  TextInput,
   Button,
 } from "react-native";
-import navigation from "react-navigation";
 
 export default class Contacts extends Component {
   state = {
@@ -20,15 +18,17 @@ export default class Contacts extends Component {
     C.all(contacts => this.setState({ contacts: contacts}));
   }
 
+  addContact =() => {
+    const { navigation } = this.props;
+    const t = navigation.getParam('text');
+    console.log(t);
+    this.setState({text: t});
 
-  addContact(t) {
-    //denne kjører ikke
-    console.log("addContact i contacts kjører");
     this.setState(
       prevState => {
         let { contacts, text } = prevState;
         return {
-          contacts: contacts.concat({ key: contacts.length, text: t }),
+          contacts: contacts.concat({ key: contacts.length, text: text }),
           text: ""
         };
       },
@@ -46,16 +46,24 @@ export default class Contacts extends Component {
             </Text>
           </View>}
         />
+        <View style={styles.button}>
+          <Button
+            title={"Add Contact"}
+            color = 'pink'
+            onPress= {this.handlePress.bind(this)}
+          />
+        </View>
         <Button
-          title={"Add Contact"}
-          onPress= {this.handlePress.bind(this)}
+          title={"Update"}
+          color = 'pink'
+          onPress= {this.addContact.bind(this)}
         />
       </View>
     );
   }
 
   handlePress() {
-    return this.props.navigation.navigate('EditContact', {contacts: this.state.contacts});
+    return this.props.navigation.navigate('EditContact');
   }
 }
 
@@ -81,11 +89,9 @@ let C = {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center",
+    flex: 1,
     backgroundColor: "white",
-    paddingTop: 20,
-    paddingBottom: 50,
+    paddingBottom: 15,
   },
   input: {
     justifyContent: "center",
@@ -93,8 +99,10 @@ const styles = StyleSheet.create({
     width: 100
   },
   contact: {
-    paddingTop: 5,
-    paddingBottom: 5,
-    fontSize: 20,
+    padding: 5,
+    fontSize: 18,
   },
+  button: {
+    marginBottom: 10,
+  }
 });
