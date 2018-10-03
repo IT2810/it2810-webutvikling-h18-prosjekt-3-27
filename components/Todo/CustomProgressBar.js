@@ -7,7 +7,7 @@ export default class CustomProgressBar extends Component {
     return(
       <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
         <Text style={{marginRight: 5}}>{this.props.numCompleted}</Text>
-         <ProgressBar progress={this.getProgress()} color={"#579d5b"}/>
+         <ProgressBar progress={this.getProgress()} color={this.getProgress()===1 ? "#FFD700" :"#579d5b"} s/>
         <Text style={{marginLeft: 5}}>{this.props.numUncompleted}</Text>
       </View>
     )

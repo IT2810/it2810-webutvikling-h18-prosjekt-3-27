@@ -35,11 +35,15 @@ export default class Todo extends Component {
     try {
       const taskKeysJson = await AsyncStorage.getItem("TASKKEYS") || "[]";
       const taskKeys = JSON.parse(taskKeysJson);
-      const tasksResult = await AsyncStorage.multiGet(taskKeys);
-      const tasks = tasksResult
-        .map(keyvalue => keyvalue[1])
-        .map(objJson => JSON.parse(objJson));
-      this.setState({tasks: tasks});
+      if (taskKeys.length > 0) {
+        const tasksResult = await AsyncStorage.multiGet(taskKeys);
+        console.log("taskRes:", tasksResult);
+        const tasks = tasksResult
+          .map(keyvalue => keyvalue[1])
+          .map(objJson => JSON.parse(objJson));
+        this.setState({tasks: tasks});
+        console.log("tasks:", tasks);
+      }
     } catch (e) {
       console.error(e);
     }
@@ -76,8 +80,9 @@ export default class Todo extends Component {
     try {
       const taskKeysJSON = await AsyncStorage.getItem("TASKKEYS") || "[]";
       const taskKeys = JSON.parse(taskKeysJSON);
-      if (taskKeys.includes(task.key)) {
-        taskKeys.pop(task.key);
+      let index;
+      if ((index = taskKeys.findIndex(el => el === task.key)) !== -1) {
+        taskKeys.splice(index, 1);
         await AsyncStorage.setItem("TASKKEYS", JSON.stringify(taskKeys));
       }
       await AsyncStorage.removeItem(task.key);
@@ -148,7 +153,6 @@ export default class Todo extends Component {
     this.setState((prevState) => {
       const taskToDelete = prevState.tasks.find(task => task.key === taskKey);
       const index = prevState.tasks.indexOf(taskToDelete);
-      console.log(index);
       let tasksCopy = [...prevState.tasks];
       tasksCopy.splice(index,1);
       return {tasks: tasksCopy}
