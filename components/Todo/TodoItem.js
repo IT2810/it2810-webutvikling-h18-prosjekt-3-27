@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View, TextInput} from "react-native";
+import {StyleSheet, Text, View, TextInput, Platform} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import React, {Component} from "react";
 
 
-
+const isAndroid = Platform.OS === "android";
 export default class TodoItem extends Component {
 
   _handleToggleComplete = () => {
@@ -11,7 +11,11 @@ export default class TodoItem extends Component {
   };
 
   _handleEditStart = () => {
-    this.props.onEditStart(this.props.item.key)
+    this.props.onEditStart(this.props.item.key);
+  };
+
+  _handleEditFinish = () => {
+    this.props.onEditFinish(this.props.item.key);
   };
 
   _handleTextChange = (text) => {
@@ -29,12 +33,16 @@ export default class TodoItem extends Component {
         <View style={styles.itemContainer}>
           {(this.props.selected === this.props.item.key) ?
             <View style={{flexDirection: "row"}}>
-              <Icon style={styles.button} name="ios-close"  color={item.color} size={50}
+              <Icon style={styles.button} name={isAndroid ? "md-trash" : "ios-trash"}  color={item.color} size={40}
                     onPress={this._handleDeleteTask}/>
               <TextInput
                 value={this.props.item.text}
                 onChangeText={this._handleTextChange}
+                onSubmitEditing={this._handleEditFinish}
+                placeholder={"Editing " + this.props.item.text}
                 style={styles.item}
+                autoCorrect={false}
+                autoFocus={true}
               />
             </View>
 
@@ -45,8 +53,14 @@ export default class TodoItem extends Component {
             {item.text}
           </Text>
           }
-          <Icon style={styles.button} name={item.completed ? "ios-checkmark-circle": "ios-radio-button-off"}  color={item.color} size={50}
-                onPress={this._handleToggleComplete}/>
+          {isAndroid ?
+            <Icon style={styles.button} name={item.completed ? "md-checkmark-circle": "md-radio-button-off"}  color={item.color} size={50}
+                  onPress={this._handleToggleComplete}/>
+            :
+            <Icon style={styles.button} name={item.completed ? "ios-checkmark-circle": "ios-radio-button-off"}  color={item.color} size={50}
+            onPress={this._handleToggleComplete}/>
+          }
+
         </View>
 
         <View style={styles.hr}/>

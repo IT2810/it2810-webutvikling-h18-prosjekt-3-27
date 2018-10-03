@@ -1,8 +1,20 @@
 import React, {Component} from "react";
-import {AsyncStorage, FlatList, KeyboardAvoidingView, ScrollView, StyleSheet, TextInput, View,} from "react-native";
+import {
+  AsyncStorage,
+  FlatList,
+  Platform,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
+  Text,
+} from "react-native";
 import randomColor from "randomcolor";
 import TodoItem from "./TodoItem";
 import ProgressBar from 'react-native-progress/Bar';
+
+const isAndroid = Platform.OS === "android";
 
 export default class Todo extends Component {
   constructor(props) {
@@ -92,11 +104,15 @@ export default class Todo extends Component {
         return {tasks: tasks};
       }
     );
-    this._save(Object.assign({}, this.state.tasks.find(task => task.key === key), {completed: !this.state.tasks.find(task => task.key === key).completed}));
+    const task = this.state.tasks.find(task => task.key === key);
+    this._save(Object.assign({}, task, {completed: !task.completed}));
   };
 
   _handleSelectedTask = key => {
     this.setState({selected: key});
+  };
+  _handleEditFinish = () => {
+    this.setState({selected: null})
   };
 
   _handleTextEdit = (text, task) => {
@@ -128,8 +144,8 @@ export default class Todo extends Component {
 
 
   render() {
-    let a = this.state.tasks.filter(task => task.completed === true).length;
-    let b = this.state.tasks.length;
+    let numCompleted = this.state.tasks.filter(task => task.completed === true).length;
+    let numUncompleted = this.state.tasks.length;
     return (
       <View
         style={styles.container}
@@ -149,6 +165,7 @@ export default class Todo extends Component {
                   onDeleteClick={this._handleDeleteTask}
                   onTextEdit={this._handleTextEdit}
                   onEditStart={this._handleSelectedTask}
+                  onEditFinish={this._handleEditFinish}
                   toggleComplete={this._handleTaskToggle}/>
               </View>
             }
@@ -156,9 +173,11 @@ export default class Todo extends Component {
 
         </ScrollView>
 
-        <KeyboardAvoidingView behavior="position">
-          <View style={styles.center}>
-            <ProgressBar progress={isNaN(a/b) ? 0 : a/b} color={"#579d5b"}/>
+        <KeyboardAvoidingView behavior={isAndroid ? "padding" : "position"}>
+          <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+            <Text style={{marginRight: 5}}>{numCompleted}</Text>
+                <ProgressBar progress={isNaN(numCompleted/numUncompleted) ? 0 : numCompleted/numUncompleted} color={"#579d5b"}/>
+            <Text style={{marginLeft: 5}}>{numUncompleted}</Text>
           </View>
 
           <TextInput
