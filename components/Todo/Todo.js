@@ -8,11 +8,11 @@ import {
   StyleSheet,
   TextInput,
   View,
-  Text,
 } from "react-native";
 import randomColor from "randomcolor";
 import TodoItem from "./TodoItem";
-import ProgressBar from 'react-native-progress/Bar';
+
+import CustomProgressBar from "./CustomProgressBar";
 
 const isAndroid = Platform.OS === "android";
 
@@ -72,6 +72,20 @@ export default class Todo extends Component {
     }
    };
 
+  _delete = async (task) => {
+    try {
+      const taskKeysJSON = await AsyncStorage.getItem("TASKKEYS") || "[]";
+      const taskKeys = JSON.parse(taskKeysJSON);
+      if (taskKeys.includes(task.key)) {
+        taskKeys.pop(task.key);
+        await AsyncStorage.setItem("TASKKEYS", JSON.stringify(taskKeys));
+      }
+      await AsyncStorage.removeItem(task.key);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   _handleAddTask = async () => {
     if (this.state.text.length > 0) {
       let key = await this._retrieveAndIncreaseKeyCount();
@@ -111,6 +125,7 @@ export default class Todo extends Component {
   _handleSelectedTask = key => {
     this.setState({selected: key});
   };
+
   _handleEditFinish = () => {
     this.setState({selected: null})
   };
@@ -130,7 +145,6 @@ export default class Todo extends Component {
 
   _handleDeleteTask = (task) => {
     const taskKey = task.key;
-    console.log(taskKey);
     this.setState((prevState) => {
       const taskToDelete = prevState.tasks.find(task => task.key === taskKey);
       const index = prevState.tasks.indexOf(taskToDelete);
@@ -139,13 +153,16 @@ export default class Todo extends Component {
       tasksCopy.splice(index,1);
       return {tasks: tasksCopy}
     });
-    //TODO: Implement AsyncStorage
+   this._delete(task);
+
   };
 
 
   render() {
     let numCompleted = this.state.tasks.filter(task => task.completed === true).length;
     let numUncompleted = this.state.tasks.length;
+    let progress = numCompleted/numUncompleted;
+
     return (
       <View
         style={styles.container}
@@ -173,13 +190,12 @@ export default class Todo extends Component {
 
         </ScrollView>
 
-        <KeyboardAvoidingView behavior={isAndroid ? "padding" : "position"}>
-          <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
-            <Text style={{marginRight: 5}}>{numCompleted}</Text>
-                <ProgressBar progress={isNaN(numCompleted/numUncompleted) ? 0 : numCompleted/numUncompleted} color={"#579d5b"}/>
-            <Text style={{marginLeft: 5}}>{numUncompleted}</Text>
-          </View>
-
+        <KeyboardAvoidingView behavior={"padding"}>
+          <CustomProgressBar
+            numCompleted={numCompleted}
+            numUncompleted={numUncompleted}
+            progress={progress}
+          />
           <TextInput
             style={styles.textInput}
             onChangeText={text => this.setState({text: text})}
