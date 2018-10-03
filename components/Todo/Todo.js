@@ -161,6 +161,19 @@ export default class Todo extends Component {
 
   };
 
+  getSortedTasks = () => {
+    let tasksCopy = [...this.state.tasks];
+    tasksCopy.sort((a, b) => {
+      if (a.completed === b.completed) {
+        return 0;
+      }
+      if (a.completed) {
+        return 1;
+      }
+      return -1;
+    });
+    return tasksCopy;
+  };
 
   render() {
     let numCompleted = this.state.tasks.filter(task => task.completed === true).length;
@@ -174,7 +187,7 @@ export default class Todo extends Component {
         <ScrollView>
           <FlatList
             style={styles.list}
-            data={this.state.tasks}
+            data={this.getSortedTasks()}
             keyExtractor={(item) => item.key}
             extraData={this.state.selected}
             renderItem={({item, index}) =>
