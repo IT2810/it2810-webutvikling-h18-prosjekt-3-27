@@ -9,25 +9,25 @@ import {Text} from "react-native-elements";
 
 /*
  * This is the React Native entry point. The component
- * that is default exported from there will be the
- * root component, and it's render function will be
+ * that is default exported from here will be the
+ * root component, and its render function will be
  * called to render our application
  *
- * This application uses react-native-nagivation to
+ * This application uses react-native-navigation to
  * handle navigation. The navigation exported from
  * here serves as the root component.
  *
  * Our navigation tree is as follows:
- *  RootButtomTabNavigator : BottomTabNavigator
+ *  RootBottomTabNavigator : BottomTabNavigator
  *   * HomeStack : StackNavigator
  *    * HomeScreen
  *   * ContactsStack : StackNavigator
  *    * ContactsScreen
- *    * AddContacts
+ *    * AddContactScreen
  *   * CalendarStack : StackNavigator
- *    * Calendar
+ *    * CalendarScreen
  *   * TodoStack : StackNavigator
- *    * TodoList
+ *    * TodoScreen
  *
  */
 
