@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import {
   AsyncStorage,
-  FlatList,
-  Platform,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
@@ -10,15 +8,16 @@ import {
   View,
 } from "react-native";
 import randomColor from "randomcolor";
-import TodoItem from "./TodoItem";
 
 import CustomProgressBar from "./CustomProgressBar";
+import Util from "./Util";
+import SortedList from "./SortedList";
 
-const isAndroid = Platform.OS === "android";
 
-export default class Todo extends Component {
+export default class TodoScreen extends Component {
   constructor(props) {
     super(props);
+    this.util = new Util();
     this.state = {
       tasks: [],
       completedTasks: [],
@@ -49,18 +48,6 @@ export default class Todo extends Component {
     }
   };
 
-  /*TODO: Move to own UTIL class */
-  _retrieveAndIncreaseKeyCount = async () => {
-    try {
-      const keyCountStr = await AsyncStorage.getItem("TodoKeyCount") || "0";
-      let keyCount = parseInt(keyCountStr);
-      keyCount = keyCount + 1;
-      await AsyncStorage.setItem("TodoKeyCount", ""+keyCount);
-      return keyCount;
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   _save = async (task) => {
     try {
@@ -93,7 +80,7 @@ export default class Todo extends Component {
 
   _handleAddTask = async () => {
     if (this.state.text.length > 0) {
-      let key = await this._retrieveAndIncreaseKeyCount();
+      let key = await this.util._retrieveAndIncreaseKeyCount();
       key = "task_" + key;
       const task = {
         key: key,
@@ -161,18 +148,8 @@ export default class Todo extends Component {
 
   };
 
-  getSortedTasks = () => {
-    let tasksCopy = [...this.state.tasks];
-    tasksCopy.sort((a, b) => {
-      if (a.completed === b.completed) {
-        return 0;
-      }
-      if (a.completed) {
-        return 1;
-      }
-      return -1;
-    });
-    return tasksCopy;
+  _handleChangeText = (text) => {
+    this.setState({text: text})
   };
 
   render() {
@@ -185,26 +162,15 @@ export default class Todo extends Component {
         style={styles.container}
       >
         <ScrollView>
-          <FlatList
-            style={styles.list}
-            data={this.getSortedTasks()}
-            keyExtractor={(item) => item.key}
-            extraData={this.state.selected}
-            renderItem={({item, index}) =>
-              <View>
-                <TodoItem
-                  item={item}
-                  index={index}
-                  selected={this.state.selected}
-                  onDeleteClick={this._handleDeleteTask}
-                  onTextEdit={this._handleTextEdit}
-                  onEditStart={this._handleSelectedTask}
-                  onEditFinish={this._handleEditFinish}
-                  toggleComplete={this._handleTaskToggle}/>
-              </View>
-            }
+          <SortedList
+            tasks={this.state.tasks}
+            selected={this.state.selected}
+            onDeleteClick={this._handleDeleteTask}
+            onTextEdit={this._handleTextEdit}
+            onEditStart={this._handleSelectedTask}
+            onEditFinish={this._handleEditFinish}
+            toggleComplete={this._handleTaskToggle}
           />
-
         </ScrollView>
 
         <KeyboardAvoidingView behavior={"padding"}>
@@ -215,7 +181,7 @@ export default class Todo extends Component {
           />
           <TextInput
             style={styles.textInput}
-            onChangeText={text => this.setState({text: text})}
+            onChangeText={this._handleChangeText}
             onSubmitEditing={this._handleAddTask}
             blurOnSubmit={false}
             value={this.state.text}
@@ -231,8 +197,8 @@ export default class Todo extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20,
     height: "100%",
+    backgroundColor: "white",
   },
   itemContainer: {
     flexDirection: "row",

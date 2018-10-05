@@ -7,6 +7,7 @@ const isAndroid = Platform.OS === "android";
 export default class TodoItem extends Component {
 
   _handleToggleComplete = () => {
+    console.log(this.props);
     this.props.toggleComplete(this.props.item.key);
   };
 

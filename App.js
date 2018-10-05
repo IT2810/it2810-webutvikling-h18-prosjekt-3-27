@@ -6,6 +6,7 @@ import ContactsScreen from "./components/ContactsScreen";
 import AddContactScreen from "./components/AddContactScreen";
 import Icon from "react-native-vector-icons/Ionicons";
 import {Text} from "react-native-elements";
+import TodoScreen from "./components/Todo/TodoScreen"
 
 /*
  * This is the React Native entry point. The component
@@ -33,19 +34,10 @@ import {Text} from "react-native-elements";
 
 
 /*
- * These are temporary classes for Todo and Calendar,
+ * These are temporary classes for Calendar,
  * they should be removed once those screens are implemented
  * */
 
-class TodoScreen extends Component{
-  render() {
-    return (
-      <View>
-        <Text>TodoScreen</Text>
-      </View>
-    );
-  }
-}
 
 class CalendarScreen extends Component{
   render() {
@@ -109,7 +101,7 @@ const RootBottomTabNavigator = createBottomTabNavigator({
   Todo: {
     screen: TodoStack,
     navigationOptions: {
-      tabBarLabel: 'Todo',
+      tabBarLabel: 'TodoScreen',
       tabBarIcon: ({tintColor}) => (
         <Icon name="ios-checkmark-circle" color={tintColor} size={24}/>
       )
