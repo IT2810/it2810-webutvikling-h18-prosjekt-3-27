@@ -8,7 +8,7 @@ import {
   Button,
 } from "react-native";
 
-export default class Contacts extends Component {
+export default class ContactsScreen extends Component {
   state = {
     contacts: [],
     name: ""
@@ -41,6 +41,10 @@ export default class Contacts extends Component {
     );
   };
 
+  handleAddContactPress = () => {
+    this.props.navigation.navigate('AddContact');
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -57,7 +61,7 @@ export default class Contacts extends Component {
           <Button
             title={"Add Contact"}
             color = 'pink'
-            onPress= {this.handlePress.bind(this)}
+            onPress= {this.handleAddContactPress}
           />
         </View>
         <Button
@@ -68,13 +72,9 @@ export default class Contacts extends Component {
       </View>
     );
   }
-
-  handlePress() {
-    return this.props.navigation.navigate('EditContact');
-  }
 }
 
-let C = {
+const C = {
   convertToArrayOfObject(contacts, callback) {
     return callback(
       contacts ? contacts.split("||").map((contacts, i) => ({ key: i, name: contacts, number: contacts })) : []
@@ -97,7 +97,6 @@ let C = {
     AsyncStorage.setItem("CONTACTS", this.convertToStringWithSeparators(contacts));
   }
 };
-
 
 const styles = StyleSheet.create({
   container: {

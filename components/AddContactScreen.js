@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  TextInput, Button,
+  TextInput,
+  Button
 } from "react-native";
-import Contacts from "./Contacts";
+import ContactsScreen from "./ContactsScreen";
 
-export default class EditContact extends Component {
+export default class AddContactScreen extends Component {
   state = {
     name: "",
     number: "",

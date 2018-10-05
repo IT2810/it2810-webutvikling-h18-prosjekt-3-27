@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
 import {createBottomTabNavigator, createStackNavigator} from "react-navigation";
-import Home from "./components/Home";
-import Contacts from "./components/Contacts";
-import EditContact from "./components/EditContact";
+import HomeScreen from "./components/HomeScreen";
+import ContactsScreen from "./components/ContactsScreen";
+import AddContactScreen from "./components/AddContactScreen";
 import Icon from "react-native-vector-icons/Ionicons";
 import {Text} from "react-native-elements";
 
@@ -20,10 +20,10 @@ import {Text} from "react-native-elements";
  * Our navigation tree is as follows:
  *  RootButtomTabNavigator : BottomTabNavigator
  *   * HomeStack : StackNavigator
- *    * Home
+ *    * HomeScreen
  *   * ContactsStack : StackNavigator
- *    * Contacts
- *    * EditContacts
+ *    * ContactsScreen
+ *    * AddContacts
  *   * CalendarStack : StackNavigator
  *    * Calendar
  *   * TodoStack : StackNavigator
@@ -37,7 +37,7 @@ import {Text} from "react-native-elements";
  * they should be removed once those screens are implemented
  * */
 
-class Todo extends Component{
+class TodoScreen extends Component{
   render() {
     return (
       <View>
@@ -47,7 +47,7 @@ class Todo extends Component{
   }
 }
 
-class Calendar extends Component{
+class CalendarScreen extends Component{
   render() {
     return (
       <View>
@@ -63,20 +63,20 @@ class Calendar extends Component{
 
 
 const HomeStack = createStackNavigator({
-  Home: Home
+  Home: HomeScreen
 });
 
 const ContactsStack = createStackNavigator({
-  Contacts: Contacts,
-  EditContact: EditContact
+  Contacts: ContactsScreen,
+  AddContact: AddContactScreen
 });
 
 const CalendarStack = createStackNavigator({
-  Calendar: Calendar
+  Calendar: CalendarScreen
 });
 
 const TodoStack = createStackNavigator({
-  Todo: Todo
+  Todo: TodoScreen
 });
 
 const RootBottomTabNavigator = createBottomTabNavigator({
