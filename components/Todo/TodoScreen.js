@@ -31,34 +31,17 @@ export default class TodoScreen extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // Fetch tasks from storage, if any.
-    this.retrieveTasks();
-  }
-
-  /**
-   * Returns tasks (if any) and updates state
-   *
-   * @returns {Promise<void>} the return promise can be ignored
-   */
-  retrieveTasks = async () => {
-    try {
-      const taskKeysJson = await AsyncStorage.getItem("TASKKEYS") || "[]";
-      const taskKeys = JSON.parse(taskKeysJson);
-      if (taskKeys.length > 0) {
-        const tasksResult = await AsyncStorage.multiGet(taskKeys);
-        console.log("taskRes:", tasksResult);
-        const tasks = tasksResult
-          .map(keyvalue => keyvalue[1])
-          .map(objJson => JSON.parse(objJson));
-        this.setState({tasks: tasks});
-        console.log("tasks:", tasks);
-      }
-    } catch (e) {
-      console.error(e);
-    }
+    const tasks = await TaskPersistence.retrieveTasks();
+    this.setState({tasks: tasks});
   };
 
+  /**
+   * This method adds a new task, updates the state, and saves it to
+   * storage.
+   * @returns {Promise<void>}
+   */
   handleAddTask = async () => {
     if (this.state.text.length > 0) {
       let key = await this.util.retrieveAndIncreaseKeyCount();
@@ -78,7 +61,7 @@ export default class TodoScreen extends Component {
           };
         }
       );
-    Task.save(task);
+    TaskPersistence.save(task);
     }
   };
 
@@ -96,7 +79,7 @@ export default class TodoScreen extends Component {
       tasksCopy.splice(index,1);
       return {tasks: tasksCopy}
     });
-    Task.delete(task);
+    TaskPersistence.delete(task);
 
   };
 
@@ -115,7 +98,7 @@ export default class TodoScreen extends Component {
       }
     );
     const task = this.state.tasks.find(task => task.key === key);
-    Task.save(Object.assign({}, task, {completed: !task.completed}));
+    TaskPersistence.save(Object.assign({}, task, {completed: !task.completed}));
   };
   handleSelectedTask = key => {
     this.setState({selected: key});
@@ -140,7 +123,7 @@ export default class TodoScreen extends Component {
       tasksCopy[index] = taskCopy;
       return {tasks: tasksCopy}
     });
-    Task.save(taskCopy);
+    TaskPersistence.save(taskCopy);
   };
 
   handleChangeText = (text) => {
@@ -190,7 +173,7 @@ export default class TodoScreen extends Component {
   }
 }
 
-class Task {
+class TaskPersistence {
 
   /**
    * Saves the task as a new task in storage.
@@ -234,12 +217,26 @@ class Task {
   };
 
   /**
-   * This method adds a new task, updates the state, and saves it to
-   * storage.
-   * @returns {Promise<void>}
+   * Returns tasks (if any) and updates state
+   *
+   * @returns {Promise<void>} the return promise can be ignored
    */
+  static retrieveTasks = async () => {
+    try {
+      const taskKeysJson = await AsyncStorage.getItem("TASKKEYS") || "[]";
+      const taskKeys = JSON.parse(taskKeysJson);
+      if (taskKeys.length > 0) {
+        const tasksResult = await AsyncStorage.multiGet(taskKeys);
+        const tasks = tasksResult
+          .map(keyvalue => keyvalue[1])
+          .map(objJson => JSON.parse(objJson));
+        return tasks;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 }
-
 
 const styles = StyleSheet.create({
   container: {
