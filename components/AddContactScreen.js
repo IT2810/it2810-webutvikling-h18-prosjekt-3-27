@@ -5,7 +5,6 @@ import {
   TextInput,
   Button
 } from "react-native";
-import ContactsScreen from "./ContactsScreen";
 
 export default class AddContactScreen extends Component {
   state = {
@@ -21,11 +20,20 @@ export default class AddContactScreen extends Component {
     this.setState({number: number});
   };
 
-  new = () => {
-    let notEmpty = this.state.name.trim().length > 0;
-    if (notEmpty) {
-      return this.props.navigation.navigate('Contacts', {name: this.state.name, number: this.state.number});
+  handleAddPress = () => {
+    if (this.state.name.trim().length === 0) {
+      // invalid name
+      return;
     }
+    // retrieve addContact(contact) callback function
+    const addContact = this.props.navigation.getParam("addContact");
+    // create contact
+    const newContact = {
+      name: this.state.name.trim(),
+      number: this.state.number.trim()
+    };
+    addContact(newContact);
+    this.props.navigation.navigate("Contacts");
   };
 
   render() {
@@ -43,7 +51,7 @@ export default class AddContactScreen extends Component {
         />
         <Button
           color='pink'
-          onPress={this.new}
+          onPress={this.handleAddPress}
           value={this.state.name}
           title={"Add"}
         />
