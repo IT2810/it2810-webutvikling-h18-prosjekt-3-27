@@ -4,6 +4,19 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
+export default class JestTestExampleClass extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>Welcome to React Native!</Text>
+        <Text style={styles.instructions}>
+          This is a React Native snapshot test.
+        </Text>
+      </View>
+    );
+  }
+}
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
@@ -22,16 +35,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
-export default class Intro extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>
-          This is a React Native snapshot test.
-        </Text>
-      </View>
-    );
-  }
-}
