@@ -101,7 +101,7 @@ const RootBottomTabNavigator = createBottomTabNavigator({
   Todo: {
     screen: TodoStack,
     navigationOptions: {
-      tabBarLabel: 'TodoScreen',
+      tabBarLabel: 'Todo',
       tabBarIcon: ({tintColor}) => (
         <Icon name="ios-checkmark-circle" color={tintColor} size={24}/>
       )

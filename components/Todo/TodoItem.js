@@ -6,25 +6,25 @@ import React, {Component} from "react";
 const isAndroid = Platform.OS === "android";
 export default class TodoItem extends Component {
 
-  _handleToggleComplete = () => {
+  handleToggleComplete = () => {
     console.log(this.props);
     this.props.toggleComplete(this.props.item.key);
   };
 
-  _handleEditStart = () => {
+  handleEditStart = () => {
     this.props.onEditStart(this.props.item.key);
   };
 
-  _handleEditFinish = () => {
+  handleEditFinish = () => {
     this.props.onEditFinish(this.props.item.key);
   };
 
-  _handleTextChange = (text) => {
+  handleTextEdit = (text) => {
     this.props.onTextEdit(text, this.props.item);
   };
 
-  _handleDeleteTask = () => {
-    this.props.onDeleteClick(this.props.item);
+  handleDeleteTask = () => {
+    this.props.onDeleteTask(this.props.item);
   };
 
   render() {
@@ -34,32 +34,33 @@ export default class TodoItem extends Component {
         <View style={styles.itemContainer}>
           {(this.props.selected === this.props.item.key) ?
             <View style={{flexDirection: "row"}}>
-              <Icon style={styles.button} name={isAndroid ? "md-trash" : "ios-trash"}  color={item.color} size={40}
-                    onPress={this._handleDeleteTask}/>
+              <Icon style={styles.button} name={isAndroid ? "md-trash" : "ios-trash"} color={item.color} size={40}
+                    onPress={this.handleDeleteTask}/>
               <TextInput
                 value={this.props.item.text}
-                onChangeText={this._handleTextChange}
-                onSubmitEditing={this._handleEditFinish}
+                onChangeText={this.handleTextEdit}
+                onSubmitEditing={this.handleEditFinish}
                 placeholder={"Editing " + this.props.item.text}
                 style={styles.item}
                 autoCorrect={false}
                 autoFocus={true}
               />
             </View>
-
-         :
-          <Text
-            onPress={this._handleEditStart}
-            style={item.completed ? styles.itemCompleted : styles.item}>
-            {item.text}
-          </Text>
+            :
+            <Text
+              onPress={this.handleEditStart}
+              style={item.completed ? styles.itemCompleted : styles.item}>
+              {item.text}
+            </Text>
           }
           {isAndroid ?
-            <Icon style={styles.button} name={item.completed ? "md-checkmark-circle": "md-radio-button-off"}  color={item.color} size={50}
-                  onPress={this._handleToggleComplete}/>
+            <Icon style={styles.button} name={item.completed ? "md-checkmark-circle" : "md-radio-button-off"}
+                  color={item.color} size={50}
+                  onPress={this.handleToggleComplete}/>
             :
-            <Icon style={styles.button} name={item.completed ? "ios-checkmark-circle": "ios-radio-button-off"}  color={item.color} size={50}
-            onPress={this._handleToggleComplete}/>
+            <Icon style={styles.button} name={item.completed ? "ios-checkmark-circle" : "ios-radio-button-off"}
+                  color={item.color} size={50}
+                  onPress={this.handleToggleComplete}/>
           }
 
         </View>

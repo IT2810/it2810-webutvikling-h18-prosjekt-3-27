@@ -2,7 +2,7 @@ import {Component} from 'react';
 import {AsyncStorage} from "react-native";
 
 export default class Util extends Component {
-  _retrieveAndIncreaseKeyCount = async () => {
+  retrieveAndIncreaseKeyCount = async () => {
     try {
       const keyCountStr = await AsyncStorage.getItem("TodoKeyCount") || "0";
       let keyCount = parseInt(keyCountStr);

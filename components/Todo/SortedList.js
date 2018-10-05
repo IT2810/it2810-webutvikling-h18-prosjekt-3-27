@@ -5,7 +5,6 @@ import React from "react";
 
 
 export default class SortedList extends Component {
-
   getSortedTasks = () => {
     let tasksCopy = this.props.tasks;
     tasksCopy.sort((a, b) => {
@@ -33,7 +32,7 @@ export default class SortedList extends Component {
               item={item}
               index={index}
               selected={this.props.selected}
-              onDeleteClick={this.props.onDeleteClick}
+              onDeleteTask={this.props.onDeleteTask}
               onTextEdit={this.props.onTextEdit}
               onEditStart={this.props.onEditStart}
               onEditFinish={this.props.onEditFinish}

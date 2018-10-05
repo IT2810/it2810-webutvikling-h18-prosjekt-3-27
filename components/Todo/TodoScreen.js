@@ -5,15 +5,20 @@ import {
   ScrollView,
   StyleSheet,
   TextInput,
+  Platform,
   View,
 } from "react-native";
 import randomColor from "randomcolor";
+
+import { Header } from 'react-navigation';
 
 import CustomProgressBar from "./CustomProgressBar";
 import Util from "./Util";
 import SortedList from "./SortedList";
 
-
+/**
+ * This is the root component for the Todo screen
+ */
 export default class TodoScreen extends Component {
   constructor(props) {
     super(props);
@@ -27,10 +32,16 @@ export default class TodoScreen extends Component {
   }
 
   componentDidMount() {
-    this._retrieveTasks().done();
+    // Fetch tasks from storage, if any.
+    this.retrieveTasks();
   }
 
-  _retrieveTasks = async () => {
+  /**
+   * Returns tasks (if any) and updates state
+   *
+   * @returns {Promise<void>} the return promise can be ignored
+   */
+  retrieveTasks = async () => {
     try {
       const taskKeysJson = await AsyncStorage.getItem("TASKKEYS") || "[]";
       const taskKeys = JSON.parse(taskKeysJson);
@@ -48,39 +59,9 @@ export default class TodoScreen extends Component {
     }
   };
 
-
-  _save = async (task) => {
-    try {
-      const taskKeysJSON = await AsyncStorage.getItem("TASKKEYS") || "[]";
-      const taskKeys = JSON.parse(taskKeysJSON);
-      if (!taskKeys.includes(task.key)) {
-        taskKeys.push(task.key);
-        await AsyncStorage.setItem("TASKKEYS", JSON.stringify(taskKeys));
-      }
-      await AsyncStorage.setItem(task.key, JSON.stringify(task));
-    } catch (e) {
-      console.error(e);
-    }
-   };
-
-  _delete = async (task) => {
-    try {
-      const taskKeysJSON = await AsyncStorage.getItem("TASKKEYS") || "[]";
-      const taskKeys = JSON.parse(taskKeysJSON);
-      let index;
-      if ((index = taskKeys.findIndex(el => el === task.key)) !== -1) {
-        taskKeys.splice(index, 1);
-        await AsyncStorage.setItem("TASKKEYS", JSON.stringify(taskKeys));
-      }
-      await AsyncStorage.removeItem(task.key);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  _handleAddTask = async () => {
+  handleAddTask = async () => {
     if (this.state.text.length > 0) {
-      let key = await this.util._retrieveAndIncreaseKeyCount();
+      let key = await this.util.retrieveAndIncreaseKeyCount();
       key = "task_" + key;
       const task = {
         key: key,
@@ -97,11 +78,34 @@ export default class TodoScreen extends Component {
           };
         }
       );
-    this._save(task).done();
+    Task.save(task);
     }
   };
 
-  _handleTaskToggle = key => {
+  /**
+   *  This method deletes task from the tasks, updates state and deletes
+   *  the task from storage
+   * @param task
+   */
+  handleDeleteTask = (task) => {
+    const taskKey = task.key;
+    this.setState((prevState) => {
+      const taskToDelete = prevState.tasks.find(task => task.key === taskKey);
+      const index = prevState.tasks.indexOf(taskToDelete);
+      let tasksCopy = [...prevState.tasks];
+      tasksCopy.splice(index,1);
+      return {tasks: tasksCopy}
+    });
+    Task.delete(task);
+
+  };
+
+  /**
+   * This method changes the completed-state for a task,
+   * and you can toggle between the value of completed
+   * @param key of task to complete/uncomplete
+   */
+  handleTaskCompletion = key => {
     this.setState(
       prevState => {
         let tasks = [...prevState.tasks];
@@ -111,18 +115,22 @@ export default class TodoScreen extends Component {
       }
     );
     const task = this.state.tasks.find(task => task.key === key);
-    this._save(Object.assign({}, task, {completed: !task.completed}));
+    Task.save(Object.assign({}, task, {completed: !task.completed}));
   };
-
-  _handleSelectedTask = key => {
+  handleSelectedTask = key => {
     this.setState({selected: key});
   };
 
-  _handleEditFinish = () => {
+  handleEditFinish = () => {
     this.setState({selected: null})
   };
-
-  _handleTextEdit = (text, task) => {
+  /**
+   * This method allows for tasks to be edited, the edited task
+   * is saved to storage and state is updated.
+   * @param text, new text to insert into state and storage
+   * @param task, the task of which to edit
+   */
+  handleTextEdit = (text, task) => {
     const taskKey = task.key;
     let taskCopy = Object.assign({},task, {text});
     this.setState((prevState) => {
@@ -132,23 +140,10 @@ export default class TodoScreen extends Component {
       tasksCopy[index] = taskCopy;
       return {tasks: tasksCopy}
     });
-    this._save(taskCopy);
+    Task.save(taskCopy);
   };
 
-  _handleDeleteTask = (task) => {
-    const taskKey = task.key;
-    this.setState((prevState) => {
-      const taskToDelete = prevState.tasks.find(task => task.key === taskKey);
-      const index = prevState.tasks.indexOf(taskToDelete);
-      let tasksCopy = [...prevState.tasks];
-      tasksCopy.splice(index,1);
-      return {tasks: tasksCopy}
-    });
-   this._delete(task);
-
-  };
-
-  _handleChangeText = (text) => {
+  handleChangeText = (text) => {
     this.setState({text: text})
   };
 
@@ -165,15 +160,15 @@ export default class TodoScreen extends Component {
           <SortedList
             tasks={this.state.tasks}
             selected={this.state.selected}
-            onDeleteClick={this._handleDeleteTask}
-            onTextEdit={this._handleTextEdit}
-            onEditStart={this._handleSelectedTask}
-            onEditFinish={this._handleEditFinish}
-            toggleComplete={this._handleTaskToggle}
+            onDeleteTask={this.handleDeleteTask}
+            onTextEdit={this.handleTextEdit}
+            onEditStart={this.handleSelectedTask}
+            onEditFinish={this.handleEditFinish}
+            toggleComplete={this.handleTaskCompletion}
           />
         </ScrollView>
 
-        <KeyboardAvoidingView behavior={"padding"}>
+        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={Header.HEIGHT + Platform.select({android: 20, ios: 0})}>
           <CustomProgressBar
             numCompleted={numCompleted}
             numUncompleted={numUncompleted}
@@ -181,8 +176,8 @@ export default class TodoScreen extends Component {
           />
           <TextInput
             style={styles.textInput}
-            onChangeText={this._handleChangeText}
-            onSubmitEditing={this._handleAddTask}
+            onChangeText={this.handleChangeText}
+            onSubmitEditing={this.handleAddTask}
             blurOnSubmit={false}
             value={this.state.text}
             placeholder="Add task.."
@@ -195,48 +190,61 @@ export default class TodoScreen extends Component {
   }
 }
 
+class Task {
+
+  /**
+   * Saves the task as a new task in storage.
+   * @param task, an object with a key, text, a completed boolean and a random color.
+   * @returns {Promise<void>} the return promise can be ignored
+   */
+  static save = async (task) => {
+    try {
+      const taskKeysJSON = await AsyncStorage.getItem("TASKKEYS") || "[]";
+      const taskKeys = JSON.parse(taskKeysJSON);
+      if (!taskKeys.includes(task.key)) {
+        taskKeys.push(task.key);
+        await AsyncStorage.setItem("TASKKEYS", JSON.stringify(taskKeys));
+      }
+      await AsyncStorage.setItem(task.key, JSON.stringify(task));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+
+  /**
+   * Deletes the task
+   *
+   * @param task, an object with a key, text, a completed boolean and a random color.
+   * @returns {Promise<void>} the return promise can be ignored
+   */
+  static delete = async (task) => {
+    try {
+      const taskKeysJSON = await AsyncStorage.getItem("TASKKEYS") || "[]";
+      const taskKeys = JSON.parse(taskKeysJSON);
+      let index;
+      if ((index = taskKeys.findIndex(el => el === task.key)) !== -1) {
+        taskKeys.splice(index, 1);
+        await AsyncStorage.setItem("TASKKEYS", JSON.stringify(taskKeys));
+      }
+      await AsyncStorage.removeItem(task.key);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  /**
+   * This method adds a new task, updates the state, and saves it to
+   * storage.
+   * @returns {Promise<void>}
+   */
+}
+
+
 const styles = StyleSheet.create({
   container: {
     height: "100%",
     backgroundColor: "white",
-  },
-  itemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  item: {
-    flex: 1,
-    flexWrap: "wrap",
-    paddingLeft: 10,
-    paddingTop: 2,
-    paddingBottom: 2,
-    fontSize: 18,
-    margin: 5,
-  },
-  itemCompleted: {
-    flex: 1,
-    flexWrap: "wrap",
-    textDecorationLine: "line-through",
-    color: "#afafaf",
-    paddingLeft: 10,
-    paddingTop: 2,
-    paddingBottom: 2,
-    fontSize: 18,
-    margin: 5,
-  },
-  button: {
-    marginRight: 5,
-  },
-  hr: {
-    marginTop: 5,
-    marginBottom: 5,
-    height: 1,
-    backgroundColor: "gray"
-  },
-  center: {
-    justifyContent: "center",
-    alignItems: "center",
   },
   textInput: {
     textAlign: "center",
