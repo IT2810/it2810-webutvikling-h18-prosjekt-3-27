@@ -34,7 +34,9 @@ export default class TodoScreen extends Component {
   async componentDidMount() {
     // Fetch tasks from storage, if any.
     const tasks = await TaskPersistence.retrieveTasks();
-    this.setState({tasks: tasks});
+    if (tasks) {
+      this.setState({tasks: tasks});
+    }
   };
 
   /**
