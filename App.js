@@ -6,6 +6,7 @@ import ContactsScreen from "./components/ContactsScreen";
 import AddContactScreen from "./components/AddContactScreen";
 import Icon from "react-native-vector-icons/Ionicons";
 import {Text} from "react-native-elements";
+import EditContactScreen from "./components/EditContactScreen";
 
 /*
  * This is the React Native entry point. The component
@@ -24,6 +25,7 @@ import {Text} from "react-native-elements";
  *   * ContactsStack : StackNavigator
  *    * ContactsScreen
  *    * AddContactScreen
+ *    * EditContactScreen
  *   * CalendarStack : StackNavigator
  *    * CalendarScreen
  *   * TodoStack : StackNavigator
@@ -68,7 +70,8 @@ const HomeStack = createStackNavigator({
 
 const ContactsStack = createStackNavigator({
   Contacts: ContactsScreen,
-  AddContact: AddContactScreen
+  AddContact: AddContactScreen,
+  EditContact: EditContactScreen
 });
 
 const CalendarStack = createStackNavigator({

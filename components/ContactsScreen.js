@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {AsyncStorage, Button, FlatList, StyleSheet, Text, View,} from "react-native";
+import {AsyncStorage, Button, FlatList, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 
 /**
  * This is the root component for the contacts screen
@@ -7,7 +7,8 @@ import {AsyncStorage, Button, FlatList, StyleSheet, Text, View,} from "react-nat
 export default class ContactsScreen extends Component {
   state = {
     contacts: [],
-    name: ""
+    name: "",
+    pressed: ""
   };
 
   componentDidMount() {
@@ -58,6 +59,19 @@ export default class ContactsScreen extends Component {
     }
   };
 
+  deleteContact = i => {
+    this.setState(
+      prevState => {
+        let contacts = prevState.contacts.slice();
+
+        contacts.splice(i, 1);
+
+        return { contacts: contacts };
+      },
+      C.save(this.state.contacts)
+    );
+  };
+
   /**
    * Handle a button press on the "Add Contact" button
    */
@@ -72,11 +86,15 @@ export default class ContactsScreen extends Component {
           data={this.state.contacts}
           keyExtractor={contact => "" + contact.key}
           renderItem={({item}) =>
+            <TouchableOpacity onPress={() => {
+              this.props.navigation.navigate("EditContact", {contact: item, deleteContact: this.deleteContact});
+            }}>
             <View>
               <Text style={styles.contact}>
                 {item.name}: {item.number}
               </Text>
-            </View>}
+            </View>
+            </TouchableOpacity>}
         />
         <View style={styles.button}>
           <Button
