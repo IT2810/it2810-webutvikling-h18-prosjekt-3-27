@@ -59,16 +59,20 @@ export default class ContactsScreen extends Component {
     }
   };
 
-  deleteContact = i => {
-    this.setState(
-      prevState => {
-        let contacts = prevState.contacts.slice();
+  deleteContact = x => {
+    this.setState(prevState => {
+      let contacts = prevState.contacts;
+      let index = 0;
 
-        contacts.splice(i, 1);
-
-        return { contacts: contacts };
-      },
-      C.save(this.state.contacts)
+      for(let i = 0; i < contacts.length; i++){
+        if (contacts[i].key === x){
+          console.log(contacts[i]);
+          index = i;
+        }
+      }
+      contacts.splice(index, 1);
+      return { contacts: contacts };
+      }
     );
   };
 
@@ -87,7 +91,7 @@ export default class ContactsScreen extends Component {
           keyExtractor={contact => "" + contact.key}
           renderItem={({item}) =>
             <TouchableOpacity onPress={() => {
-              this.props.navigation.navigate("EditContact", {contact: item, deleteContact: this.deleteContact});
+              this.props.navigation.navigate("EditContact", {deleteContact: this.deleteContact, contact: item});
             }}>
             <View>
               <Text style={styles.contact}>
@@ -123,6 +127,7 @@ class C {
    * @param contact the contact to save
    * @returns {Promise<void>} the returned promise can be ignored
    */
+
   static async saveContact(contact) {
     const ids = await C.allIds();
     if (!ids.includes(contact.key)) {

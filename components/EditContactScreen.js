@@ -13,25 +13,15 @@ export default class EditContactScreen extends Component {
     key: 0,
   };
 
-  handleDeletePress(){
-    console.log("hola")
-    if (this.state.name.trim().length === 0) {
-      // invalid name
-      return;
-    }
-    // retrieve deleteContact callback function
+  handleDeletePress = () =>{
     const deleteContact = this.props.navigation.getParam("deleteContact");
     // contact that we want to delete
-    const oldContact = {
-      key: this.state.key.trim(),
-    };
-    deleteContact(oldContact);
+    const i = this.state.key;
+    deleteContact(i);
     this.props.navigation.navigate("Contacts");
-  }
+  };
 
   render() {
-    console.log(this.state.name);
-    console.log(this.state.key);
     return (
       <View>
         <Text>
@@ -49,12 +39,12 @@ export default class EditContactScreen extends Component {
 
   componentDidMount() {
     const c = this.props.navigation.getParam("contact");
-    console.log(c);
     this.setState({number: c.number});
     this.setState({name: c.name});
     this.setState({key: c.key});
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
