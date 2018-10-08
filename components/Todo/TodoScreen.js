@@ -166,6 +166,8 @@ export default class TodoScreen extends Component {
     let numUncompleted = this.state.tasks.length;
     let progress = numCompleted / numUncompleted;
 
+
+    const statusBarPadding = 20;
     return (
       <View
         style={styles.container}
@@ -183,8 +185,8 @@ export default class TodoScreen extends Component {
         </ScrollView>
 
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={Header.HEIGHT + Platform.select({
-          android: 20,
-          ios: this.state.statusBarHeight - 20
+          android: statusBarPadding,
+          ios: this.state.statusBarHeight - statusBarPadding
         })}>
           <CustomProgressBar
             numCompleted={numCompleted}
