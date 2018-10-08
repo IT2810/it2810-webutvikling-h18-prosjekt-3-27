@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Component
+  style={
+    Object {
+      "backgroundColor": "white",
+      "height": "100%",
+    }
+  }
+>
+  <ScrollViewMock>
+    <SortedList
+      onDeleteTask={[Function]}
+      onEditFinish={[Function]}
+      onEditStart={[Function]}
+      onTextEdit={[Function]}
+      selected={null}
+      tasks={Array []}
+      toggleComplete={[Function]}
+    />
+  </ScrollViewMock>
+  <KeyboardAvoidingView
+    behavior="padding"
+    enabled={true}
+    keyboardVerticalOffset={NaN}
+  >
+    <CustomProgressBar
+      numCompleted={0}
+      numUncompleted={0}
+      progress={NaN}
+    />
+    <TextInput
+      allowFontScaling={true}
+      autoCorrect={false}
+      autoFocus={true}
+      blurOnSubmit={false}
+      onChangeText={[Function]}
+      onSubmitEditing={[Function]}
+      placeholder="Add task.."
+      style={
+        Object {
+          "borderBottomColor": "gray",
+          "borderBottomWidth": 1,
+          "fontSize": 25,
+          "height": 50,
+          "marginBottom": 5,
+          "textAlign": "center",
+        }
+      }
+      value=""
+    />
+  </KeyboardAvoidingView>
+</Component>
+`;
