@@ -4,13 +4,12 @@ import {
   Text,
   StyleSheet
 } from "react-native";
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 class CalendarScreen extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>CalendarScreen</Text>
-      </View>
+      <CalendarList />
     );
   }
 }
