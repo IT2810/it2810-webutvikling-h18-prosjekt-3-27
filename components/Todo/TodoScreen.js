@@ -7,19 +7,33 @@ import {
   TextInput,
   Platform,
   View,
+  NativeModules,
+  StatusBarIOS
 } from "react-native";
 import randomColor from "randomcolor";
 
-import { Header } from 'react-navigation';
+import {Header} from 'react-navigation';
 
 import CustomProgressBar from "./CustomProgressBar";
 import Util from "./Util";
 import SortedList from "./SortedList";
 
+const {StatusBarManager} = NativeModules;
+
+const isAndroid = Platform.OS === "android";
+
 /**
  * This is the root component for the Todo screen
  */
 export default class TodoScreen extends Component {
+  static navigationOptions = {
+    title: "Todo list",
+    headerTitleStyle: {
+      textAlign: "center",
+      flex: 1
+    }
+  };
+
   constructor(props) {
     super(props);
     this.util = new Util();
@@ -31,13 +45,28 @@ export default class TodoScreen extends Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     // Fetch tasks from storage, if any.
-    const tasks = await TaskPersistence.retrieveTasks();
-    if (tasks) {
-      this.setState({tasks: tasks});
+    this.fetchTasks();
+
+    if (!isAndroid) {
+      StatusBarManager.getHeight((statusBarFrameData) => {
+        this.setState({statusBarHeight: statusBarFrameData.height});
+      });
+      this.statusBarListener = StatusBarIOS.addListener('statusBarFrameWillChange', (statusBarData) => {
+        this.setState({statusBarHeight: statusBarData.frame.height});
+      });
     }
   };
+
+  fetchTasks = async () => {
+    const tasks = await TaskPersistence.getAll();
+    this.setState({tasks: tasks});
+  };
+
+  componentWillUnmount() {
+    this.statusBarListener.remove();
+  }
 
   /**
    * This method adds a new task, updates the state, and saves it to
@@ -63,7 +92,7 @@ export default class TodoScreen extends Component {
           };
         }
       );
-    TaskPersistence.save(task);
+      TaskPersistence.save(task);
     }
   };
 
@@ -78,7 +107,7 @@ export default class TodoScreen extends Component {
       const taskToDelete = prevState.tasks.find(task => task.key === taskKey);
       const index = prevState.tasks.indexOf(taskToDelete);
       let tasksCopy = [...prevState.tasks];
-      tasksCopy.splice(index,1);
+      tasksCopy.splice(index, 1);
       return {tasks: tasksCopy}
     });
     TaskPersistence.delete(task);
@@ -117,7 +146,7 @@ export default class TodoScreen extends Component {
    */
   handleTextEdit = (text, task) => {
     const taskKey = task.key;
-    let taskCopy = Object.assign({},task, {text});
+    let taskCopy = Object.assign({}, task, {text});
     this.setState((prevState) => {
       const oldTask = prevState.tasks.find(task => task.key === taskKey);
       const index = prevState.tasks.indexOf(oldTask);
@@ -135,8 +164,10 @@ export default class TodoScreen extends Component {
   render() {
     let numCompleted = this.state.tasks.filter(task => task.completed === true).length;
     let numUncompleted = this.state.tasks.length;
-    let progress = numCompleted/numUncompleted;
+    let progress = numCompleted / numUncompleted;
 
+
+    const statusBarPadding = 20;
     return (
       <View
         style={styles.container}
@@ -153,7 +184,10 @@ export default class TodoScreen extends Component {
           />
         </ScrollView>
 
-        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={Header.HEIGHT + Platform.select({android: 20, ios: 0})}>
+        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={Header.HEIGHT + Platform.select({
+          android: statusBarPadding,
+          ios: this.state.statusBarHeight - statusBarPadding
+        })}>
           <CustomProgressBar
             numCompleted={numCompleted}
             numUncompleted={numUncompleted}
@@ -221,19 +255,20 @@ class TaskPersistence {
   /**
    * Returns tasks (if any) and updates state
    *
-   * @returns {Promise<void>} the return promise can be ignored
+   * @returns {Promise<Array>} the return promise can be ignored
    */
-  static retrieveTasks = async () => {
+  static getAll = async () => {
     try {
+      let tasks = [];
       const taskKeysJson = await AsyncStorage.getItem("TASKKEYS") || "[]";
       const taskKeys = JSON.parse(taskKeysJson);
       if (taskKeys.length > 0) {
         const tasksResult = await AsyncStorage.multiGet(taskKeys);
-        const tasks = tasksResult
+        tasks = tasksResult
           .map(keyvalue => keyvalue[1])
           .map(objJson => JSON.parse(objJson));
-        return tasks;
       }
+      return tasks;
     } catch (e) {
       console.error(e);
     }
