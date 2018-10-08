@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      onPress={[Function]}
+      style={
+        Object {
+          "flex": 1,
+          "flexWrap": "wrap",
+          "fontSize": 18,
+          "margin": 5,
+          "paddingBottom": 2,
+          "paddingLeft": 10,
+          "paddingTop": 2,
+        }
+      }
+    >
+      sometext
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "gray",
+        "height": 1,
+        "marginBottom": 5,
+        "marginTop": 5,
+      }
+    }
+  />
+</View>
+`;
