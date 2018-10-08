@@ -7,6 +7,7 @@ import AddContactScreen from "./components/AddContactScreen";
 import Icon from "react-native-vector-icons/Ionicons";
 import {Text} from "react-native-elements";
 import TodoScreen from "./components/Todo/TodoScreen"
+import CalendarScreen from "./components/Calendar/CalendarScreen";
 
 /*
  * This is the React Native entry point. The component
@@ -30,26 +31,6 @@ import TodoScreen from "./components/Todo/TodoScreen"
  *   * TodoStack : StackNavigator
  *    * TodoScreen
  *
- */
-
-
-/*
- * These are temporary classes for Calendar,
- * they should be removed once those screens are implemented
- * */
-
-
-class CalendarScreen extends Component{
-  render() {
-    return (
-      <View>
-        <Text>CalendarScreen</Text>
-      </View>
-    );
-  }
-}
-/*
- * END temporary classes
  */
 
 
