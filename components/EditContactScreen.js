@@ -29,7 +29,7 @@ export default class EditContactScreen extends Component {
           {this.state.number}
         </Text>
         <Button
-          color='pink'
+          color='green'
           onPress={this.handleDeletePress}
           title={"delete"}
         />

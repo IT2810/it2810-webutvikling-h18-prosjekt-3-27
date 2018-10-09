@@ -5,6 +5,7 @@ import {
   TextInput,
   Button
 } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default class AddContactScreen extends Component {
   state = {
@@ -50,7 +51,7 @@ export default class AddContactScreen extends Component {
                    placeholder="Phone"
         />
         <Button
-          color='pink'
+          color='green'
           onPress={this.handleAddPress}
           value={this.state.name}
           title={"Add"}

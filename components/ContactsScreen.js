@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import {AsyncStorage, Button, FlatList, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+
 
 /**
  * This is the root component for the contacts screen
@@ -83,27 +85,54 @@ export default class ContactsScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList
+
+        <View>
+
+          <FlatList
           data={this.state.contacts}
           keyExtractor={contact => "" + contact.key}
           renderItem={({item}) =>
             <TouchableOpacity onPress={() => {
               this.props.navigation.navigate("EditContact", {deleteContact: this.deleteContact, contact: item});
             }}>
-            <View>
-              <Text style={styles.contact}>
-                {item.name}: {item.number}
-              </Text>
-            </View>
+
+
+              <View style={styles.contactList}>
+
+                <View style={styles.contactIcon}>
+                  <Icon name="ios-person" color={'green'} size={50}/>
+                </View>
+
+                <View style = {styles.contact}>
+                  <Text style={styles.name}>
+                    {item.name}
+                  </Text>
+                  <Text style={styles.number}>
+                    {item.number}
+                  </Text>
+                </View>
+
+              </View>
             </TouchableOpacity>}
-        />
+            />
+        </View>
+
         <View style={styles.button}>
           <Button
+            icon={
+              <Icon
+                name='ios-person'
+                size={5}
+                color='white'
+              />
+            }
+            containerViewStyle={{width: '100%', marginLeft: 0}}
             title={"Add Contact"}
-            color = 'pink'
+            color = 'green'
             onPress= {this.handleAddContactPress}
           />
         </View>
+
       </View>
     );
   }
@@ -198,16 +227,32 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingBottom: 15,
   },
-  input: {
-    justifyContent: "center",
-    alignItems: "stretch",
-    width: 100
+  contactList: {
+    margin: 10,
+    flexDirection: 'row',
   },
+
+  contactIcon: {
+
+  },
+
   contact: {
-    padding: 5,
-    fontSize: 18,
+    paddingTop: 7,
+    paddingLeft: 5,
+  },
+
+  name: {
+    color: 'green',
+  },
+
+  number: {
+    marginBottom: 20,
+    color: 'grey',
   },
   button: {
+    position: 'absolute',
+    bottom:0,
+    alignSelf: 'center',
     marginBottom: 10,
-  }
+  },
 });
