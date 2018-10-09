@@ -8,6 +8,8 @@ import Icon from "react-native-vector-icons/Ionicons";
 import {Text} from "react-native-elements";
 import TodoScreen from "./components/Todo/TodoScreen"
 import CalendarScreen from "./components/Calendar/CalendarScreen";
+import AddAgendaScreen from "./components/Calendar/AddAgendaScreen";
+import EditAgendaScreen from "./components/Calendar/EditAgendaScreen";
 
 /*
  * This is the React Native entry point. The component
@@ -44,7 +46,9 @@ const ContactsStack = createStackNavigator({
 });
 
 const CalendarStack = createStackNavigator({
-  Calendar: CalendarScreen
+  Calendar: CalendarScreen,
+  AddAgenda: AddAgendaScreen,
+  EditAgenda: EditAgendaScreen
 });
 
 const TodoStack = createStackNavigator({

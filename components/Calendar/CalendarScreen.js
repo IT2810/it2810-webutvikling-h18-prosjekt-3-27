@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  TouchableOpacity
 } from "react-native";
 import { Agenda } from 'react-native-calendars';
 import AgendaPersistence from "./AgendaPersistence";
@@ -24,7 +25,7 @@ class CalendarScreen extends Component {
       timestamp: d.getTime(),
       year: d.getFullYear()
     });
-    this.loadAgenda();
+    //this.loadAgenda();
   }
 
   async loadAgenda() {
@@ -42,18 +43,18 @@ class CalendarScreen extends Component {
         maxDate={'2018-12-31'}
         renderItem={this.renderItem.bind(this)}
         renderEmptyDate={this.renderEmptyDate.bind(this)}
-        rowHasChanged={this.rowHasChanged.bind(this)}
+        rowHasChanged={CalendarScreen.rowHasChanged}
         firstDay={1}
       />
     );
   }
 
   loadItems(day) {
-    console.log(day);
+    //console.log(day);
     setTimeout(() => {
       for (let i = -15; i < 85; i++) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-        const strTime = this.timeToString(time);
+        const strTime = CalendarScreen.timeToString(time);
         if (!this.state.items[strTime]) {
           this.state.items[strTime] = [];
           const numItems = Math.floor(Math.random() * 5);
@@ -72,28 +73,54 @@ class CalendarScreen extends Component {
         items: newItems
       });
     }, 400);
-    console.log(`Load Items for ${day.dateString}`);
+    //console.log(`Load Items for ${day.dateString}`);
   }
 
   renderItem(item) {
     return (
-      <View style={[styles.item, {height: item.height}]}><Text>{item.name}</Text></View>
+      <TouchableOpacity
+        style={[styles.item, {height: item.height}]}
+        onPress={() => this.editItem(item)}
+      >
+        <Text>{item.name}</Text>
+      </TouchableOpacity>
     );
   }
 
-  renderEmptyDate() {
+  renderEmptyDate(date) {
+    // input example: 2018-10-11T18:20:41.180Z
+    const d = new Date(date);
     return (
-      <View style={styles.emptyDate}><Text>This is empty date!</Text></View>
+      <TouchableOpacity
+        style={styles.emptyDate}
+        onPress={() => this.addNewItem(date)}
+      >
+        <Text>+</Text>
+      </TouchableOpacity>
     );
   }
 
-  rowHasChanged(r1, r2) {
+  static rowHasChanged(r1, r2) {
     return r1.name !== r2.name;
   }
 
-  timeToString(time) {
+  static timeToString(time) {
     const date = new Date(time);
     return date.toISOString().split('T')[0];
+  }
+
+  addNewItem(date) {
+    // navigate to an add item screen
+    console.debug("Add new item on date: ", date);
+    // TODO: navigate, use callback
+    this.props.navigation.navigate("AddAgenda", {date: date});
+  }
+
+  editItem(item) {
+    // navigate to an edit item screen
+    console.debug("Edit item screen of item: ", item);
+    // TODO: navigate, use callback
+    this.props.navigation.navigate("EditAgenda", {item: item});
   }
 }
 
@@ -113,8 +140,12 @@ const styles = StyleSheet.create({
     marginTop: 17
   },
   emptyDate: {
+    backgroundColor: "#5fff5c",
     height: 15,
     flex:1,
-    paddingTop: 30
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+    marginTop: 20
   }
 });
