@@ -23,16 +23,24 @@ export default class EditContactScreen extends Component {
 
   render() {
     return (
-      <View>
-        <Text>
-          {this.state.name},
-          {this.state.number}
-        </Text>
-        <Button
-          color='green'
-          onPress={this.handleDeletePress}
-          title={"delete"}
-        />
+      <View style={styles.container}>
+
+        <View style={styles.contact}>
+          <Text style={styles.name}>
+            {this.state.name}
+          </Text>
+          <Text style={styles.number}>
+            {this.state.number}
+          </Text>
+        </View>
+
+        <View style={styles.button}>
+          <Button
+            color='green'
+            onPress={this.handleDeletePress}
+            title={"delete"}
+          />
+        </View>
       </View>
     )
   }
@@ -50,6 +58,24 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "stretch",
     backgroundColor: "white",
+  },
+  contact: {
+    alignItems: 'center',
+    padding: 20,
+  },
+  name: {
+    fontSize: 40,
+    color: 'green',
+  },
+  number: {
+    fontSize: 30,
+    color: 'grey',
+    margin: 20,
+  },
+  button: {
+    position: 'absolute',
+    bottom:0,
+    marginBottom: 10,
   },
 });
 

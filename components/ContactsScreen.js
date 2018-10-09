@@ -119,15 +119,8 @@ export default class ContactsScreen extends Component {
 
         <View style={styles.button}>
           <Button
-            icon={
-              <Icon
-                name='ios-person'
-                size={5}
-                color='white'
-              />
-            }
-            containerViewStyle={{width: '100%', marginLeft: 0}}
-            title={"Add Contact"}
+            icon={<Icon name="ios-person-add" color="white" />}
+            title="Add Contact"
             color = 'green'
             onPress= {this.handleAddContactPress}
           />
@@ -226,14 +219,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingBottom: 15,
+    alignItems: "stretch",
+
   },
   contactList: {
     margin: 10,
     flexDirection: 'row',
-  },
-
-  contactIcon: {
-
   },
 
   contact: {
@@ -246,13 +237,11 @@ const styles = StyleSheet.create({
   },
 
   number: {
-    marginBottom: 20,
     color: 'grey',
   },
   button: {
-    position: 'absolute',
+    alignItems: 'stretch',
     bottom:0,
-    alignSelf: 'center',
     marginBottom: 10,
   },
 });
