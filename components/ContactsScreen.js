@@ -60,20 +60,17 @@ export default class ContactsScreen extends Component {
   };
 
   deleteContact = x => {
+    const c = this.state.contacts.find(contact => contact.key === x);
+
     this.setState(prevState => {
       let contacts = prevState.contacts;
-      let index = 0;
-
-      for(let i = 0; i < contacts.length; i++){
-        if (contacts[i].key === x){
-          console.log(contacts[i]);
-          index = i;
-        }
-      }
+      const contactToDelete = contacts.find(contact => contact.key === x);
+      const index = prevState.contacts.indexOf(contactToDelete);
       contacts.splice(index, 1);
       return { contacts: contacts };
       }
     );
+    C.deleteContact(c);
   };
 
   /**
@@ -166,6 +163,33 @@ class C {
       .forEach(element => contactsJson.push(element));
     return contactsJson.map(elementJson => JSON.parse(elementJson));
   }
+
+
+  static deleteContact = async (c) => {
+    try {
+      //get all IDS
+      const ids = await AsyncStorage.getItem("CONTACT_IDS") || "[]";
+
+      //make them to objects
+      const keys = JSON.parse(ids);
+
+      //Find index of contact we want to delete
+      let index;
+      if ((index = keys.findIndex(el => el === c.key)) !== -1) {
+        //delete it
+        keys.splice(index, 1);
+      }
+
+
+      // Set new contact_ids
+      await AsyncStorage.setItem("CONTACT_IDS", JSON.stringify(keys));
+
+      //remove key from asyncstorage
+      await AsyncStorage.removeItem(c.key);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 }
 
 const styles = StyleSheet.create({
