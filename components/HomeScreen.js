@@ -17,7 +17,16 @@ export default class HomeScreen extends Component {
             Welcome to The Motivation App
           </Text>
           <Text style={styles.textStyle}>
-            This is your Home page. Use the tab bar at the bottom of the screen to navigate.
+            Tight shedule? Having a hard time keeping track of whats when?
+            Organize your schedule with our calendar!
+          </Text>
+          <Text style={styles.textStyle}>
+            Problems organizing your tasks?
+            Try our todo list!
+          </Text>
+          <Text style={styles.textStyle}>
+          Always forgetting your friend's last name? And what was her number again...?
+            Use our contact list to keep track of who's who.
           </Text>
         </View>
 
@@ -43,12 +52,14 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   welcome: {
-    fontSize: 30,
+    fontSize: 25,
     color: "green",
     textAlign: 'center',
+    margin: 10,
   },
   textStyle: {
-    fontSize: 20,
+    fontSize: 15,
+    margin: 10,
     color: "grey",
     textAlign: 'center',
   }
