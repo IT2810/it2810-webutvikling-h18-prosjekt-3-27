@@ -17,7 +17,7 @@ export default class HomeScreen extends Component {
             Welcome to The Motivation App
           </Text>
           <Text style={styles.textStyle}>
-            Tight shedule? Having a hard time keeping track of whats when?
+            Tight schedule? Having a hard time keeping track of whats when?
             Organize your schedule with our calendar!
           </Text>
           <Text style={styles.textStyle}>
