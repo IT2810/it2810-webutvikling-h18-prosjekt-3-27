@@ -30,6 +30,8 @@ import EditAgendaScreen from "./components/Calendar/EditAgendaScreen";
  *    * AddContactScreen
  *   * CalendarStack : StackNavigator
  *    * CalendarScreen
+ *    * AddAgendaScreen
+ *    * EditAgendaScreen
  *   * TodoStack : StackNavigator
  *    * TodoScreen
  *
