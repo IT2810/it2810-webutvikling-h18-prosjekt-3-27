@@ -12,7 +12,8 @@ class CalendarScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: {}
+      items: {},
+      nextItemId: 0
     };
   }
 
@@ -27,12 +28,15 @@ class CalendarScreen extends Component {
       year: d.getFullYear()
     });
     */
-    //this.loadAgenda();
+    // this.loadAgenda();
+    // this.loadItemId();
   }
 
   async loadAgenda() {
     const items = await AgendaPersistence.getAllItems();
     // TODO: set state
+    // TODO: Push aux isLastButton to each array
+    // Remember to include date into isLastButton array
   };
 
   /**
@@ -54,7 +58,6 @@ class CalendarScreen extends Component {
         if (!(key in itemsCopy)) {
           itemsCopy[key] = [];
         }
-        console.debug(key);
         // advance day by one day
         date.setDate(date.getDate() + 1);
       }
@@ -105,9 +108,19 @@ class CalendarScreen extends Component {
   }
 
   renderItem(item) {
+    if (item.isLastButton) {
+      return (
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => this.navigateToAddAgenda(item.date)}
+        >
+          <Text>Add another agenda to this day</Text>
+        </TouchableOpacity>
+      );
+    }
     return (
       <TouchableOpacity
-        style={[styles.item, {height: item.height}]}
+        style={styles.item}
         onPress={() => this.navigateToEditAgenda(item)}
       >
         <Text>{item.name}</Text>
@@ -117,7 +130,6 @@ class CalendarScreen extends Component {
 
   renderEmptyDate(date) {
     // input example: 2018-10-11T18:20:41.180Z
-    const d = new Date(date);
     return (
       <TouchableOpacity
         style={styles.emptyDate}
@@ -149,12 +161,25 @@ class CalendarScreen extends Component {
 
   addNewItem(item) {
     console.debug("Add new item: ", item);
+    const key = CalendarScreen.timeToString(item.date.getTime());
+    // TODO: Get next item id from persistence, and assign to item
+    // For now, use random id
+    item.id = Math.floor(Math.random()*1000000);
+    this.setState(prevState => {
+      const itemsCopy = {...prevState.items};
+      if (!(key in itemsCopy)) {
+        itemsCopy[key] = [];
+      }
+      itemsCopy[key].pop();
+      itemsCopy[key].push(item);
+      itemsCopy[key].push({date: item.date, isLastButton: true});
+      return {items: itemsCopy};
+    })
   }
 
   navigateToEditAgenda(item) {
     // navigate to an edit item screen
     console.debug("Edit item screen of item: ", item);
-    // TODO: navigate, use callback
     this.props.navigation.navigate("EditAgenda", {
       item: item,
       editAgenda: this.editItem.bind(this),
@@ -164,10 +189,47 @@ class CalendarScreen extends Component {
 
   editItem(item) {
     console.debug("EditItem: ", item);
+    const key = CalendarScreen.timeToString(item.date.getTime());
+    this.setState(prevState => {
+      const itemsCopy = {...prevState.items};
+      if (!(key in itemsCopy)) {
+        console.warn(`Editing item ${item}, but it doesn't exist in the item state`);
+        return {};
+      }
+      const arrayCopy = [...itemsCopy[key]];
+      // find index of this item
+      let index;
+      if ((index = arrayCopy.findIndex(element => {
+        console.debug("elementid, itemid:", element.id, item.id);
+        return element.id === item.id;
+      })) !== -1) {
+        arrayCopy[index] = item;
+      }
+      itemsCopy[key] = arrayCopy;
+      return {items: itemsCopy};
+    });
+    // TODO: Save to persistent storage
   }
 
   deleteItem(item) {
     console.debug("Delete item: ", item)
+    const key = CalendarScreen.timeToString(item.date.getTime());
+    this.setState(prevState => {
+      const itemsCopy = {...prevState.items};
+      if (!(key in itemsCopy)) {
+        console.warn(`Deleting item ${item}, but it doesn't exist in the item state`);
+        return {};
+      }
+      const arrayCopy = [...itemsCopy[key]];
+      // find index of this item
+      let index;
+      if ((index = arrayCopy.findIndex(element => element.id === item.id)) !== -1) {
+        arrayCopy.splice(index, 1);
+      }
+      itemsCopy[key] = arrayCopy;
+      return {items: itemsCopy};
+    });
+    // TODO: Delete from persistent storage
   }
 }
 

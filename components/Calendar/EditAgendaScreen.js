@@ -29,7 +29,7 @@ class EditAgendaScreen extends Component {
     // create object for the new agenda
     const oldItem = this.props.navigation.getParam("item");
     const agenda = {
-      date: oldItem.date,
+      ...oldItem,
       name: this.state.name,
       note: this.state.note
     };
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "flex-start"
   },
   textInput: {
     width: "80%"
