@@ -17,6 +17,7 @@ class CalendarScreen extends Component {
   }
 
   componentDidMount() {
+    /*
     const d = new Date("2018-10-01");
     this.loadItems({
       dateString: d.dateString,
@@ -25,6 +26,7 @@ class CalendarScreen extends Component {
       timestamp: d.getTime(),
       year: d.getFullYear()
     });
+    */
     //this.loadAgenda();
   }
 
@@ -33,6 +35,32 @@ class CalendarScreen extends Component {
     // TODO: set state
   };
 
+  /**
+   * Called when the calendar wants items to be loaded,
+   * an empty array means there are no agendas for that
+   * day. No value indicates that the items are still
+   * loading.
+   *
+   * @param dayInMonth a day in the month that must be loaded
+   */
+  loadItemsForMonth(dayInMonth) {
+    let date = new Date(dayInMonth.dateString);
+    date.setDate(1);
+    this.setState(prevState => {
+      const itemsCopy = {...prevState.items};
+      while (date.getMonth() + 1 === dayInMonth.month) {
+        // fill the state with empty arrays for each day
+        const key = CalendarScreen.timeToString(date.getTime());
+        if (!(key in itemsCopy)) {
+          itemsCopy[key] = [];
+        }
+        console.debug(key);
+        // advance day by one day
+        date.setDate(date.getDate() + 1);
+      }
+      return {items: itemsCopy};
+    });
+  };
 
   render() {
     return (
@@ -43,6 +71,7 @@ class CalendarScreen extends Component {
         maxDate={'2018-12-31'}
         renderItem={this.renderItem.bind(this)}
         renderEmptyDate={this.renderEmptyDate.bind(this)}
+        loadItemsForMonth={this.loadItemsForMonth.bind(this)}
         rowHasChanged={CalendarScreen.rowHasChanged}
         firstDay={1}
       />
@@ -50,7 +79,6 @@ class CalendarScreen extends Component {
   }
 
   loadItems(day) {
-    //console.log(day);
     setTimeout(() => {
       for (let i = -15; i < 85; i++) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
