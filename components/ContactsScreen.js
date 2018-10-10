@@ -1,5 +1,8 @@
 import React, {Component} from "react";
-import {AsyncStorage, Button, FlatList, StyleSheet, Text, View,} from "react-native";
+import {AsyncStorage, Button, FlatList, StyleSheet, Text, TouchableOpacity, ScrollView, View,} from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import randomColor from "randomcolor";
+
 
 /**
  * This is the root component for the contacts screen
@@ -7,7 +10,8 @@ import {AsyncStorage, Button, FlatList, StyleSheet, Text, View,} from "react-nat
 export default class ContactsScreen extends Component {
   state = {
     contacts: [],
-    name: ""
+    name: "",
+    pressed: ""
   };
 
   componentDidMount() {
@@ -45,7 +49,8 @@ export default class ContactsScreen extends Component {
       }, 0);
       // and add 1, this is the handleAddPress key
       const key = largestKey + 1;
-      const myContact = {...contact, key: key};
+      const myContact = {...contact, key: key, color: randomColor({luminosity: 'dark', hue: "green"})
+    };
       // add contact to state
       this.setState(prevState => {
         const contacts = [...prevState.contacts, myContact];
@@ -58,6 +63,20 @@ export default class ContactsScreen extends Component {
     }
   };
 
+  deleteContact = x => {
+    const c = this.state.contacts.find(contact => contact.key === x);
+
+    this.setState(prevState => {
+      const contacts = prevState.contacts.slice();
+      const contactToDelete = contacts.find(contact => contact.key === x);
+      const index = prevState.contacts.indexOf(contactToDelete);
+      contacts.splice(index, 1);
+      return { contacts: contacts };
+      }
+    );
+    C.deleteContact(c);
+  };
+
   /**
    * Handle a button press on the "Add Contact" button
    */
@@ -68,20 +87,35 @@ export default class ContactsScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList
-          data={this.state.contacts}
-          keyExtractor={contact => "" + contact.key}
-          renderItem={({item}) =>
-            <View>
-              <Text style={styles.contact}>
-                {item.name}: {item.number}
-              </Text>
-            </View>}
-        />
+        <ScrollView>
+          <FlatList
+            data={this.state.contacts}
+            keyExtractor={contact => "" + contact.key}
+            renderItem={({item}) =>
+              <TouchableOpacity onPress={() => {
+                this.props.navigation.navigate("EditContact", {deleteContact: this.deleteContact, contact: item});
+              }}>
+                <View style={styles.contactList}>
+                  <View>
+                    <Icon name="ios-person" color={item.color} size={50}/>
+                  </View>
+                  <View style={styles.contact}>
+                    <Text style={{color: item.color}}>
+                      {item.name}
+                    </Text>
+                    <Text style={styles.number}>
+                      {item.number}
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>}
+          />
+        </ScrollView>
         <View style={styles.button}>
           <Button
-            title={"Add Contact"}
-            color = 'pink'
+            icon={<Icon name="ios-person-add" color="white" />}
+            title="Add Contact"
+            color = 'green'
             onPress= {this.handleAddContactPress}
           />
         </View>
@@ -105,6 +139,7 @@ class C {
    * @param contact the contact to save
    * @returns {Promise<void>} the returned promise can be ignored
    */
+
   static async saveContact(contact) {
     const ids = await C.allIds();
     if (!ids.includes(contact.key)) {
@@ -143,24 +178,65 @@ class C {
       .forEach(element => contactsJson.push(element));
     return contactsJson.map(elementJson => JSON.parse(elementJson));
   }
+
+
+  static deleteContact = async (c) => {
+    try {
+      //get all IDS
+      const ids = await AsyncStorage.getItem("CONTACT_IDS") || "[]";
+
+      //make them to objects
+      const keys = JSON.parse(ids);
+
+      //Find index of contact we want to delete
+      let index;
+      if ((index = keys.findIndex(el => el === c.key)) !== -1) {
+        //delete it
+        keys.splice(index, 1);
+      }
+
+
+      // Set new contact_ids
+      await AsyncStorage.setItem("CONTACT_IDS", JSON.stringify(keys));
+
+      //remove key from asyncstorage
+      await AsyncStorage.removeItem(c.key.toString());
+    } catch (e) {
+      console.error(e);
+    }
+  };
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: "white",
     paddingBottom: 15,
-  },
-  input: {
-    justifyContent: "center",
     alignItems: "stretch",
-    width: 100
+
   },
+  contactList: {
+    margin: 10,
+    flexDirection: 'row',
+  },
+
   contact: {
-    padding: 5,
-    fontSize: 18,
+    paddingTop: 7,
+    paddingLeft: 5,
+  },
+
+  name: {
+  },
+
+  number: {
+    color: 'grey',
   },
   button: {
+    position: 'absolute',
+    bottom:0,
+    width: '100%',
     marginBottom: 10,
-  }
+    backgroundColor: 'white',
+  },
 });
