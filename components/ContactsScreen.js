@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import {AsyncStorage, Button, FlatList, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import {AsyncStorage, Button, FlatList, StyleSheet, Text, TouchableOpacity, ScrollView, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import randomColor from "randomcolor";
 
 
 /**
@@ -48,7 +49,8 @@ export default class ContactsScreen extends Component {
       }, 0);
       // and add 1, this is the handleAddPress key
       const key = largestKey + 1;
-      const myContact = {...contact, key: key};
+      const myContact = {...contact, key: key, color: randomColor({luminosity: 'dark', hue: "green"})
+    };
       // add contact to state
       this.setState(prevState => {
         const contacts = [...prevState.contacts, myContact];
@@ -85,7 +87,7 @@ export default class ContactsScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View>
+        <ScrollView>
           <FlatList
             data={this.state.contacts}
             keyExtractor={contact => "" + contact.key}
@@ -95,10 +97,10 @@ export default class ContactsScreen extends Component {
               }}>
                 <View style={styles.contactList}>
                   <View>
-                    <Icon name="ios-person" color={'green'} size={50}/>
+                    <Icon name="ios-person" color={item.color} size={50}/>
                   </View>
                   <View style={styles.contact}>
-                    <Text style={styles.name}>
+                    <Text style={{color: item.color}}>
                       {item.name}
                     </Text>
                     <Text style={styles.number}>
@@ -108,8 +110,7 @@ export default class ContactsScreen extends Component {
                 </View>
               </TouchableOpacity>}
           />
-        </View>
-
+        </ScrollView>
         <View style={styles.button}>
           <Button
             icon={<Icon name="ios-person-add" color="white" />}
@@ -118,7 +119,6 @@ export default class ContactsScreen extends Component {
             onPress= {this.handleAddContactPress}
           />
         </View>
-
       </View>
     );
   }
@@ -210,6 +210,7 @@ class C {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: "white",
     paddingBottom: 15,
     alignItems: "stretch",
@@ -226,15 +227,16 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    color: 'green',
   },
 
   number: {
     color: 'grey',
   },
   button: {
-    alignItems: 'stretch',
+    position: 'absolute',
     bottom:0,
+    width: '100%',
     marginBottom: 10,
+    backgroundColor: 'white',
   },
 });

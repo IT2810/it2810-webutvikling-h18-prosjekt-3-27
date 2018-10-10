@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
   },
   button: {
     position: 'absolute',
+    width: '100%',
     bottom:0,
     marginBottom: 10,
   },
