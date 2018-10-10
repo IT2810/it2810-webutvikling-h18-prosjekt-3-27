@@ -40,8 +40,6 @@ export default class CustomProgressCircle extends Component {
           thickness={10}
           color={this.getColor()}
           showsText={true}/>
-
-        {console.log(this.getColor())}
       </View>
     )
   }
