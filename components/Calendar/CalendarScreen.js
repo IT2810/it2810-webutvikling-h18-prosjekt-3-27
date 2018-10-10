@@ -18,25 +18,29 @@ class CalendarScreen extends Component {
   }
 
   componentDidMount() {
-    /*
-    const d = new Date("2018-10-01");
-    this.loadItems({
-      dateString: d.dateString,
-      day: d.getDay(),
-      month: d.getMonth() + 1,
-      timestamp: d.getTime(),
-      year: d.getFullYear()
-    });
-    */
-    // this.loadAgenda();
-    // this.loadItemId();
+    this.loadAgenda();
   }
 
   async loadAgenda() {
-    const items = await AgendaPersistence.getAllItems();
-    // TODO: set state
-    // TODO: Push aux isLastButton to each array
-    // Remember to include date into isLastButton array
+    try {
+      const items = await AgendaPersistence.getAllItems();
+      // for each day, add aux isLastButton object to end of list
+      for (let key of Object.keys(items)) {
+        // convert date string into date object
+        items[key].forEach(agendaObject => agendaObject.date = new Date(agendaObject.date));
+        const date = new Date(items[key][0].date.getTime());
+        items[key].push({isLastButton: true, date: date});
+      }
+      this.setState(prevState => {
+        const oldItems = {...prevState.items};
+        return {items: Object.assign({}, oldItems, items)};
+      });
+      // TODO: set state
+      // TODO: Push aux isLastButton to each array
+      // Remember to include date into isLastButton array
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   /**
@@ -152,7 +156,6 @@ class CalendarScreen extends Component {
   navigateToAddAgenda(date) {
     // navigate to an add item screen
     console.debug("Add new item on date: ", date);
-    // TODO: navigate, use callback
     this.props.navigation.navigate("AddAgenda", {
       date: date,
       addAgenda: this.addNewItem.bind(this)
@@ -172,8 +175,8 @@ class CalendarScreen extends Component {
       itemsCopy[key].push(item);
       itemsCopy[key].push({date: item.date, isLastButton: true});
       return {items: itemsCopy};
-    })
-    // TODO: save to persistent storage
+    });
+    await AgendaPersistence.saveAgenda(item);
   }
 
   navigateToEditAgenda(item) {
@@ -199,7 +202,6 @@ class CalendarScreen extends Component {
       // find index of this item
       let index;
       if ((index = arrayCopy.findIndex(element => {
-        console.debug("elementid, itemid:", element.id, item.id);
         return element.id === item.id;
       })) !== -1) {
         arrayCopy[index] = item;
@@ -207,11 +209,11 @@ class CalendarScreen extends Component {
       itemsCopy[key] = arrayCopy;
       return {items: itemsCopy};
     });
-    // TODO: Save to persistent storage
+    AgendaPersistence.saveAgenda(item);
   }
 
   deleteItem(item) {
-    console.debug("Delete item: ", item)
+    console.debug("Delete item: ", item);
     const key = CalendarScreen.timeToString(item.date.getTime());
     this.setState(prevState => {
       const itemsCopy = {...prevState.items};
@@ -228,7 +230,7 @@ class CalendarScreen extends Component {
       itemsCopy[key] = arrayCopy;
       return {items: itemsCopy};
     });
-    // TODO: Delete from persistent storage
+    AgendaPersistence.deleteAgenda(item);
   }
 }
 
