@@ -6,6 +6,7 @@ import ContactsScreen from "./components/ContactsScreen";
 import AddContactScreen from "./components/AddContactScreen";
 import Icon from "react-native-vector-icons/Ionicons";
 import {Text} from "react-native-elements";
+import EditContactScreen from "./components/EditContactScreen";
 import TodoScreen from "./components/Todo/TodoScreen"
 
 /*
@@ -25,6 +26,7 @@ import TodoScreen from "./components/Todo/TodoScreen"
  *   * ContactsStack : StackNavigator
  *    * ContactsScreen
  *    * AddContactScreen
+ *    * EditContactScreen
  *   * CalendarStack : StackNavigator
  *    * CalendarScreen
  *   * TodoStack : StackNavigator
@@ -59,7 +61,8 @@ const HomeStack = createStackNavigator({
 
 const ContactsStack = createStackNavigator({
   Contacts: ContactsScreen,
-  AddContact: AddContactScreen
+  AddContact: AddContactScreen,
+  EditContact: EditContactScreen
 });
 
 const CalendarStack = createStackNavigator({
