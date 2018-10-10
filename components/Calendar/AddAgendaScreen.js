@@ -9,7 +9,7 @@ import {
 
 class AddAgendaScreen extends Component {
   static navigationOptions = {
-    title: "Add event"
+    title: "Create event"
   };
 
   state = {
@@ -45,8 +45,6 @@ class AddAgendaScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>AddAgendaScreen</Text>
-        <Text>{JSON.stringify(this.props.navigation.getParam("date"))}</Text>
         <Text>Name:</Text>
         <TextInput
           style={styles.textInput}

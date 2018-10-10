@@ -68,8 +68,6 @@ class EditAgendaScreen extends Component {
         <NavigationEvents
           onWillFocus={this.willFocus}
         />
-        <Text>EditAgendaScreen</Text>
-        <Text>{JSON.stringify(this.props.navigation.getParam("item"))}</Text>
         <Text>Name:</Text>
         <TextInput
           style={styles.textInput}
