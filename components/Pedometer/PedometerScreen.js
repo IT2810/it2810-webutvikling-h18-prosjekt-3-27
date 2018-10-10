@@ -1,13 +1,22 @@
 import React from "react";
-import { Pedometer } from "expo";
-import { StyleSheet, Text, View } from "react-native";
-import ProgressCircle from 'react-native-progress/Circle';
+import {Pedometer} from "expo";
+import {Platform, StyleSheet, Text, View} from "react-native";
+import CustomProgressCircle from "./CustomProgressCircle";
 
+const isAndroid = Platform.OS === "android";
 export default class PedometerScreen extends React.Component {
+  static navigationOptions = {
+    title: "Pedometer",
+    headerTitleStyle: {
+      textAlign: "center",
+      flex: 1
+    }
+  };
+
   state = {
-    isPedometerAvailable: "checking",
-    pastStepCount: 0,
-    currentStepCount: 0
+    stepCount: 0,
+    error: false,
+    errorText: "",
   };
 
   componentDidMount() {
@@ -19,36 +28,18 @@ export default class PedometerScreen extends React.Component {
   }
 
   _subscribe = () => {
-    this._subscription = Pedometer.watchStepCount(result => {
-      this.setState({
-        currentStepCount: result.steps
-      });
-    });
-
-    Pedometer.isAvailableAsync().then(
-      result => {
-        this.setState({
-          isPedometerAvailable: String(result)
-        });
-      },
-      error => {
-        this.setState({
-          isPedometerAvailable: "Could not get isPedometerAvailable: " + error
-        });
-      }
-    );
-
     const end = new Date();
     const start = new Date();
     start.setDate(end.getDate() - 1);
     Pedometer.getStepCountAsync(start, end).then(
       result => {
-        this.setState({ pastStepCount: result.steps });
+        this.setState({stepCount: result.steps});
       },
       error => {
         this.setState({
-          pastStepCount: "Could not get stepCount: " + error
-        });
+          error: true,
+          errorText: error,
+        })
       }
     );
   };
@@ -60,7 +51,7 @@ export default class PedometerScreen extends React.Component {
 
   getProgress = () => {
     const goal = 10000;
-    let count = this.state.pastStepCount;
+    let count = this.state.stepCount;
     let progress = count / goal;
     return progress;
   };
@@ -68,15 +59,31 @@ export default class PedometerScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>
-          Pedometer.isAvailableAsync(): {this.state.isPedometerAvailable}
-        </Text>
-        <Text>
-         You have walked {this.state.pastStepCount} steps today!
-        </Text>
-        <Text>Live count: {this.state.currentStepCount}</Text>
+        {this.state.error ?
+          <View>
+            <Text>
+              {this.state.errorText.toString()}
+            </Text>
+            <Text style={styles.title}>Your device must support {isAndroid ? "Google Fit" : "Apple Health"} to use the
+            pedometer.
+            </Text>
 
-        <ProgressCircle progress={isNaN(this.getProgress()) ? 0 : this.getProgress()} size={100} showsText={true}/>
+          </View>
+          :
+          <View>
+            <View style={styles.box}>
+              <Text style={styles.text}>
+                You have walked
+              </Text>
+              <Text style={styles.steps}>{this.state.stepCount}</Text>
+              <Text>
+                of 10000 steps today!
+              </Text>
+            </View>
+            <CustomProgressCircle progress={this.getProgress()}/>
+          </View>
+        }
+
       </View>
     );
   }
@@ -85,8 +92,24 @@ export default class PedometerScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 15,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "white"
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  text: {
+    fontSize: 25,
+  },
+  steps: {
+    fontSize: 40,
+  },
+  box: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 30,
   }
 });
