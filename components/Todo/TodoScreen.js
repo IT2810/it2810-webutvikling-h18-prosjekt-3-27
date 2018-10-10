@@ -172,7 +172,7 @@ export default class TodoScreen extends Component {
       <View
         style={styles.container}
       >
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps="always" keyboardDismissMode="on-drag">
           <SortedList
             tasks={this.state.tasks}
             selected={this.state.selected}
@@ -201,7 +201,6 @@ export default class TodoScreen extends Component {
             value={this.state.text}
             placeholder="Add task.."
             autoCorrect={false}
-            autoFocus
           />
         </KeyboardAvoidingView>
       </View>

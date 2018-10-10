@@ -25,6 +25,7 @@ export default class SortedList extends Component {
       <FlatList
         data={this.getSortedTasks()}
         keyExtractor={(item) => item.key}
+        keyboardShouldPersistTaps="always"
         extraData={this.props.selected}
         renderItem={({item, index}) =>
           <View>
