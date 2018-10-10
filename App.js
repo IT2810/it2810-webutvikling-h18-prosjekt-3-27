@@ -8,6 +8,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import {Text} from "react-native-elements";
 import EditContactScreen from "./components/EditContactScreen";
 import TodoScreen from "./components/Todo/TodoScreen"
+import PedometerScreen from "./components/Pedometer/PedometerScreen"
 
 /*
  * This is the React Native entry point. The component
@@ -73,6 +74,10 @@ const TodoStack = createStackNavigator({
   Todo: TodoScreen
 });
 
+const PedometerStack = createStackNavigator({
+  Pedometer: PedometerScreen
+});
+
 const RootBottomTabNavigator = createBottomTabNavigator({
   Home: {
     screen: HomeStack,
@@ -107,6 +112,15 @@ const RootBottomTabNavigator = createBottomTabNavigator({
       tabBarLabel: 'Todo',
       tabBarIcon: ({tintColor}) => (
         <Icon name="ios-checkmark-circle" color={tintColor} size={24}/>
+      )
+    }
+  },
+  Pedometer: {
+    screen: PedometerStack,
+    navigationOptions: {
+      tabBarLabel: 'Pedometer',
+      tabBarIcon: ({tintColor}) => (
+        <Icon name="ios-walk" color={tintColor} size={24}/>
       )
     }
   }
