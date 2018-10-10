@@ -7,13 +7,18 @@ import {
 } from "react-native";
 import { Agenda } from 'react-native-calendars';
 import AgendaPersistence from "./AgendaPersistence";
+import Icon from "react-native-vector-icons/Ionicons";
 
 class CalendarScreen extends Component {
+
+  static navigationOptions = {
+    title: "Calendar"
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      items: {},
-      nextItemId: 0
+      items: {}
     };
   }
 
@@ -85,40 +90,15 @@ class CalendarScreen extends Component {
     );
   }
 
-  loadItems(day) {
-    setTimeout(() => {
-      for (let i = -15; i < 85; i++) {
-        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-        const strTime = CalendarScreen.timeToString(time);
-        if (!this.state.items[strTime]) {
-          this.state.items[strTime] = [];
-          const numItems = Math.floor(Math.random() * 5);
-          for (let j = 0; j < numItems; j++) {
-            this.state.items[strTime].push({
-              name: 'Item for ' + strTime,
-              height: Math.max(50, Math.floor(Math.random() * 150))
-            });
-          }
-        }
-      }
-      // console.log(this.state.items);
-      const newItems = {};
-      Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
-      this.setState({
-        items: newItems
-      });
-    }, 400);
-    //console.log(`Load Items for ${day.dateString}`);
-  }
-
   renderItem(item) {
     if (item.isLastButton) {
       return (
         <TouchableOpacity
-          style={styles.item}
+          style={styles.itemAdd}
           onPress={() => this.navigateToAddAgenda(item.date)}
         >
-          <Text>Add another agenda to this day</Text>
+          <Icon style={{margin: 5}} name="ios-add-circle" color="green" size={28}/>
+          <Text>Create event</Text>
         </TouchableOpacity>
       );
     }
@@ -136,10 +116,11 @@ class CalendarScreen extends Component {
     // input example: 2018-10-11T18:20:41.180Z
     return (
       <TouchableOpacity
-        style={styles.emptyDate}
+        style={styles.itemAdd}
         onPress={() => this.navigateToAddAgenda(date)}
       >
-        <Text>+</Text>
+        <Icon style={{margin: 5}} name="ios-add-circle" color="green" size={28}/>
+        <Text>Create event</Text>
       </TouchableOpacity>
     );
   }
@@ -155,7 +136,6 @@ class CalendarScreen extends Component {
 
   navigateToAddAgenda(date) {
     // navigate to an add item screen
-    console.debug("Add new item on date: ", date);
     this.props.navigation.navigate("AddAgenda", {
       date: date,
       addAgenda: this.addNewItem.bind(this)
@@ -163,7 +143,6 @@ class CalendarScreen extends Component {
   }
 
   async addNewItem(item) {
-    console.debug("Add new item: ", item);
     const key = CalendarScreen.timeToString(item.date.getTime());
     item.id = await AgendaPersistence.getAndIncrementId();
     this.setState(prevState => {
@@ -181,7 +160,6 @@ class CalendarScreen extends Component {
 
   navigateToEditAgenda(item) {
     // navigate to an edit item screen
-    console.debug("Edit item screen of item: ", item);
     this.props.navigation.navigate("EditAgenda", {
       item: item,
       editAgenda: this.editItem.bind(this),
@@ -190,7 +168,6 @@ class CalendarScreen extends Component {
   }
 
   editItem(item) {
-    console.debug("EditItem: ", item);
     const key = CalendarScreen.timeToString(item.date.getTime());
     this.setState(prevState => {
       const itemsCopy = {...prevState.items};
@@ -213,7 +190,6 @@ class CalendarScreen extends Component {
   }
 
   deleteItem(item) {
-    console.debug("Delete item: ", item);
     const key = CalendarScreen.timeToString(item.date.getTime());
     this.setState(prevState => {
       const itemsCopy = {...prevState.items};
@@ -242,20 +218,21 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   item: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     flex: 1,
     borderRadius: 5,
     padding: 10,
     marginRight: 10,
     marginTop: 17
   },
-  emptyDate: {
-    backgroundColor: "#5fff5c",
-    height: 15,
-    flex:1,
-    justifyContent: "center",
+  itemAdd: {
+    backgroundColor: "white",
+    flex: 1,
+    flexDirection: "row",
     alignItems: "center",
     borderRadius: 5,
-    marginTop: 20
+    padding: 10,
+    marginRight: 10,
+    marginTop: 17
   }
 });

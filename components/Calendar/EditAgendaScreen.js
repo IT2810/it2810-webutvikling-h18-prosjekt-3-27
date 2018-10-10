@@ -6,8 +6,13 @@ import {
   TextInput,
   Button
 } from "react-native";
+import { NavigationEvents } from 'react-navigation';
 
 class EditAgendaScreen extends Component {
+  static navigationOptions = {
+    title: "Edit event"
+  };
+
   state = {
     name: "",
     note: ""
@@ -50,9 +55,19 @@ class EditAgendaScreen extends Component {
     this.props.navigation.navigate("Calendar");
   };
 
+  willFocus = (payload) => {
+    let item;
+    if (this.props.navigation && (item = this.props.navigation.getParam("item"))) {
+      this.setState({name: item.name, note: item.note});
+    }
+  };
+
   render() {
     return (
       <View style={styles.container}>
+        <NavigationEvents
+          onWillFocus={this.willFocus}
+        />
         <Text>EditAgendaScreen</Text>
         <Text>{JSON.stringify(this.props.navigation.getParam("item"))}</Text>
         <Text>Name:</Text>
@@ -69,8 +84,8 @@ class EditAgendaScreen extends Component {
           defaultValue={"A short description..."}
           onChangeText={this.handleNoteChange}
         />
-        <Button title={"Save agenda"} onPress={this.handleSaveAgendaPress}/>
-        <Button title={"Delete agenda"} onPress={this.handleDeleteAgendaPress}/>
+        <Button title={"Save event"} onPress={this.handleSaveAgendaPress}/>
+        <Button title={"Delete event"} onPress={this.handleDeleteAgendaPress}/>
       </View>
     );
   }

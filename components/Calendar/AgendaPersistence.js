@@ -6,6 +6,11 @@ const AGENDA_NEXTID_KEY = "agenda_next_id";
 
 export default class AgendaPersistence {
 
+  /**
+   * Get the next unique ID
+   *
+   * @returns {Promise<number>} a unique id for agendas
+   */
   static async getAndIncrementId() {
     try {
       const nextIdString = await AsyncStorage.getItem(AGENDA_NEXTID_KEY);
@@ -22,6 +27,12 @@ export default class AgendaPersistence {
     }
   }
 
+  /**
+   * Get all stored items in a key-value-object, each key is a date
+   * and each value is a JSON-formatted string of a list of agendas
+   *
+   * @returns {Promise<{}>} all stored agendas
+   */
   static async getAllItems() {
     try {
       const item_ids_json = await AsyncStorage.getItem(AGENDA_ITEM_IDS);
@@ -45,6 +56,13 @@ export default class AgendaPersistence {
     }
   }
 
+  /**
+   * Save an agenda item to persistent storage,
+   * will overwrite existing agenda if any
+   *
+   * @param agenda the agenda object to store
+   * @returns {Promise<void>}
+   */
   static async saveAgenda(agenda) {
     // agenda is an item with property date, name, note, id
     try {
@@ -85,6 +103,11 @@ export default class AgendaPersistence {
     }
   }
 
+  /**
+   * Delete an agenda from persistent storage
+   * @param agenda the agenda to delete, identified by date and id
+   * @returns {Promise<void>}
+   */
   static async deleteAgenda(agenda) {
     // agenda is an item with property date, name, note, id
     try {

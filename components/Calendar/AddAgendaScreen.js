@@ -8,6 +8,9 @@ import {
 } from "react-native";
 
 class AddAgendaScreen extends Component {
+  static navigationOptions = {
+    title: "Add event"
+  };
 
   state = {
     name: "",
@@ -58,7 +61,7 @@ class AddAgendaScreen extends Component {
           defaultValue={"A short description..."}
           onChangeText={this.handleNoteChange}
         />
-        <Button title={"Add new agenda"} onPress={this.handleAddAgendaPress}/>
+        <Button title={"Add new event"} onPress={this.handleAddAgendaPress}/>
       </View>
     );
   }
