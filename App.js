@@ -8,7 +8,11 @@ import Icon from "react-native-vector-icons/Ionicons";
 import {Text} from "react-native-elements";
 import EditContactScreen from "./components/EditContactScreen";
 import TodoScreen from "./components/Todo/TodoScreen"
+import CalendarScreen from "./components/Calendar/CalendarScreen";
+import AddAgendaScreen from "./components/Calendar/AddAgendaScreen";
+import EditAgendaScreen from "./components/Calendar/EditAgendaScreen";
 import PedometerScreen from "./components/Pedometer/PedometerScreen"
+
 
 /*
  * This is the React Native entry point. The component
@@ -30,29 +34,11 @@ import PedometerScreen from "./components/Pedometer/PedometerScreen"
  *    * EditContactScreen
  *   * CalendarStack : StackNavigator
  *    * CalendarScreen
+ *    * AddAgendaScreen
+ *    * EditAgendaScreen
  *   * TodoStack : StackNavigator
  *    * TodoScreen
  *
- */
-
-
-/*
- * These are temporary classes for Calendar,
- * they should be removed once those screens are implemented
- * */
-
-
-class CalendarScreen extends Component{
-  render() {
-    return (
-      <View>
-        <Text>CalendarScreen</Text>
-      </View>
-    );
-  }
-}
-/*
- * END temporary classes
  */
 
 
@@ -67,7 +53,9 @@ const ContactsStack = createStackNavigator({
 });
 
 const CalendarStack = createStackNavigator({
-  Calendar: CalendarScreen
+  Calendar: CalendarScreen,
+  AddAgenda: AddAgendaScreen,
+  EditAgenda: EditAgendaScreen
 });
 
 const TodoStack = createStackNavigator({
