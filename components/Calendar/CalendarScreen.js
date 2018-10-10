@@ -40,9 +40,6 @@ class CalendarScreen extends Component {
         const oldItems = {...prevState.items};
         return {items: Object.assign({}, oldItems, items)};
       });
-      // TODO: set state
-      // TODO: Push aux isLastButton to each array
-      // Remember to include date into isLastButton array
     } catch (e) {
       console.error(e);
     }
@@ -79,8 +76,6 @@ class CalendarScreen extends Component {
       <Agenda
         style={{minHeight: 200}}
         items={this.state.items}
-        minDate={'2018-08-01'}
-        maxDate={'2018-12-31'}
         renderItem={this.renderItem.bind(this)}
         renderEmptyDate={this.renderEmptyDate.bind(this)}
         loadItemsForMonth={this.loadItemsForMonth.bind(this)}
