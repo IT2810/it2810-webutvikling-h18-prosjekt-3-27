@@ -80,7 +80,7 @@ class CalendarScreen extends Component {
     return (
       <TouchableOpacity
         style={[styles.item, {height: item.height}]}
-        onPress={() => this.editItem(item)}
+        onPress={() => this.navigateToEditAgenda(item)}
       >
         <Text>{item.name}</Text>
       </TouchableOpacity>
@@ -93,7 +93,7 @@ class CalendarScreen extends Component {
     return (
       <TouchableOpacity
         style={styles.emptyDate}
-        onPress={() => this.addNewItem(date)}
+        onPress={() => this.navigateToAddAgenda(date)}
       >
         <Text>+</Text>
       </TouchableOpacity>
@@ -101,7 +101,7 @@ class CalendarScreen extends Component {
   }
 
   static rowHasChanged(r1, r2) {
-    return r1.name !== r2.name;
+    return r1.name !== r2.name || r1.note !== r2.note;
   }
 
   static timeToString(time) {
@@ -109,18 +109,37 @@ class CalendarScreen extends Component {
     return date.toISOString().split('T')[0];
   }
 
-  addNewItem(date) {
+  navigateToAddAgenda(date) {
     // navigate to an add item screen
     console.debug("Add new item on date: ", date);
     // TODO: navigate, use callback
-    this.props.navigation.navigate("AddAgenda", {date: date});
+    this.props.navigation.navigate("AddAgenda", {
+      date: date,
+      addAgenda: this.addNewItem.bind(this)
+    });
   }
 
-  editItem(item) {
+  addNewItem(item) {
+    console.debug("Add new item: ", item);
+  }
+
+  navigateToEditAgenda(item) {
     // navigate to an edit item screen
     console.debug("Edit item screen of item: ", item);
     // TODO: navigate, use callback
-    this.props.navigation.navigate("EditAgenda", {item: item});
+    this.props.navigation.navigate("EditAgenda", {
+      item: item,
+      editAgenda: this.editItem.bind(this),
+      removeAgenda: this.deleteItem.bind(this)
+    });
+  }
+
+  editItem(item) {
+    console.debug("EditItem: ", item);
+  }
+
+  deleteItem(item) {
+    console.debug("Delete item: ", item)
   }
 }
 
