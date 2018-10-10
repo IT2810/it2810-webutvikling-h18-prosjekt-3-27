@@ -65,7 +65,7 @@ export default class ContactsScreen extends Component {
     const c = this.state.contacts.find(contact => contact.key === x);
 
     this.setState(prevState => {
-      let contacts = prevState.contacts;
+      const contacts = prevState.contacts.slice();
       const contactToDelete = contacts.find(contact => contact.key === x);
       const index = prevState.contacts.indexOf(contactToDelete);
       contacts.splice(index, 1);
@@ -85,36 +85,29 @@ export default class ContactsScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-
         <View>
-
           <FlatList
-          data={this.state.contacts}
-          keyExtractor={contact => "" + contact.key}
-          renderItem={({item}) =>
-            <TouchableOpacity onPress={() => {
-              this.props.navigation.navigate("EditContact", {deleteContact: this.deleteContact, contact: item});
-            }}>
-
-
-              <View style={styles.contactList}>
-
-                <View style={styles.contactIcon}>
-                  <Icon name="ios-person" color={'green'} size={50}/>
+            data={this.state.contacts}
+            keyExtractor={contact => "" + contact.key}
+            renderItem={({item}) =>
+              <TouchableOpacity onPress={() => {
+                this.props.navigation.navigate("EditContact", {deleteContact: this.deleteContact, contact: item});
+              }}>
+                <View style={styles.contactList}>
+                  <View>
+                    <Icon name="ios-person" color={'green'} size={50}/>
+                  </View>
+                  <View style={styles.contact}>
+                    <Text style={styles.name}>
+                      {item.name}
+                    </Text>
+                    <Text style={styles.number}>
+                      {item.number}
+                    </Text>
+                  </View>
                 </View>
-
-                <View style = {styles.contact}>
-                  <Text style={styles.name}>
-                    {item.name}
-                  </Text>
-                  <Text style={styles.number}>
-                    {item.number}
-                  </Text>
-                </View>
-
-              </View>
-            </TouchableOpacity>}
-            />
+              </TouchableOpacity>}
+          />
         </View>
 
         <View style={styles.button}>
@@ -207,7 +200,7 @@ class C {
       await AsyncStorage.setItem("CONTACT_IDS", JSON.stringify(keys));
 
       //remove key from asyncstorage
-      await AsyncStorage.removeItem(c.key);
+      await AsyncStorage.removeItem(c.key.toString());
     } catch (e) {
       console.error(e);
     }
