@@ -1,10 +1,27 @@
 import { AsyncStorage } from "react-native";
 
 const AGENDA_ITEM_IDS = "agenda_item_ids";
+const AGENDA_NEXTID_KEY = "agenda_next_id";
 
 const logError = error => console.error(error);
 
 export default class AgendaPersistence {
+
+  static async getAndIncrementId() {
+    try {
+      const nextIdString = await AsyncStorage.getItem(AGENDA_NEXTID_KEY, logError);
+      let nextId;
+      if (nextIdString) {
+        nextId = JSON.parse(nextIdString);
+      } else {
+        nextId = 0;
+      }
+      await AsyncStorage.setItem(AGENDA_NEXTID_KEY, nextId + 1);
+      return nextId;
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   static async getAllItems() {
     try {

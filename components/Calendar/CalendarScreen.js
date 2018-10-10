@@ -159,12 +159,10 @@ class CalendarScreen extends Component {
     });
   }
 
-  addNewItem(item) {
+  async addNewItem(item) {
     console.debug("Add new item: ", item);
     const key = CalendarScreen.timeToString(item.date.getTime());
-    // TODO: Get next item id from persistence, and assign to item
-    // For now, use random id
-    item.id = Math.floor(Math.random()*1000000);
+    item.id = await AgendaPersistence.getAndIncrementId();
     this.setState(prevState => {
       const itemsCopy = {...prevState.items};
       if (!(key in itemsCopy)) {
@@ -175,6 +173,7 @@ class CalendarScreen extends Component {
       itemsCopy[key].push({date: item.date, isLastButton: true});
       return {items: itemsCopy};
     })
+    // TODO: save to persistent storage
   }
 
   navigateToEditAgenda(item) {
