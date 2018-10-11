@@ -18,6 +18,31 @@ class EditAgendaScreen extends Component {
     note: ""
   };
 
+  willFocusSubscription = null;
+
+  componentDidMount() {
+    if (this.props.navigation) {
+      this.willFocusSubscription = this.props.navigation.addListener(
+        "willFocus",
+        this.willFocus
+        );
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.willFocusSubscription) {
+      this.willFocusSubscription.remove();
+    }
+  }
+
+  willFocus = (payload) => {
+    let item;
+    if (this.props.navigation && (item = this.props.navigation.getParam("item"))) {
+      this.setState({name: item.name, note: item.note});
+    }
+  };
+
+
   handleNameChange = (text) => {
     this.setState({name: text});
   };
@@ -55,19 +80,9 @@ class EditAgendaScreen extends Component {
     this.props.navigation.navigate("Calendar");
   };
 
-  willFocus = (payload) => {
-    let item;
-    if (this.props.navigation && (item = this.props.navigation.getParam("item"))) {
-      this.setState({name: item.name, note: item.note});
-    }
-  };
-
   render() {
     return (
       <View style={styles.container}>
-        <NavigationEvents
-          onWillFocus={this.willFocus}
-        />
         <Text style={styles.margins}>Name:</Text>
         <TextInput
           style={[styles.textInput, styles.margins]}

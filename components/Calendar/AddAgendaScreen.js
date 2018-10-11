@@ -43,11 +43,19 @@ class AddAgendaScreen extends Component {
     this.props.navigation.navigate("Calendar");
   };
 
+  getDateReadable() {
+    if (this.props.navigation) {
+      const date = this.props.navigation.getParam("date");
+      return CalendarScreen.timeToString(date);
+    }
+    return "No date";
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={[styles.margins, {fontSize: 26}]}>
-          {CalendarScreen.timeToString(this.props.navigation.getParam("date"))}
+          {this.getDateReadable()}
         </Text>
         <Text style={styles.margins}>Name:</Text>
         <TextInput
