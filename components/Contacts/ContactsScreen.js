@@ -58,6 +58,7 @@ export default class ContactsScreen extends Component {
       });
       // save contact to persistent storage
       await C.saveContact(myContact);
+      console.log(myContact);
     } catch (e) {
       console.error(e);
     }
