@@ -7,6 +7,7 @@ it("renders correctly", () => {
   shallow.render(<CalendarScreen/>);
   const result = shallow.getRenderOutput();
   expect(result.props.children).toBeFalsy();
+  expect(result).toMatchSnapshot();
 });
 
 describe("test static helper methods", () => {
