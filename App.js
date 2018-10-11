@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 import {createBottomTabNavigator, createStackNavigator} from "react-navigation";
 import HomeScreen from "./components/HomeScreen";
-import ContactsScreen from "./components/ContactsScreen";
-import AddContactScreen from "./components/AddContactScreen";
+import ContactsScreen from "./components/Contacts/ContactsScreen";
+import AddContactScreen from "./components/Contacts/AddContactScreen";
 import Icon from "react-native-vector-icons/Ionicons";
 import {Text} from "react-native-elements";
-import EditContactScreen from "./components/EditContactScreen";
+import EditContactScreen from "./components/Contacts/EditContactScreen";
 import TodoScreen from "./components/Todo/TodoScreen"
 import CalendarScreen from "./components/Calendar/CalendarScreen";
 import AddAgendaScreen from "./components/Calendar/AddAgendaScreen";

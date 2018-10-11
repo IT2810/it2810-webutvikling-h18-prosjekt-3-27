@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "stretch",
+      "backgroundColor": "white",
+      "flex": 1,
+    }
+  }
+>
+  <Component
+    style={
+      Object {
+        "alignItems": "center",
+        "padding": 20,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "green",
+          "fontSize": 40,
+        }
+      }
+    >
+      
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "grey",
+          "fontSize": 30,
+          "margin": 20,
+        }
+      }
+    >
+      
+    </Text>
+  </Component>
+  <Component
+    style={
+      Object {
+        "bottom": 0,
+        "marginBottom": 10,
+        "position": "absolute",
+        "width": "100%",
+      }
+    }
+  >
+    <Button
+      color="green"
+      onPress={[Function]}
+      title="delete"
+    />
+  </Component>
+</Component>
+`;

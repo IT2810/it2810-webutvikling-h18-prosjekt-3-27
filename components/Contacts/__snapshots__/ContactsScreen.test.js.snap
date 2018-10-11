@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "stretch",
+      "backgroundColor": "white",
+      "flex": 1,
+      "flexDirection": "column",
+      "paddingBottom": 15,
+    }
+  }
+>
+  <ScrollViewMock>
+    <FlatList
+      data={Array []}
+      disableVirtualization={false}
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+  </ScrollViewMock>
+  <Component
+    style={
+      Object {
+        "backgroundColor": "white",
+        "bottom": 0,
+        "marginBottom": 10,
+        "position": "absolute",
+        "width": "100%",
+      }
+    }
+  >
+    <Button
+      color="green"
+      icon={
+        <Icon
+          allowFontScaling={false}
+          color="white"
+          name="ios-person-add"
+          size={12}
+        />
+      }
+      onPress={[Function]}
+      title="Add Contact"
+    />
+  </Component>
+</Component>
+`;
