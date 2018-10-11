@@ -56,6 +56,16 @@ const CalendarStack = createStackNavigator({
   EditAgenda: EditAgendaScreen
 });
 
+// hide tabbar on certain screens
+// from https://reactnavigation.org/docs/en/navigation-options-resolution.html
+CalendarStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+  return {tabBarVisible};
+};
+
 const TodoStack = createStackNavigator({
   Todo: TodoScreen
 });

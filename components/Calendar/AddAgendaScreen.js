@@ -6,6 +6,7 @@ import {
   TextInput,
   Button
 } from "react-native";
+import CalendarScreen from "./CalendarScreen";
 
 class AddAgendaScreen extends Component {
   static navigationOptions = {
@@ -45,21 +46,29 @@ class AddAgendaScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Name:</Text>
+        <Text style={[styles.margins, {fontSize: 26}]}>
+          {CalendarScreen.timeToString(this.props.navigation.getParam("date"))}
+        </Text>
+        <Text style={styles.margins}>Name:</Text>
         <TextInput
-          style={styles.textInput}
+          style={[styles.margins, styles.textInput]}
           value={this.state.name}
-          defaultValue={"Name"}
+          underlineColorAndroid="transparent"
+          placeholder={"Name"}
           onChangeText={this.handleNameChange}
         />
-        <Text>Description:</Text>
+        <Text style={styles.margins}>Description:</Text>
         <TextInput
-          style={styles.textInput}
+          style={[styles.margins, styles.textInput]}
           value={this.state.note}
-          defaultValue={"A short description..."}
+          multiline={true}
+          numberOfLines={5}
+          underlineColorAndroid="transparent"
+          textAlignVertical="top"
+          placeholder={"Enter description..."}
           onChangeText={this.handleNoteChange}
         />
-        <Button title={"Add new event"} onPress={this.handleAddAgendaPress}/>
+        <Button style={styles.margins} title={"Add new event"} onPress={this.handleAddAgendaPress}/>
       </View>
     );
   }
@@ -73,7 +82,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start"
   },
+  margins: {
+    marginTop: 10,
+    marginBottom: 10
+  },
   textInput: {
-    width: "80%"
+    width: "80%",
+    padding: 5,
+    borderWidth: 1,
+    borderColor: "#000"
   }
 });

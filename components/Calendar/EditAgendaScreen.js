@@ -68,21 +68,27 @@ class EditAgendaScreen extends Component {
         <NavigationEvents
           onWillFocus={this.willFocus}
         />
-        <Text>Name:</Text>
+        <Text style={styles.margins}>Name:</Text>
         <TextInput
-          style={styles.textInput}
+          style={[styles.textInput, styles.margins]}
           value={this.state.name}
-          defaultValue={"Name"}
+          underlineColorAndroid="transparent"
+          placeholder={"Name"}
           onChangeText={this.handleNameChange}
         />
-        <Text>Description:</Text>
+        <Text style={styles.margins}>Description:</Text>
         <TextInput
-          style={styles.textInput}
+          style={[styles.textInput, styles.margins]}
           value={this.state.note}
-          defaultValue={"A short description..."}
+          multiline={true}
+          numberOfLines={5}
+          underlineColorAndroid="transparent"
+          textAlignVertical="top"
+          placeholder={"Enter description..."}
           onChangeText={this.handleNoteChange}
         />
         <Button title={"Save event"} onPress={this.handleSaveAgendaPress}/>
+        <View style={{margin: 10}}/>
         <Button title={"Delete event"} onPress={this.handleDeleteAgendaPress}/>
       </View>
     );
@@ -97,7 +103,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start"
   },
+  margins: {
+    marginTop: 10,
+    marginBottom: 10
+  },
   textInput: {
-    width: "80%"
+    width: "80%",
+    padding: 5,
+    borderWidth: 1,
+    borderColor: "#000"
   }
 });
