@@ -1,15 +1,10 @@
 import React, {Component} from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity
-} from "react-native";
 import { Agenda } from 'react-native-calendars';
+import AddEvent from "./AddEvent";
+import Event from "./Event";
 import AgendaPersistence from "./AgendaPersistence";
-import Icon from "react-native-vector-icons/Ionicons";
 
-class CalendarScreen extends Component {
+export default class CalendarScreen extends Component {
 
   static navigationOptions = {
     title: "Calendar"
@@ -88,35 +83,27 @@ class CalendarScreen extends Component {
   renderItem(item) {
     if (item.isLastButton) {
       return (
-        <TouchableOpacity
-          style={styles.itemAdd}
-          onPress={() => this.navigateToAddAgenda(item.date)}
-        >
-          <Icon style={{margin: 5}} name="ios-add-circle" color="green" size={28}/>
-          <Text>Create event</Text>
-        </TouchableOpacity>
+        <AddEvent
+          date={item.date}
+          onAddAgenda={this.navigateToAddAgenda}
+        />
       );
     }
     return (
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => this.navigateToEditAgenda(item)}
-      >
-        <Text>{item.name}</Text>
-      </TouchableOpacity>
+      <Event
+        event={item}
+        onEventPress={this.navigateToEditAgenda}
+      />
     );
   }
 
   renderEmptyDate(date) {
     // input example: 2018-10-11T18:20:41.180Z
     return (
-      <TouchableOpacity
-        style={styles.itemAdd}
-        onPress={() => this.navigateToAddAgenda(date)}
-      >
-        <Icon style={{margin: 5}} name="ios-add-circle" color="green" size={28}/>
-        <Text>Create event</Text>
-      </TouchableOpacity>
+      <AddEvent
+        date={date}
+        onAddAgenda={this.navigateToAddAgenda}
+      />
     );
   }
 
@@ -129,13 +116,13 @@ class CalendarScreen extends Component {
     return date.toISOString().split('T')[0];
   }
 
-  navigateToAddAgenda(date) {
+  navigateToAddAgenda = (date) => {
     // navigate to an add item screen
     this.props.navigation.navigate("AddAgenda", {
       date: date,
       addAgenda: this.addNewItem.bind(this)
     });
-  }
+  };
 
   async addNewItem(item) {
     const key = CalendarScreen.timeToString(item.date.getTime());
@@ -153,14 +140,14 @@ class CalendarScreen extends Component {
     await AgendaPersistence.saveAgenda(item);
   }
 
-  navigateToEditAgenda(item) {
+  navigateToEditAgenda = (item) => {
     // navigate to an edit item screen
     this.props.navigation.navigate("EditAgenda", {
       item: item,
       editAgenda: this.editItem.bind(this),
       removeAgenda: this.deleteItem.bind(this)
     });
-  }
+  };
 
   editItem(item) {
     const key = CalendarScreen.timeToString(item.date.getTime());
@@ -204,30 +191,3 @@ class CalendarScreen extends Component {
     AgendaPersistence.deleteAgenda(item);
   }
 }
-
-export default CalendarScreen;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  item: {
-    backgroundColor: "white",
-    flex: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17
-  },
-  itemAdd: {
-    backgroundColor: "white",
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17
-  }
-});
