@@ -5,6 +5,7 @@ exports[`renders correctly 1`] = `
   style={
     Object {
       "alignItems": "center",
+      "backgroundColor": "white",
       "flex": 1,
       "justifyContent": "flex-start",
     }
@@ -43,6 +44,7 @@ exports[`renders correctly 1`] = `
   </Text>
   <TextInput
     allowFontScaling={true}
+    autoCorrect={false}
     onChangeText={[Function]}
     placeholder="Name"
     style={
@@ -77,6 +79,7 @@ exports[`renders correctly 1`] = `
   </Text>
   <TextInput
     allowFontScaling={true}
+    autoCorrect={false}
     multiline={true}
     numberOfLines={5}
     onChangeText={[Function]}

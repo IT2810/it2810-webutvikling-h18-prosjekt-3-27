@@ -64,6 +64,7 @@ class AddAgendaScreen extends Component {
           underlineColorAndroid="transparent"
           placeholder={"Name"}
           onChangeText={this.handleNameChange}
+          autoCorrect={false}
         />
         <Text style={styles.margins}>Description:</Text>
         <TextInput
@@ -75,6 +76,7 @@ class AddAgendaScreen extends Component {
           textAlignVertical="top"
           placeholder={"Enter description..."}
           onChangeText={this.handleNoteChange}
+          autoCorrect={false}
         />
         <Button style={styles.margins} title={"Add new event"} onPress={this.handleAddAgendaPress}/>
       </View>
@@ -88,7 +90,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
+    backgroundColor: "white"
   },
   margins: {
     marginTop: 10,
