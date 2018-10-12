@@ -5,6 +5,7 @@ import randomColor from "randomcolor";
 import ContactList from './ContactList';
 
 
+
 /**
  * This is the root component for the contacts screen
  */
@@ -18,7 +19,13 @@ export default class ContactsScreen extends Component {
     };
   }
 
-
+  static navigationOptions = {
+    title: "Contacts",
+    headerTitleStyle: {
+      textAlign: "center",
+      flex: 1
+    }
+  };
 
   componentDidMount() {
     // fetch contacts (if any) from persistent storage
