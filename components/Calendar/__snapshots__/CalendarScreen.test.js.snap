@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<AgendaView
+  firstDay={1}
+  items={Object {}}
+  loadItemsForMonth={[Function]}
+  renderEmptyDate={[Function]}
+  renderItem={[Function]}
+  rowHasChanged={[Function]}
+  style={
+    Object {
+      "minHeight": 200,
+    }
+  }
+/>
+`;
