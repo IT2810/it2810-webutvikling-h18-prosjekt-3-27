@@ -10,7 +10,6 @@ export default class ContactList extends Component {
 
 
   handlePress = (item) => {
-  console.log(item);
   this.props.onContactPress(item);
 };
 

@@ -13,6 +13,14 @@ export default class AddContactScreen extends Component {
     number: "",
   };
 
+  static navigationOptions = {
+    title: "Add Contact",
+    headerTitleStyle: {
+      flex: 1,
+      alignItems: "center",
+    }
+  };
+
   changeTextHandlerName = name => {
     this.setState({name: name});
   };
@@ -46,6 +54,7 @@ export default class AddContactScreen extends Component {
                    placeholder="Name"
         />
         <TextInput style={styles.input}
+                   keyboardType='numeric'
                    onChangeText={this.changeTextHandlerNumber}
                    value={this.state.number}
                    placeholder="Phone"
@@ -71,7 +80,9 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
+    borderRadius: 5,
     margin: 20,
+    padding: 5,
   }
 });
 
