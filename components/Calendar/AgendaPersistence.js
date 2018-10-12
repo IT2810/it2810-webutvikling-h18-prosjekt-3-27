@@ -28,6 +28,30 @@ export default class AgendaPersistence {
   }
 
   /**
+   * Retrieves a list of dates that have agendas stored, and
+   * initializes the list if not found internally.
+   *
+   * Not expected to be useful for external calls.
+   *
+   *
+   * @returns {Promise<*>} a list of dates that have agendas
+   */
+  static async getDatesSafe() {
+    try {
+      const item_ids_json = await AsyncStorage.getItem(AGENDA_ITEM_IDS);
+      if (!item_ids_json) {
+        // not initialized, initialize items
+        const initIds = [];
+        await AsyncStorage.setItem(AGENDA_ITEM_IDS, JSON.stringify(initIds));
+        return initIds;
+      }
+      return JSON.parse(item_ids_json);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  /**
    * Get all stored items in a key-value-object, each key is a date
    * and each value is a JSON-formatted string of a list of agendas
    *
@@ -35,15 +59,8 @@ export default class AgendaPersistence {
    */
   static async getAllItems() {
     try {
-      const item_ids_json = await AsyncStorage.getItem(AGENDA_ITEM_IDS);
-      if (!item_ids_json) {
-        // not initialized, initialize items
-        const initIds = [];
-        await AsyncStorage.setItem(AGENDA_ITEM_IDS, JSON.stringify(initIds));
-        return {};
-      }
-      const item_ids = JSON.parse(item_ids_json);
-      const keyValuePair = await AsyncStorage.multiGet(item_ids);
+      const item_dates = await AgendaPersistence.getDatesSafe();
+      const keyValuePair = await AsyncStorage.multiGet(item_dates);
       const items = {};
       keyValuePair.forEach(keyValue => {
         const key = keyValue[0];
@@ -67,8 +84,7 @@ export default class AgendaPersistence {
     // agenda is an item with property date, name, note, id
     try {
       // find the list of all stored dates
-      const item_ids_json = await AsyncStorage.getItem(AGENDA_ITEM_IDS);
-      const item_ids = JSON.parse(item_ids_json);
+      const item_ids = await AgendaPersistence.getDatesSafe();
       // get our date
       const key = CalendarScreen.timeToString(agenda.date.getTime());
       // has this date been written to before?
@@ -134,8 +150,7 @@ export default class AgendaPersistence {
           await AsyncStorage.removeItem(key);
           // must also remove it from the list of all dates
           // find the list of all stored dates
-          const item_ids_json = await AsyncStorage.getItem(AGENDA_ITEM_IDS);
-          const item_ids = JSON.parse(item_ids_json);
+          const item_ids = await AgendaPersistence.getDatesSafe();
           // is this date in the list?
           let keyIndex;
           if ((keyIndex = item_ids.findIndex(element => element === key)) !== -1) {

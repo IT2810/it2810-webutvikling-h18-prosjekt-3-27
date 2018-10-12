@@ -18,6 +18,31 @@ class EditAgendaScreen extends Component {
     note: ""
   };
 
+  willFocusSubscription = null;
+
+  componentDidMount() {
+    if (this.props.navigation) {
+      this.willFocusSubscription = this.props.navigation.addListener(
+        "willFocus",
+        this.willFocus
+        );
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.willFocusSubscription) {
+      this.willFocusSubscription.remove();
+    }
+  }
+
+  willFocus = (payload) => {
+    let item;
+    if (this.props.navigation && (item = this.props.navigation.getParam("item"))) {
+      this.setState({name: item.name, note: item.note});
+    }
+  };
+
+
   handleNameChange = (text) => {
     this.setState({name: text});
   };
@@ -55,34 +80,32 @@ class EditAgendaScreen extends Component {
     this.props.navigation.navigate("Calendar");
   };
 
-  willFocus = (payload) => {
-    let item;
-    if (this.props.navigation && (item = this.props.navigation.getParam("item"))) {
-      this.setState({name: item.name, note: item.note});
-    }
-  };
-
   render() {
     return (
       <View style={styles.container}>
-        <NavigationEvents
-          onWillFocus={this.willFocus}
-        />
-        <Text>Name:</Text>
+        <Text style={styles.margins}>Name:</Text>
         <TextInput
-          style={styles.textInput}
+          style={[styles.textInput, styles.margins]}
           value={this.state.name}
-          defaultValue={"Name"}
+          underlineColorAndroid="transparent"
+          placeholder={"Name"}
           onChangeText={this.handleNameChange}
+          autoCorrect={false}
         />
-        <Text>Description:</Text>
+        <Text style={styles.margins}>Description:</Text>
         <TextInput
-          style={styles.textInput}
+          style={[styles.textInput, styles.margins]}
           value={this.state.note}
-          defaultValue={"A short description..."}
+          multiline={true}
+          numberOfLines={5}
+          underlineColorAndroid="transparent"
+          textAlignVertical="top"
+          placeholder={"Enter description..."}
           onChangeText={this.handleNoteChange}
+          autoCorrect={false}
         />
         <Button title={"Save event"} onPress={this.handleSaveAgendaPress}/>
+        <View style={{margin: 10}}/>
         <Button title={"Delete event"} onPress={this.handleDeleteAgendaPress}/>
       </View>
     );
@@ -95,9 +118,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
+    backgroundColor: "white"
+  },
+  margins: {
+    marginTop: 10,
+    marginBottom: 10
   },
   textInput: {
-    width: "80%"
+    width: "80%",
+    padding: 5,
+    borderWidth: 1,
+    borderColor: "#000"
   }
 });

@@ -1,17 +1,15 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
 import {createBottomTabNavigator, createStackNavigator} from "react-navigation";
 import HomeScreen from "./components/HomeScreen";
 import ContactsScreen from "./components/ContactsScreen";
 import AddContactScreen from "./components/AddContactScreen";
 import Icon from "react-native-vector-icons/Ionicons";
-import {Text} from "react-native-elements";
 import EditContactScreen from "./components/EditContactScreen";
 import TodoScreen from "./components/Todo/TodoScreen"
 import CalendarScreen from "./components/Calendar/CalendarScreen";
 import AddAgendaScreen from "./components/Calendar/AddAgendaScreen";
 import EditAgendaScreen from "./components/Calendar/EditAgendaScreen";
-import PedometerScreen from "./components/Pedometer/PedometerScreen"
+import PedometerScreen from "./components/Pedometer/PedometerScreen";
 
 
 /*
@@ -57,6 +55,16 @@ const CalendarStack = createStackNavigator({
   AddAgenda: AddAgendaScreen,
   EditAgenda: EditAgendaScreen
 });
+
+// hide tabbar on certain screens
+// from https://reactnavigation.org/docs/en/navigation-options-resolution.html
+CalendarStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+  return {tabBarVisible};
+};
 
 const TodoStack = createStackNavigator({
   Todo: TodoScreen
