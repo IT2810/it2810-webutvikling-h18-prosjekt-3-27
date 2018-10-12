@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {AsyncStorage, Button, FlatList, StyleSheet, Text, TouchableOpacity, ScrollView, View,} from "react-native";
+import {AsyncStorage, Button, StyleSheet, ScrollView, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import randomColor from "randomcolor";
 import ContactList from './ContactList';

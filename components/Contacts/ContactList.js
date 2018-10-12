@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import {FlatList, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
+import {FlatList, TouchableOpacity,} from "react-native";
 import Contact from "./Contact";
 
 export default class ContactList extends Component {

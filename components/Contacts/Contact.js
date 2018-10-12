@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {FlatList, StyleSheet, Text, TouchableOpacity, ScrollView, View,} from "react-native";
+import {StyleSheet, Text, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 

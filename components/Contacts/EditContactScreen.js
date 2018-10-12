@@ -38,7 +38,7 @@ export default class EditContactScreen extends Component {
           <Button
             color='green'
             onPress={this.handleDeletePress}
-            title={"delete"}
+            title={"Delete"}
           />
         </View>
       </View>
