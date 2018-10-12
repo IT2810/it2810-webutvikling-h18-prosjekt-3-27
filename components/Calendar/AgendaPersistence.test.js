@@ -52,6 +52,9 @@ describe("Test AgendaPersistence", () => {
       id: 25
     };
     await AgendaPersistence.saveAgenda(agenda);
+    const resultWithAgenda = await AgendaPersistence.getAllItems();
+    expect(resultWithAgenda).toBeDefined();
+    expect(Object.keys(resultWithAgenda).length).toEqual(1);
     await AgendaPersistence.deleteAgenda(agenda);
     const result = await AgendaPersistence.getAllItems();
     expect(result).toBeDefined();
