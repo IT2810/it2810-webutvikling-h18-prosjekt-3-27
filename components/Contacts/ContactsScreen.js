@@ -1,17 +1,30 @@
 import React, {Component} from "react";
-import {AsyncStorage, Button, FlatList, StyleSheet, Text, TouchableOpacity, ScrollView, View,} from "react-native";
+import {AsyncStorage, Button, StyleSheet, ScrollView, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import randomColor from "randomcolor";
+import ContactList from './ContactList';
+
 
 
 /**
  * This is the root component for the contacts screen
  */
 export default class ContactsScreen extends Component {
-  state = {
-    contacts: [],
-    name: "",
-    pressed: ""
+  constructor(props) {
+    super(props);
+    this.state = {
+      contacts: [],
+      name: "",
+      pressed: ""
+    };
+  }
+
+  static navigationOptions = {
+    title: "Contacts",
+    headerTitleStyle: {
+      textAlign: "center",
+      flex: 1
+    }
   };
 
   componentDidMount() {
@@ -63,6 +76,7 @@ export default class ContactsScreen extends Component {
     }
   };
 
+
   deleteContact = x => {
     const c = this.state.contacts.find(contact => contact.key === x);
 
@@ -84,33 +98,26 @@ export default class ContactsScreen extends Component {
     this.props.navigation.navigate("AddContact", {addContact: this.addContact});
   };
 
+  //callbackfunction
+  handleContactPress = (item) => {
+    this.props.navigation.navigate("EditContact", {deleteContact: this.deleteContact, contact: item});
+  };
+
+
   render() {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <FlatList
-            data={this.state.contacts}
-            keyExtractor={contact => "" + contact.key}
-            renderItem={({item}) =>
-              <TouchableOpacity onPress={() => {
-                this.props.navigation.navigate("EditContact", {deleteContact: this.deleteContact, contact: item});
-              }}>
-                <View style={styles.contactList}>
-                  <View>
-                    <Icon name="ios-person" color={item.color} size={50}/>
-                  </View>
-                  <View style={styles.contact}>
-                    <Text style={{color: item.color}}>
-                      {item.name}
-                    </Text>
-                    <Text style={styles.number}>
-                      {item.number}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>}
-          />
+
+        <ContactList
+          contacts={this.state.contacts}
+          onDeleteContact={this.deleteContact}
+          onAddContact={this.handleAddContactPress}
+          onContactPress={this.handleContactPress}
+        />
+
         </ScrollView>
+
         <View style={styles.button}>
           <Button
             icon={<Icon name="ios-person-add" color="white" />}
@@ -215,22 +222,6 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     alignItems: "stretch",
 
-  },
-  contactList: {
-    margin: 10,
-    flexDirection: 'row',
-  },
-
-  contact: {
-    paddingTop: 7,
-    paddingLeft: 5,
-  },
-
-  name: {
-  },
-
-  number: {
-    color: 'grey',
   },
   button: {
     position: 'absolute',
