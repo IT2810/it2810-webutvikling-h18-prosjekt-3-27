@@ -17,7 +17,7 @@ export default class AddContactScreen extends Component {
     title: "Add Contact",
     headerTitleStyle: {
       flex: 1,
-      alignItems: "center",
+      textAlign: "center",
     }
   };
 
