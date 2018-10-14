@@ -1,8 +1,6 @@
 import {Component} from "react";
 import {AsyncStorage} from "react-native";
 
-
-
 /**
  * This class has static methods for handling persistent storage
  */
