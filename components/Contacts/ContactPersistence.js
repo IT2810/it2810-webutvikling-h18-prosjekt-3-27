@@ -5,12 +5,9 @@ import {AsyncStorage} from "react-native";
 
 /**
  * This class has static methods for handling persistent storage
- *
- * The classname is terse to make code more readable
  */
 
 export default class ContactPersistence extends Component {
-
   /**
    * Save a contact object to persistent storage
    *
