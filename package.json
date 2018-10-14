@@ -4,6 +4,13 @@
   "private": true,
   "scripts": {
     "test": "node_modules/.bin/jest"
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "eject": "expo eject",
+    "test": "jest",
+    "testnode": "node node_modules/jest/bin/jest.js",
+    "updatesnapshots": "node node_modules/jest/bin/jest.js -u"
   },
   "dependencies": {
     "enzyme": "^3.7.0",
