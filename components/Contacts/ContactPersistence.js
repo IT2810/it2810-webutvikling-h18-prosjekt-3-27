@@ -16,7 +16,6 @@ export default class ContactPersistence extends Component {
    * @param contact the contact to save
    * @returns {Promise<void>} the returned promise can be ignored
    */
-
   static async saveContact(contact) {
     const ids = await ContactPersistence.allIds();
     if (!ids.includes(contact.key)) {
@@ -56,7 +55,6 @@ export default class ContactPersistence extends Component {
     return contactsJson.map(elementJson => JSON.parse(elementJson));
   }
 
-
   static deleteContact = async (c) => {
     try {
       //get all IDS
@@ -71,7 +69,6 @@ export default class ContactPersistence extends Component {
         //delete it
         keys.splice(index, 1);
       }
-
 
       // Set new contact_ids
       await AsyncStorage.setItem("CONTACT_IDS", JSON.stringify(keys));
