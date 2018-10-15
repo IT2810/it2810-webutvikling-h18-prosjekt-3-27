@@ -31,9 +31,9 @@ I skrittelleren kan man se hvor mange skritt man har gått og hvor langt på vei
 Her følger en beskrivelse av strukturen i prosjektet vårt med de sentrale filene:
 
 - App - rotelementet
-  - `App.js` inneholder navigasjonsstrukturen for appen. Se seksjon under for en beskrivelse av React Navigation, som er biblioteket vi brukte for navigasjon.
+  - `App.js` inneholder navigasjonsstrukturen for appen. Se seksjonen "Tutorials" under for en beskrivelse av React Navigation, som er biblioteket vi brukte for navigasjon.
 - Contacts
-  - `ContactsScreen.js` er hovedkomponenten og inneholder metodene for å hente, lagre og slette kontakter samt og oppdatere state. 
+  - `ContactsScreen.js` er hovedkomponenten og inneholder metodene for å hente, lagre og slette kontakter samt å oppdatere state. 
   - `AddContactScreen.js` er komponenten man kommer til ved å trykke på 'Add Contact' i hovedkomponenten. Her blir man møtt med to tekstinputs for navn og nummer, og en knapp for å legge til kontakten. 
   - `EditContactScreen.js` er komponenten man kommer til ved å trykke på en eksisterende kontakt slik at man kan slette den ved å trykke på 'Delete'
   - `ContactPersistence.js` er en innkapsling av AsyncStorage.
@@ -66,43 +66,40 @@ i prosessen med for eksempel todo-oppgavene og prosessen mot 10000 steg i pedome
 ett kjapt google-søk, så fant vi RNP og fant ut at det var akkurat det vi trengte, og at det dekket
 begge behovene på en enkel måte. 
 
-Vi brukte randomColor bare for å legge til et ekstra lag med farge og dynamikk i applikasjonen. RandomColor 
+Vi brukte randomColor til å legge til et ekstra lag med farge og dynamikk i applikasjonen. RandomColor 
 er et enkelt bibliotek å bruke, hvor man gir en fargegruppe og en ønsket lyshet, og får en tilfeldig farge
 i retur. Dette tok vi i bruk i både kontaktlista og 'Todo'-lista vår. 
 
-**React Navigation**
-
-Vi utforsket forskjellige alternativer for navigasjonssystem, og valgte å bruke en pakke som håndterer state for oss og gir mange ulike navigasjonskomponenter som vi ellers hadde måtte utvikle for hånd: React Navigation.
-React Navigation tilbyr flere viktige elementer som ikke er innebygd i React Native som å navigere mellom forksjellige sider av appen på, og håndtere navigasjonshistorikken.
-
-Når man bruker kontaktlista og kalenderen er man innom flere forskjellige skjermen. F.eks når man ønsker å legge til en kontakt, så bruker vi React Navigation til å navigere brukeren til en ny skjerm hvor dette kan gjøres.
-
-Headeren er et element som er inkludert automatisk av Stack Navigator. I headeren er det en "tilbake"-knapp som vil føre brukeren tilbake til forrige aktive side. Siden dette er inkludert automatisk er det mye enklere enn om vi skulle ha måtte utviklet dette selv.
-
-React Navigation legger til og fjerner ting fra navigation stacken mens brukerer navigerer seg rundt. Den tilbyr animasjoner og overganger.  En annen stor grunn til at vi valge å pakken React Navigation er for implementering av tab-baren, noe som React Navigation forenkler vha `createBottomTabNavigator`.
-
-
-### Tutorials
-
 #### React Navigation
-Vi har brukt biblioteket React Navigation, noe vi velger å bruke siden det tilbyr flere viktige elementer som ikke er innebygd i React Native, som å navigere mellom forksjellige sider i appen, og håndtere navigasjonshistorikken, samt implementering av tab-bar.
+
+Vi utforsket forskjellige alternativer for navigasjonssystem. Dette er noe man kan lage selv ved å ha React-komponenter som lagrer hvor brukeren er, og bruk av betinget visning basert på state. Dette er fint mulig å utvikle i React fra bunnen av, men ville kreve betydelig arbeid og alle komponenter for navigasjon (slik som faner, stacks, mm.) ville måtte utvikles og testes fra bunnen av. I stedet valgte vi å bruke en pakke som håndterer dette for oss: React Navigation.
+
+Når man bruker kontaktlista og kalenderen er man innom flere forskjellige skjermer. F.eks. når man ønsker å legge til en kontakt, så bruker vi React Navigation til å navigere brukeren til en ny skjerm hvor dette kan gjøres. React Navigation tilbyr flere viktige elementer som forenkler denne prosessen. Disse diskuteres nærmere i guiden i neste seksjon.
+
+## Tutorials
+
+I denne seksjonen forklarer vi hvordan man bruker de mer komplekse bibliotekene vi har tatt i bruk og nå er blitt kjente med. Vi har lært mye om flere biblioteker i løpet av prosjektet og har derfor valgt å lage flere guider, selv om minimumskravet til dokumentasjonen var én guide.
+
+### React Navigation
+
+Som nevnt over har vi brukt pakken React Navigation til å håndtere navigasjonstilstand. Her følger en guide for installasjon og bruk av React Navigation.
 
 
-##### Installasjon av React Navigation
-React Navgation installeres ved kommandoen
+#### Installasjon av React Navigation
+React Navigation installeres ved kommandoen
 
 ```
 $ npm install --save react-navigation
 ```
 
-Etter installasjonen kan komponentene `createBottomTabNavigator` og `createStackNavigator` importeres med ES6-syntaksen
+Etter installasjonen kan (blant annet) funksjonene `createBottomTabNavigator` og `createStackNavigator` importeres med ES6-syntaksen
 
 ```js
-import { createBottomTabNavigator, createStackNavigator} from "react-navigation"}
+import { createBottomTabNavigator, createStackNavigator} from "react-navigation";
 ```
-##### createStackNavigator
-For å bruke navigeringen har vi laget forskjellige stack navigators med `createStackNavigator`. En stack kan inneholde flere forskjellige sider, og vil gjøre det mulig å navigere mellom disse sidene.
-createStackNavigator tilbyr en måte for appen å navigere mellom forskjellige skjermer på, hvor hver skjerm blir plassert på toppen av en stack.
+#### createStackNavigator
+
+For å navigere har vi laget forskjellige stack navigators med `createStackNavigator`. For de som er kjent med datastrukturen "stack" vil navnet fortelle mye av hvordan StackNavigator fungerer. Når man navigerer til en side innen en Stack Navigator vil forrige side bli dyttet inn i stakklisten. Når brukeren ønsker å dra tilbake (vha. tilbaketasten, tilbakepila ol.) blir forrige side poppet fra stakken. Stack Navigator vil med andre ord alltid huske veien du brukte til en side.
 
 Se eksempel for ContactsStack fra appen:
 ```js
@@ -112,46 +109,40 @@ const ContactsStack = createStackNavigator({
   EditContact: EditContactScreen
 });
 ```
-ContactsStack er en stack som består av 3 forksjellige sider som det nå er mulig å navigere mellom vha:
+ContactsStack er en stack som består av 3 forskjellige sider som det nå er mulig å navigere mellom vha:
 
 ```js
-this.props.navigation.navigate("ScreenName", {props})
+this.props.navigation.navigate("ScreenName", {props});
 ```
 React Navigation gjør det mulig å sende med funksjoner og elementer som props når man navigerer, noe som gjør det lettere for de forskjellige skjermene å samhandle.
-Stack navigator tilbyr også animasjoner, og en header med tilbakeknapp ved default, og håndterer navigasjonshistorikken slik at man kan navigere seg tilbake til forrige aktive skjerm.
+
+Stack navigator tilbyr også animasjoner, en header med tilbakeknapp ved default, og håndterer navigasjonshistorikken slik at man kan navigere seg tilbake til forrige aktive skjerm.
 
 KANSKJE EN GIF AV HVORDAN MAN NAVIGERER HER
 
-##### createBottomTabNavigator
-En simpel måte å opprette en tab-bar på bunnen av skjermen på, som lar en bytte mellom forskjellige routes. De forskjellige skjermene vil ikke mounte før første tilnavigering.
-Vi har brukt `createBottomTabNavigator`til å lage tab-baren som navigerer brukeren til de forskjellige funksjonene i appen.
+#### createBottomTabNavigator
 
-Ved å bruke Stack Navigators lagt med `createStackNavigator`som nevnt over, brukte vi den innebygde måten i React Navigation til å lage en Tab-Bar i bunnen, som man manuelt kan endre og tilpasse gjennom `navigationOptions`.
+`createBottomTabNavigator` er en enkel måte å opprette en fanemeny (tab-bar) som lar en bytte mellom forskjellige faner. De forskjellige skjermene vil ikke mounte før første tilnavigering.
+
+Ved å kombinere Stack Navigators som nevnt over med tab-bar kan man få både historikk samt en oversiktlig meny i bunnen
 
 ```js
 const RootBottomTabNavigator = createBottomTabNavigator({
-  Home: {
-    screen: HomeStack,
-	navigationOptions: {
-      tabBarLabel: 'Home',
-	  }
-  },
-  Contacts: {
-    screen: ContactsStack,
-    navigationOptions: {
-      tabBarLabel: 'Contacts',
-    }
-  }
-}
+  Home: HomeStack,
+  Contacts: ContactsStack
+});
 ```
 
+Legg merke til at tab-baren som opprettes her (RootBottomTabNavigator) består av Navigation Stacks, som igjen består av flere ulike skjermer/komponenter. Kombinasjon av ulike navigasjonskomponenter er et kraftig verktøy for å tilpasse navigeringen i mobilapper.
 
-#### React Native Progress 
+Vi håper denne korte introduksjonen til React Navigation ga mersmak og illustrerte hvordan man kan bygge opp en navigasjonsstruktur. Se [dokumentasjonen til React Navigation](https://reactnavigation.org/docs/en/getting-started.html) for en grundigere gjennomgang av hvordan dette biblioteket fungerer.
+
+### React Native Progress 
 Vi brukte [React Native Progress](https://github.com/oblador/react-native-progress), som er et bibliotek som implementerer prosessindikatorer i form av 
 sirkler og barer. De var veldig intuitive å bruke, og tar egentlig bare inn `progress` som prop, som er 
 et tall mellom 0 og 1, hvor 0 er ingen progress og 1 er ferdig. 
 
-##### Installasjon av React Native Progress
+#### Installasjon av React Native Progress
 
 RNP kan installeres ved hjelp av npm og kommandoen
 ```
@@ -169,7 +160,7 @@ import ProgressCircle from 'react-native-progress/Circle';
 ```
 for sirkelen brukt i 'Pedometeret' vårt.
 
-##### Bruk av React Native Progress
+#### Bruk av React Native Progress
 
 Man kan bruke RNP på ulike måter, både baren og sirkelen kan bruke som laste-indikatorer ved å sette `indeterminate`-propen til `true`. Ellers vil
 man kunne bruke de slik vi har gjort, ved å gi de en verdi mellom 0 og 1 for å angi progresjon. 
@@ -183,7 +174,7 @@ Det finnes også en mengde andre props som `color`, `borderWidth`, `thickness` o
 
 ![Demo RNP](readme/RNP.gif)
 
-#### React Native Calendars 
+### React Native Calendars 
 
 Vi valgte å bruke pakken [React Native Calendars](https://github.com/wix/react-native-calendars) for å vise en kalender til brukeren. React Native Calendar, eller RNC på kortform, kan brukes til noe så enkelt som å la brukeren velge en dato, eller noe mer innfløkt som en tidsplanlegger.
 
@@ -192,7 +183,7 @@ Til vårt formål brukte vi bare "Agenda"-komponenten. Her følger en kjapp guid
 
 ![agenda demo](readme/agenda.gif)
 
-##### Installasjon av RNC
+#### Installasjon av RNC
 RNC installeres ved kommandoen
 
 ```
@@ -207,7 +198,7 @@ import { Calendar, CalendarList, Agenda } from "react-native-calendars"
 
 Disse kan brukes direkte via JSX i render-funksjonen i dine React-komponenter. Merk: Vi hadde problemer med å få `Agenda` til å vises på korrekt måte. Det viser seg at man må legge til en minimumshøyde for å få det til å vises korrekt: `<Agenda style={{minHeight: 200}} />`
 
-##### Visning av elementer på kalenderen
+#### Visning av elementer på kalenderen
 
 RNC kan vise elementer via `items`-egenskapen. Dette objektet er en map / dictionary fra en dato (av type streng) til en liste av elementer. Se eksempel:
 
@@ -239,7 +230,7 @@ Hvordan disse vises på kalenderen må du definere selv. Egenskapen `renderItem`
 />
 ```
 
-##### Dynamisk innlasting av data
+#### Dynamisk innlasting av data
 
 RNC sier selv i fra når det passer å laste inn mer data. Du kan dermed dynamisk laste inn data når det er behov, f.eks. fra en ekstern web-tjeneste, eller fra AsyncStorage. "callback" for dynamisk lasting gis via egenskapen `loadItemsForMonth`, som argument tar den inn en dato for startdagen i måneden. Det er ikke meningen at den skal returnere noe, vanligvis lagres data på state, og et kall på `loadItemsForMonth` indikerer at du bør utvide datasettet med de dagene i måneden input-argumentet tilhører.
 
@@ -270,4 +261,4 @@ Merk at alle datoene for en måned må finnes som nøkler i `items`-objektet. De
 
 Vi håper denne korte guiden var hjelpsom for å sette opp React Native Calendars. Bruk gjerne den offisielle [dokumentasjonen](https://github.com/wix/react-native-calendars#usage) til RNC for å få en oversikt over alle mulighetene i RNC, og se vår klasse "CalendarScreen" for hvordan Agenda kan brukes i en React Native app.
 
-#### Jest (?)
+## Testing
