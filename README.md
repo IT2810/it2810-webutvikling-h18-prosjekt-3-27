@@ -225,7 +225,7 @@ Hvordan disse vises på kalenderen må du definere selv. Egenskapen `renderItem`
 ```js
 <Agenda
     ...
-    renderItem={(item) => {return <View>{item.text}</View>;}}
+    renderItem={(item) => {return <Text>{item.text}</Text>;}}
     ...
 />
 ```
@@ -234,7 +234,7 @@ Hvordan disse vises på kalenderen må du definere selv. Egenskapen `renderItem`
 
 RNC sier selv i fra når det passer å laste inn mer data. Du kan dermed dynamisk laste inn data når det er behov, f.eks. fra en ekstern web-tjeneste, eller fra AsyncStorage. "callback" for dynamisk lasting gis via egenskapen `loadItemsForMonth`, som argument tar den inn en dato for startdagen i måneden. Det er ikke meningen at den skal returnere noe, vanligvis lagres data på state, og et kall på `loadItemsForMonth` indikerer at du bør utvide datasettet med de dagene i måneden input-argumentet tilhører.
 
-Her er et eksempel på en implentasjon av `loadItemsForMonth`:
+Her er et eksempel på en implementasjon av `loadItemsForMonth`:
 
 ```js
 loadItems = (dayInMonth) => {
