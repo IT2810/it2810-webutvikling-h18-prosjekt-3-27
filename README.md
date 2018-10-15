@@ -15,73 +15,48 @@ Da vil du få opp en QR-code som du scanner i Expo-appen på din telefon som vil
 
 ## Diskusjon
 
-
 ### Beskrivelse av appen
+
 Vi har laget en applikasjon med fire ulike features: **Kontaktliste**, **Kalender**, **Todoliste** og **Skritteller**.
+
 ![App](readme/app.gif)
 
-I kontaktlista er det muligheter for å se, legge til og slette kontakter med navn og telefonnummer. 
-I kalenderen kan man se, legge til, endre og slette avtaler på ulike datoer. 
-I todolista kan man se, legge til, slette og fullføre gjøremål.
-I skrittelleren kan man se hvor mange skritt man har gått og hvor langt på vei til 10000 steg man har fullført.  
+I kontaktlista er det muligheter for å se, legge til og slette kontakter med navn og telefonnummer.  
+I kalenderen kan man se, legge til, endre og slette avtaler på ulike datoer.  
+I todolista kan man se, legge til, slette og fullføre gjøremål.  
+I skrittelleren kan man se hvor mange skritt man har gått og hvor langt på vei til 10000 steg man har fullført. 
 
-**Contact**
+#### Struktur 
 
-Contact består av tre komponenter: `ContactsScreen.js` , `AddContactScreen.js`, `EditContactScreen.js` og `ContactPersistence.js`. 
+Her følger en beskrivelse av strukturen i prosjektet vårt med de sentrale filene:
 
-`ContactsScreen.js` er hovedkomponenten og inneholder metodene for å hente, lagre og slette kontakter samt og oppdatere state. 
+- App - rotelementet
+  - `App.js` inneholder navigasjonsstrukturen for appen. Se seksjon under for en beskrivelse av React Navigation, som er biblioteket vi brukte for navigasjon.
+- Contacts
+  - `ContactsScreen.js` er hovedkomponenten og inneholder metodene for å hente, lagre og slette kontakter samt og oppdatere state. 
+  - `AddContactScreen.js` er komponenten man kommer til ved å trykke på 'Add Contact' i hovedkomponenten. Her blir man møtt med to tekstinputs for navn og nummer, og en knapp for å legge til kontakten. 
+  - `EditContactScreen.js` er komponenten man kommer til ved å trykke på en eksisterende kontakt slik at man kan slette den ved å trykke på 'Delete'
+  - `ContactPersistence.js` er en innkapsling av AsyncStorage.
+- Calendar
+  - `CalendarScreen.js` er hovedkomponenten og innholder Agenda-komponenten fra React Native Calendar-biblioteket.
+  - `AddAgendaScreen.js` er komponenten man kommer til ved å trykke på 'Create event' på en dato, og her får man opp to tekstinputs hvor man kan legge til en overskrift og en beskrivelse.
+  - `EditAgendaScreen.js` er komponenten man kommer til ved å trykke på en eksisterende avtale og her får man muligheten til å endre overskriften og beskrivelsen, samt slette avtalen.
+  - `AgendaPersistence.js` inneholder klassen som håndterer lagring til og henting fra AsyncStorage.
+- Todo
+  - `TodoScreen.js` er hovedkomponenten og inneholder metoder for å legge til, slette, fullføre og redigere oppgaver.
+  - `SortedList.js` er en komponent som sorterer de ulike oppgavene slik at de fullførte oppgavene er i bunnen av lista og de oppgavene som fortsatt gjenstår å fullføres er i topp.
+  - `TodoItem.js` er en komponent som er de ulike oppgavene i lista, og inneholder selve oppgaveteksten, muligheten for å fullføre en oppgave, samt muligheten til å slette selve oppgaven.
+  - `Util.js` er en komponent som inneholder en metode for å holde styr på unike nøkler til oppgavene.
+  - `CustomProgressBar.js` er en komponent som inneholder ProgressBar-komponenten fra  React Native Progress-bibliotektet med litt custom tilpasninger som farge og en metode for å hente inn progress.
+  - `TaskPersistence.js` er komponenten som håndterer lagring til og henting fra AsyncStorage.
+- Pedometer
+  - `PedomenterScreen.js` er hovedkomponenten og inneholder funksjonalitet for å hente skritt og vise dem til brukeren
+  - `CustomProgressCircle` er en komponent som inneholder ProgressCircle-komponenten fra React Native Progress-bibliotektet med litt tilpassede innstillinger som tekst og fargeendring etter hvor langt i prosessen man har kommet.
 
-`AddContactScreen.js` er komponenten man kommer til ved å trykke på 'Add Contact' i hovedkomponenten, her blir man møtt med to tekstinputs for navn og nummer.
-Og en knapp for å legge til kontakten. 
+#### Testfiler
 
-`EditContactScreen.js` er komponenten man kommer til ved å trykke på en eksisterende kontakt slik at man kan slette den ved å trykke på 'Delete'
+Vi har valgt å plassere testfiler (filene som slutter med *.test.js) i samme mappe som filen/klassen som testet. Det finnes ulike konvensjoner for dette. Noen foretrekker å plassere testfiler i undermapper kalt `__tests__` (som Jest også automatisk plukker opp), noe som også ville vært en fin løsning. Ved å plassere de i samme mappe forsterker vi idéen om at kildekode og tilhørende testkode har sterk tilknytning - endrer du på kildekoden må testkoden oppdateres. Og ved å studere testene kan man forstå hva koden er ment å gjøre (tester er dokumentasjon).
 
-`ContactPersistence.js` er komponenten som håndterer lagring til og henting fra AsyncStorage. 
-
-**Calendar**
-
-Calendar består av fire komponenter: `CalendarScreen.js`, `AddAgendaScreen.js`, `EditAgendaScreen.js` og `AgendaPersistence.js`.
-
-`CalendarScreen.js` er hovedkomponenten og innholder Agenda-komponenten fra React Native Calendar-biblioteket. 
-
-`AddAgendaScreen.js` er komponenten man kommer til ved å trykke på 'Create event' på en dato,
- og her får man opp to tekstinputs hvor man kan legge til en overskrift og en beskrivelse. 
- 
-`EditAgendaScreen.js` er komponenten man kommer til ved å trykke på en eksisterende avtale
-og her får man muligheten til å endre overskriften og beskrivelsen, samt slette avtalen. 
-
-`AgendaPersistence.js` er komponenten som håndterer lagring til og henting fra AsyncStorage. 
-
-
-**Todo**
-
-Todo består av seks komponenter: `TodoScreen.js`, `SortedList.js`, `TodoItem.js`, `Util.js`, `CustomProgressBar.js` og `TaskPersistence.js`
-
-`TodoScreen.js` er hovedkomponenten og inneholder metoder for å legge til, slette, fullføre og redigere oppgaver.
-
-`SortedList.js` er en komponent som sorterer de ulike oppgavene slik at de fullførte oppgavene er i bunnen av lista og de 
-oppgavene som fortsatt gjenstår å fullføres er i topp. 
-
-`TodoItem.js` er en komponent som er de ulike oppgavene i lista, og inneholder selve oppgaveteksten, muligheten for å fullføre en 
-oppgave, samt muligheten til å slette selve oppgaven. 
-
-`Util.js` er en komponent som inneholder en metode for å holde styr på unike nøkler til oppgavene.
-
-`CustomProgressBar.js` er en komponent som inneholder ProgressBar-komponenten fra  React Native Progress-bibliotektet med litt custom tilpasninger som farge og en metode for å
-hente inn progress. 
-
-`TaskPersistence.js` er komponenten som håndterer lagring til og henting fra AsyncStorage. 
-
-**Pedometer**
-
-Pedometer består av to komponenter: `PedomenterScreen.js` og `CustomProgressCircle.js`
-
-`PedomenterScreen.js` er hovedkomponenten og inneholder funksjonalitet for å hente skritt og vise dem til brukeren
-
-`CustomProgressCircle` er en komponent som inneholder ProgressCircle-komponenten fra React Native Progress-bibliotektet med
-litt tilpassede innstillinger som tekst og fargeendring etter hvor langt i prosessen man har kommet. 
-
- 
 ### Bruk av biblioteker
 Vi har brukt en del biblioteker: React Native Calendars, React Native Navigation,
 React Native Progress, React Native Vector Icons, React Native og randomColor. 
