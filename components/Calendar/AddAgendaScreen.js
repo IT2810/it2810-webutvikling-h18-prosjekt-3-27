@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {PureComponent} from "react";
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import CalendarScreen from "./CalendarScreen";
 
-class AddAgendaScreen extends Component {
+class AddAgendaScreen extends PureComponent {
   static navigationOptions = {
     title: "Create event"
   };

@@ -1,10 +1,10 @@
-import React, {Component} from "react";
+import React, {PureComponent} from "react";
 import { Agenda } from 'react-native-calendars';
 import AddEvent from "./AddEvent";
 import Event from "./Event";
 import AgendaPersistence from "./AgendaPersistence";
 
-export default class CalendarScreen extends Component {
+export default class CalendarScreen extends PureComponent {
 
   static navigationOptions = {
     title: "Calendar"

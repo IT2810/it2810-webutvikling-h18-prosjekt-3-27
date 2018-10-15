@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {PureComponent} from "react";
 import {
   View,
   Text,
@@ -6,9 +6,8 @@ import {
   TextInput,
   Button
 } from "react-native";
-import { NavigationEvents } from 'react-navigation';
 
-class EditAgendaScreen extends Component {
+class EditAgendaScreen extends PureComponent {
   static navigationOptions = {
     title: "Edit event"
   };
