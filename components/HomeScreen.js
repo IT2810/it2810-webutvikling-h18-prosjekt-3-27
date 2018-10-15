@@ -28,6 +28,11 @@ export default class HomeScreen extends Component {
             Always forgetting your friend's last name? And what was her number again...?
             Use our <Link onPress={this.gotoContacts}>contact list</Link> to keep track of who's who.
           </Text>
+          <Text style={styles.textStyle}>
+            Tired of counting your steps? Getting distracted and losing count?
+            Use our <Link onPress={this.gotoPedometer}>pedometer integration</Link> to
+            handle the numbers for you!
+          </Text>
         </View>
 
       </View>
@@ -44,6 +49,10 @@ export default class HomeScreen extends Component {
 
   gotoContacts = () => {
     this.props.navigation.navigate("Contacts");
+  };
+
+  gotoPedometer = () => {
+    this.props.navigation.navigate("Pedometer");
   };
 }
 
