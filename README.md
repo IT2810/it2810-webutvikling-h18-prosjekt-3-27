@@ -262,3 +262,41 @@ Merk at alle datoene for en måned må finnes som nøkler i `items`-objektet. De
 Vi håper denne korte guiden var hjelpsom for å sette opp React Native Calendars. Bruk gjerne den offisielle [dokumentasjonen](https://github.com/wix/react-native-calendars#usage) til RNC for å få en oversikt over alle mulighetene i RNC, og se vår klasse "CalendarScreen" for hvordan Agenda kan brukes i en React Native app.
 
 ## Testing
+
+> Developer testing is an important step towards accountability. It gives developers a way to demonstrate the quality of the software they produce.
+- Kent Beck
+
+I dette prosjektet har vi benyttet oss av flere former for testing. Til enhetstesting og "snapshot"-testing har vi brukt Javascript-biblioteket [Jest](https://jestjs.io/). Der Jest ikke har strukket til har vi benyttet oss av manuell end-to-end testing.
+
+### Automatisert testing
+
+Vi ønsket opprinnelig å bruke [Enzyme](https://github.com/airbnb/enzyme) til å programetisk traversere og manipulere React Native-applikasjonen. Dessverre hadde vi flere problemer med å integrere det med Expo, og mye tydet på at Enzyme ikke var kompitabelt med siste versjon av React Native. Da kravet til Enzyme ble droppet fjernet vi Enzyme fra prosjektet vårt.
+
+Vi har brukt Jest til å definere testsett og for å skrive tester. Testene kjøres ved å skrive `npm test` i terminalen. Vi hadde vanskeligheter med å starte jest direkte på Windows, så vi definerte et npm-script som bruker node direkte, og som fungere på alle plattformer. Denne kan startes via `npm run testnode`.
+
+Snapshot-testing fungerer ved å representere strukturen til komponentene i tekstform og lagre denne første gang testen kjøres. Senere tas det et nytt "bilde"/snapshot av strukturen, som så sammenlignes med den lagrete strukturen. Slik er det lett å finne ut om kode endrer på visningen til komponentene og så kunne vurdere om endringen er ønskelig eller uønskelig. Vi brukte `react-test-renderer` til å serialisere strukturen til React-komponentene våre, og Jest til å skrive og kjøre testen.
+
+Enhetstesting er å teste kode i isolasjon. Man identifiserer enheter i koden som transformerer data, isolerer koden, mater koden med ulike (gyldige eller ugyldige) inndata og observerer om utdata er slik man forventer. For enhetstesting brukte vi Jest. Vi lagde blant annet en mock av AsyncStorage for å teste om vår API-bruk var korrekt uten å behøve en emulasjon eller drive med manuell testing.
+
+Vi ønsket som sagt å bruke Enzyme til å teste interaksjon i programmet. Simulere tastetrykk blant annet og se om komponentene oppførte seg som forventet. Uten Enzyme var dette utfordrende, og mye måtte testes manuelt.
+
+## Manuell testing
+
+Vi drev med mye manuell testing. Under utviklingen brukte vi Android- og iPhone-enheter til å kjøre koden, og vi fikk dermed benytte appen mye i målmiljøet. Det er ønskelig å minimere manuell testing og automatisere testing der det er mulig, men som nevnt i forrige avsnitt var det utfordrende gitt problemer med Enzyme.
+
+Vi gikk systematisk til verk med manuell testing, og dette knyttet seg naturlig opp mot vår bruk av Pull Requests i GitHub. All kode som går til `master` må gå gjennom Pull Requests, og før en Pull Request kan merges må den gjennomgås av en annen utvikler enn utvikleren som opprettet PR-en. I denne prosessen bygget og kjørte vi koden på vår egen mobil før vi godkjente Pull Requesten. Vi plukket fort opp mindre feil og forglemmelser, blant annet fordi vi har ulike mobiler og ikke alle kunne emulere iPhone. Under vises et eksempel på en end-to-end test av kontaktlista:
+
+1. Slett tidligere data og start appen, naviger til kontaktlista
+2. Er kontaktlista tom?
+3. Legg til en kontakt.
+4. Vises kontakten i lista?
+5. Avslutt programmet og start opp på nytt igjen.
+6. Vises kontakten fortsatt i lista?
+7. Slett kontakten.
+8. Er kontakten fjernet fra lista?
+9. Avslutt programmet og start opp på nytt igjen.
+10. Er kontakten fortsatt fjernet fra lista?
+
+## Testautomatisering
+
+Testautomatisering er å automatisere håndtering av tester og er en sentral del av kontinuerlig integrering. Vi er tilhengere av kontinuerlig testing og vurderte å legge til CI (Continuous Integration) til GitHub via f.eks. CircleCI eller TravisCI. På grunn av at vi hadde mye å lære i dette prosjektet, den relativt korte varigheten av prosjektet, og problemer med Enzyme, valgte vi å ikke sette opp Continual Integration.
