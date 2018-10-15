@@ -4,6 +4,15 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Link from "./StyledText/Link";
 
 export default class HomeScreen extends Component {
+
+  static navigationOptions = {
+    title: "Home",
+    headerTitleStyle: {
+      textAlign: "center",
+      flex: 1
+    }
+  };
+
   render() {
     return (
 
