@@ -76,6 +76,19 @@ export default class CalendarScreen extends PureComponent {
         loadItemsForMonth={this.loadItemsForMonth.bind(this)}
         rowHasChanged={CalendarScreen.rowHasChanged}
         firstDay={1}
+
+        // styling
+        theme={{
+          selectedDayBackgroundColor: "#299c25",
+          todayTextColor: "#005f1d",
+          dotColor: '#15a800',
+          selectedDotColor: '#ffffff',
+          //monthTextColor: '#f0d',
+          //agendaDayTextColor: "#6fbf81",
+          agendaDayNumColor: "#56505d",
+          agendaTodayColor: "#000000",
+          agendaKnobColor: "#28bd10"
+        }}
       />
     );
   }
