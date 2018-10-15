@@ -38,9 +38,81 @@ Vi brukte randomColor bare for å legge til et ekstra lag med farge og dynamikk 
 er et enkelt bibliotek å bruke, hvor man gir en fargegruppe og en ønsket lyshet, og får en tilfeldig farge
 i retur. Dette tok vi i bruk i både kontaktlista og 'Todo'-lista vår. 
 
+**React Navigation**
+
+Vi utforsket forskjellige alternativer for navigasjonssystem, og valgte å bruke en pakke som håndterer state for oss og gir mange ulike navigasjonskomponenter som vi ellers hadde måtte utvikle for hånd: React Navigation.
+React Navigation tilbyr flere viktige elementer som ikke er innebygd i React Native som å navigere mellom forksjellige sider av appen på, og håndtere navigasjonshistorikken.
+
+Når man bruker kontaktlista og kalenderen er man innom flere forskjellige skjermen. F.eks når man ønsker å legge til en kontakt, så bruker vi React Navigation til å navigere brukeren til en ny skjerm hvor dette kan gjøres.
+
+Headeren er et element som er inkludert automatisk av Stack Navigator. I headeren er det en "tilbake"-knapp som vil føre brukeren tilbake til forrige aktive side. Siden dette er inkludert automatisk er det mye enklere enn om vi skulle ha måtte utviklet dette selv.
+
+React Navigation legger til og fjerner ting fra navigation stacken mens brukerer navigerer seg rundt. Den tilbyr animasjoner og overganger.  En annen stor grunn til at vi valge å pakken React Navigation er for implementering av tab-baren, noe som React Navigation forenkler vha `createBottomTabNavigator`.
+
+
 ## Tutorials
 
-### React Native Navigation 
+### React Navigation
+Vi har brukt biblioteket React Navigation, noe vi velger å bruke siden det tilbyr flere viktige elementer som ikke er innebygd i React Native, som å navigere mellom forksjellige sider i appen, og håndtere navigasjonshistorikken, samt implementering av tab-bar.
+
+
+#### Installasjon av React Navigation
+React Navgation installeres ved kommandoen
+
+```
+$ npm install --save react-navigation
+```
+
+Etter installasjonen kan komponentene `createBottomTabNavigator` og `createStackNavigator` importeres med ES6-syntaksen
+
+```js
+import { createBottomTabNavigator, createStackNavigator} from "react-navigation"}
+```
+#### createStackNavigator
+For å bruke navigeringen har vi laget forskjellige stack navigators med `createStackNavigator`. En stack kan inneholde flere forskjellige sider, og vil gjøre det mulig å navigere mellom disse sidene.
+createStackNavigator tilbyr en måte for appen å navigere mellom forskjellige skjermer på, hvor hver skjerm blir plassert på toppen av en stack.
+
+Se eksempel for ContactsStack fra appen:
+```js
+const ContactsStack = createStackNavigator({
+  Contacts: ContactsScreen,
+  AddContact: AddContactScreen,
+  EditContact: EditContactScreen
+});
+```
+ContactsStack er en stack som består av 3 forksjellige sider som det nå er mulig å navigere mellom vha:
+
+```js
+this.props.navigation.navigate("ScreenName", {props})
+```
+React Navigation gjør det mulig å sende med funksjoner og elementer som props når man navigerer, noe som gjør det lettere for de forskjellige skjermene å samhandle.
+Stack navigator tilbyr også animasjoner, og en header med tilbakeknapp ved default, og håndterer navigasjonshistorikken slik at man kan navigere seg tilbake til forrige aktive skjerm.
+
+KANSKJE EN GIF AV HVORDAN MAN NAVIGERER HER
+
+#### createBottomTabNavigator
+En simpel måte å opprette en tab-bar på bunnen av skjermen på, som lar en bytte mellom forskjellige routes. De forskjellige skjermene vil ikke mounte før første tilnavigering.
+Vi har brukt `createBottomTabNavigator`til å lage tab-baren som navigerer brukeren til de forskjellige funksjonene i appen.
+
+Ved å bruke Stack Navigators lagt med `createStackNavigator`som nevnt over, brukte vi den innebygde måten i React Navigation til å lage en Tab-Bar i bunnen, som man manuelt kan endre og tilpasse gjennom `navigationOptions`.
+
+```js
+const RootBottomTabNavigator = createBottomTabNavigator({
+  Home: {
+    screen: HomeStack,
+	navigationOptions: {
+      tabBarLabel: 'Home',
+	  }
+  },
+  Contacts: {
+    screen: ContactsStack,
+    navigationOptions: {
+      tabBarLabel: 'Contacts',
+    }
+  }
+}
+```
+
 
 ### React Native Progress 
 Vi brukte [React Native Progress](https://github.com/oblador/react-native-progress), som er et bibliotek som implementerer prosessindikatorer i form av 
