@@ -3,7 +3,6 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
-    "test": "node_modules/.bin/jest"
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
