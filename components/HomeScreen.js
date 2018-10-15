@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
-
+import Link from "./StyledText/Link";
 
 export default class HomeScreen extends Component {
   render() {
@@ -18,21 +18,33 @@ export default class HomeScreen extends Component {
           </Text>
           <Text style={styles.textStyle}>
             Tight schedule? Having a hard time keeping track of whats when?
-            Organize your schedule with our calendar!
+            Organize your schedule with our <Link onPress={this.gotoCalendar}>calendar!</Link>
           </Text>
           <Text style={styles.textStyle}>
             Problems organizing your tasks?
-            Try our todo list!
+            Try our <Link onPress={this.gotoTodo}>todo list!</Link>
           </Text>
           <Text style={styles.textStyle}>
-          Always forgetting your friend's last name? And what was her number again...?
-            Use our contact list to keep track of who's who.
+            Always forgetting your friend's last name? And what was her number again...?
+            Use our <Link onPress={this.gotoContacts}>contact list</Link> to keep track of who's who.
           </Text>
         </View>
 
       </View>
     );
   }
+
+  gotoCalendar = () => {
+    this.props.navigation.navigate("Calendar");
+  };
+
+  gotoTodo = () => {
+    this.props.navigation.navigate("Todo");
+  };
+
+  gotoContacts = () => {
+    this.props.navigation.navigate("Contacts");
+  };
 }
 
 
@@ -42,9 +54,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
-  },
-  iconStyle: {
-
   },
   textContainer: {
     alignItems: "center",
@@ -63,5 +72,4 @@ const styles = StyleSheet.create({
     color: "grey",
     textAlign: 'center',
   }
-
 });
