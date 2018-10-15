@@ -26,13 +26,58 @@ På hver feature så må vi si hvilke komponenter vi har, og hva hver komponent 
 
 
 ## Bruk av biblioteker
+Vi har brukt en del biblioteker: React Native Calendars, React Native Navigation,
+React Native Progress, React Native Vector Icons, React Native og randomColor. 
 
-Randomcolor, react native vector icons blablabla.
+Vi brukte React Native Progress fordi vi trengte en visualisering av hvor langt vi hadde kommet
+i prosessen med for eksempel todo-oppgavene og prosessen mot 10000 steg i pedometeret vårt. Etter
+ett kjapt google-søk, så fant vi RNP og fant ut at det var akkurat det vi trengte, og at det dekket
+begge behovene på en enkel måte. 
+
+Vi brukte randomColor bare for å legge til et ekstra lag med farge og dynamikk i applikasjonen. RandomColor 
+er et enkelt bibliotek å bruke, hvor man gir en fargegruppe og en ønsket lyshet, og får en tilfeldig farge
+i retur. Dette tok vi i bruk i både kontaktlista og 'Todo'-lista vår. 
+
 ## Tutorials
 
 ### React Native Navigation 
 
 ### React Native Progress 
+Vi brukte [React Native Progress](https://github.com/oblador/react-native-progress), som er et bibliotek som implementerer prosessindikatorer i form av 
+sirkler og barer. De var veldig intuitive å bruke, og tar egentlig bare inn `progress` som prop, som er 
+et tall mellom 0 og 1, hvor 0 er ingen progress og 1 er ferdig. 
+
+#### Installasjon av React Native Progress
+
+RNP kan installeres ved hjelp av npm og kommandoen
+```
+npm install react-native-progress --save
+```
+
+Etter installasjon kan man importere de ulike progress-komponentene ved bruk av ES6-syntax:
+
+```js 
+import ProgressBar from 'react-native-progress/Bar';
+``` 
+for progress-baren brukt i 'Todo'-lista vår, og 
+```js
+import ProgressCircle from 'react-native-progress/Circle';
+```
+for sirkelen brukt i 'Pedometeret' vårt.
+
+#### Bruk av React Native Progress
+
+Man kan bruke RNP på ulike måter, både baren og sirkelen kan bruke som laste-indikatorer ved å sette `indeterminate`-propen til `true`. Ellers vil
+man kunne bruke de slik vi har gjort, ved å gi de en verdi mellom 0 og 1 for å angi progresjon. 
+
+Da bruker man komponentene direkte på denne måten. 
+```js 
+<ProgressBar progress={0.5}/>
+<ProgressCircle progress={0.5} size={50}/>
+```
+Det finnes også en mengde andre props som `color`, `borderWidth`, `thickness` osv...
+
+![Demo RNP](readme/RNP.gif)
 
 ### React Native Calendars 
 
@@ -122,4 +167,3 @@ Merk at alle datoene for en måned må finnes som nøkler i `items`-objektet. De
 Vi håper denne korte guiden var hjelpsom for å sette opp React Native Calendars. Bruk gjerne den offisielle [dokumentasjonen](https://github.com/wix/react-native-calendars#usage) til RNC for å få en oversikt over alle mulighetene i RNC, og se vår klasse "CalendarScreen" for hvordan Agenda kan brukes i en React Native app.
 
 ### Jest (?)
-
