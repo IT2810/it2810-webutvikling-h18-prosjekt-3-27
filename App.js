@@ -120,7 +120,11 @@ const RootBottomTabNavigator = createBottomTabNavigator({
         <Icon name="ios-walk" color={tintColor} size={24}/>
       )
     }
-  }
+  },
+},{
+  tabBarOptions: {
+    activeTintColor:'green',
+  },
 });
 
 export default RootBottomTabNavigator;
