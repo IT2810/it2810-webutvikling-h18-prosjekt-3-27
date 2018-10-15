@@ -25,6 +25,12 @@ export default class CalendarScreen extends PureComponent {
     this.loadAgenda();
   }
 
+  /**
+   * Asynchronously loads all items in persistent storage from
+   * a AsyncStorage wrapper
+   *
+   * @returns {Promise<void>}
+   */
   async loadAgenda() {
     try {
       const items = await AgendaPersistence.getAllItems();
@@ -97,6 +103,12 @@ export default class CalendarScreen extends PureComponent {
     );
   }
 
+  /**
+   * How to render a single event/agenda on the agenda view
+   *
+   * @param item the item to render
+   * @returns {*} a React component
+   */
   renderItem(item) {
     if (item.isLastButton) {
       return (
@@ -114,6 +126,12 @@ export default class CalendarScreen extends PureComponent {
     );
   }
 
+  /**
+   * What to render when a day has no events
+   *
+   * @param date the date that has no events
+   * @returns {*} a React component
+   */
   renderEmptyDate(date) {
     // input example: 2018-10-11T18:20:41.180Z
     return (
@@ -124,15 +142,33 @@ export default class CalendarScreen extends PureComponent {
     );
   }
 
+  /**
+   * Performance enhancing comparison check, compares two data items (events)
+   *
+   * @param r1 the first event
+   * @param r2 the second event
+   * @returns {boolean} true if the event items differ in content, false otherwise
+   */
   static rowHasChanged(r1, r2) {
     return r1.name !== r2.name || r1.note !== r2.note;
   }
 
+  /**
+   * Takes in a parseable time, and outputs the date in string format
+   *
+   * @param time a timestring that can be parsed by the Date API
+   * @returns {string} the date (year, month, day) only as readable string
+   */
   static timeToString(time) {
     const date = new Date(time);
     return date.toISOString().split('T')[0];
   }
 
+  /**
+   * Handle navigation to event creation screen
+   *
+   * @param date the date to add an event to
+   */
   navigateToAddAgenda = (date) => {
     // navigate to an add item screen
     this.props.navigation.navigate("AddAgenda", {
@@ -141,6 +177,12 @@ export default class CalendarScreen extends PureComponent {
     });
   };
 
+  /**
+   * Add new event to the state and persistent storage
+   *
+   * @param item the event to add
+   * @returns {Promise<void>} resolves when the item has been added
+   */
   async addNewItem(item) {
     const key = CalendarScreen.timeToString(item.date.getTime());
     item.id = await AgendaPersistence.getAndIncrementId();
@@ -157,6 +199,11 @@ export default class CalendarScreen extends PureComponent {
     await AgendaPersistence.saveAgenda(item);
   }
 
+  /**
+   * Navigate to a screen for editing an event
+   *
+   * @param item the event data object that will be edited by the user
+   */
   navigateToEditAgenda = (item) => {
     // navigate to an edit item screen
     this.props.navigation.navigate("EditAgenda", {
@@ -166,6 +213,11 @@ export default class CalendarScreen extends PureComponent {
     });
   };
 
+  /**
+   * Updates an item in the state and persistent storage
+   *
+   * @param item the event to update
+   */
   editItem(item) {
     const key = CalendarScreen.timeToString(item.date.getTime());
     this.setState(prevState => {
@@ -188,6 +240,10 @@ export default class CalendarScreen extends PureComponent {
     AgendaPersistence.saveAgenda(item);
   }
 
+  /**
+   * Deletes an event from state and persistent storage
+   * @param item the event to delete
+   */
   deleteItem(item) {
     const key = CalendarScreen.timeToString(item.date.getTime());
     this.setState(prevState => {
