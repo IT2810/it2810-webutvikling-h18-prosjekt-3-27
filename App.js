@@ -90,7 +90,7 @@ const RootBottomTabNavigator = createBottomTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Contacts',
       tabBarIcon: ({tintColor}) => (
-        <Icon name="ios-contacts" color={tintColor} activeColor={'green'} size={24}/>
+        <Icon name="ios-contacts" color={tintColor} size={24}/>
       )
     }
   },
