@@ -1,12 +1,10 @@
-import React, {Component} from "react";
+import React, {PureComponent} from "react";
 import {
-  View,
   Text,
-  StyleSheet,
-  TouchableOpacity
+  StyleSheet
 } from "react-native";
 
-export default class Link extends Component {
+export default class Link extends PureComponent {
 
   getStylesArrayFromProps() {
     return this.props.style || [];
