@@ -118,8 +118,6 @@ React Navigation gjør det mulig å sende med funksjoner og elementer som props 
 
 Stack navigator tilbyr også animasjoner, en header med tilbakeknapp ved default, og håndterer navigasjonshistorikken slik at man kan navigere seg tilbake til forrige aktive skjerm.
 
-KANSKJE EN GIF AV HVORDAN MAN NAVIGERER HER
-
 #### createBottomTabNavigator
 
 `createBottomTabNavigator` er en enkel måte å opprette en fanemeny (tab-bar) som lar en bytte mellom forskjellige faner. De forskjellige skjermene vil ikke mounte før første tilnavigering.
