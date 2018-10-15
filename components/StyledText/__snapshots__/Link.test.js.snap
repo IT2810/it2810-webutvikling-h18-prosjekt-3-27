@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly and overwrites color 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      Object {
+        "color": "#2e78b7",
+        "textDecorationLine": "underline",
+      },
+    ]
+  }
+>
+  This should be blue
+</Text>
+`;
+
+exports[`renders correctly with content 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      Object {
+        "color": "#2e78b7",
+        "textDecorationLine": "underline",
+      },
+    ]
+  }
+>
+  This is some link text
+</Text>
+`;
+
+exports[`renders correctly with content and handler 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  onPress={[Function]}
+  style={
+    Array [
+      Object {
+        "color": "#2e78b7",
+        "textDecorationLine": "underline",
+      },
+    ]
+  }
+>
+  This is some link text
+</Text>
+`;
+
+exports[`renders correctly with handler 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  onPress={[Function]}
+  style={
+    Array [
+      Object {
+        "color": "#2e78b7",
+        "textDecorationLine": "underline",
+      },
+    ]
+  }
+/>
+`;
+
+exports[`renders correctly with no props 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      Object {
+        "color": "#2e78b7",
+        "textDecorationLine": "underline",
+      },
+    ]
+  }
+/>
+`;
