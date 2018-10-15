@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 import Link from "./StyledText/Link";
 
-export default class HomeScreen extends Component {
+export default class HomeScreen extends PureComponent {
 
   static navigationOptions = {
     title: "Home",
