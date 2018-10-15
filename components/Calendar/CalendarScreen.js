@@ -1,13 +1,17 @@
-import React, {Component} from "react";
+import React, {PureComponent} from "react";
 import { Agenda } from 'react-native-calendars';
 import AddEvent from "./AddEvent";
 import Event from "./Event";
 import AgendaPersistence from "./AgendaPersistence";
 
-export default class CalendarScreen extends Component {
+export default class CalendarScreen extends PureComponent {
 
   static navigationOptions = {
-    title: "Calendar"
+    title: "Calendar",
+    headerTitleStyle: {
+      textAlign: "center",
+      flex: 1
+    }
   };
 
   constructor(props) {
@@ -21,6 +25,12 @@ export default class CalendarScreen extends Component {
     this.loadAgenda();
   }
 
+  /**
+   * Asynchronously loads all items in persistent storage from
+   * a AsyncStorage wrapper
+   *
+   * @returns {Promise<void>}
+   */
   async loadAgenda() {
     try {
       const items = await AgendaPersistence.getAllItems();
@@ -76,10 +86,29 @@ export default class CalendarScreen extends Component {
         loadItemsForMonth={this.loadItemsForMonth.bind(this)}
         rowHasChanged={CalendarScreen.rowHasChanged}
         firstDay={1}
+
+        // styling
+        theme={{
+          selectedDayBackgroundColor: "#299c25",
+          todayTextColor: "#005f1d",
+          dotColor: '#15a800',
+          selectedDotColor: '#ffffff',
+          //monthTextColor: '#f0d',
+          //agendaDayTextColor: "#6fbf81",
+          agendaDayNumColor: "#56505d",
+          agendaTodayColor: "#000000",
+          agendaKnobColor: "#28bd10"
+        }}
       />
     );
   }
 
+  /**
+   * How to render a single event/agenda on the agenda view
+   *
+   * @param item the item to render
+   * @returns {*} a React component
+   */
   renderItem(item) {
     if (item.isLastButton) {
       return (
@@ -97,6 +126,12 @@ export default class CalendarScreen extends Component {
     );
   }
 
+  /**
+   * What to render when a day has no events
+   *
+   * @param date the date that has no events
+   * @returns {*} a React component
+   */
   renderEmptyDate(date) {
     // input example: 2018-10-11T18:20:41.180Z
     return (
@@ -107,15 +142,33 @@ export default class CalendarScreen extends Component {
     );
   }
 
+  /**
+   * Performance enhancing comparison check, compares two data items (events)
+   *
+   * @param r1 the first event
+   * @param r2 the second event
+   * @returns {boolean} true if the event items differ in content, false otherwise
+   */
   static rowHasChanged(r1, r2) {
     return r1.name !== r2.name || r1.note !== r2.note;
   }
 
+  /**
+   * Takes in a parseable time, and outputs the date in string format
+   *
+   * @param time a timestring that can be parsed by the Date API
+   * @returns {string} the date (year, month, day) only as readable string
+   */
   static timeToString(time) {
     const date = new Date(time);
     return date.toISOString().split('T')[0];
   }
 
+  /**
+   * Handle navigation to event creation screen
+   *
+   * @param date the date to add an event to
+   */
   navigateToAddAgenda = (date) => {
     // navigate to an add item screen
     this.props.navigation.navigate("AddAgenda", {
@@ -124,6 +177,12 @@ export default class CalendarScreen extends Component {
     });
   };
 
+  /**
+   * Add new event to the state and persistent storage
+   *
+   * @param item the event to add
+   * @returns {Promise<void>} resolves when the item has been added
+   */
   async addNewItem(item) {
     const key = CalendarScreen.timeToString(item.date.getTime());
     item.id = await AgendaPersistence.getAndIncrementId();
@@ -140,6 +199,11 @@ export default class CalendarScreen extends Component {
     await AgendaPersistence.saveAgenda(item);
   }
 
+  /**
+   * Navigate to a screen for editing an event
+   *
+   * @param item the event data object that will be edited by the user
+   */
   navigateToEditAgenda = (item) => {
     // navigate to an edit item screen
     this.props.navigation.navigate("EditAgenda", {
@@ -149,6 +213,11 @@ export default class CalendarScreen extends Component {
     });
   };
 
+  /**
+   * Updates an item in the state and persistent storage
+   *
+   * @param item the event to update
+   */
   editItem(item) {
     const key = CalendarScreen.timeToString(item.date.getTime());
     this.setState(prevState => {
@@ -171,6 +240,10 @@ export default class CalendarScreen extends Component {
     AgendaPersistence.saveAgenda(item);
   }
 
+  /**
+   * Deletes an event from state and persistent storage
+   * @param item the event to delete
+   */
   deleteItem(item) {
     const key = CalendarScreen.timeToString(item.date.getTime());
     this.setState(prevState => {

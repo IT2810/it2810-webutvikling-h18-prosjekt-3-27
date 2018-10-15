@@ -19,7 +19,7 @@ class AddEvent extends PureComponent {
         style={styles.itemAdd}
         onPress={this.handleAddAgendaPress}
       >
-        <Icon style={{margin: 5}} name="ios-add-circle" color="green" size={28}/>
+        <Icon style={{margin: 5}} name="ios-add-circle" color="#28bd10" size={28}/>
         <Text>Create event</Text>
       </TouchableOpacity>
     );
