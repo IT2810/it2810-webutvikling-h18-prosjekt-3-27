@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <Component>
+    <Icon
+      allowFontScaling={false}
+      color="green"
+      name="ios-home"
+      size={100}
+    />
+  </Component>
+  <Component
+    style={
+      Object {
+        "alignItems": "center",
+        "marginLeft": 20,
+        "marginRight": 20,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "green",
+          "fontSize": 25,
+          "margin": 10,
+          "textAlign": "center",
+        }
+      }
+    >
+      Welcome to The Motivation App
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "grey",
+          "fontSize": 15,
+          "margin": 10,
+          "textAlign": "center",
+        }
+      }
+    >
+      Tight schedule? Having a hard time keeping track of whats when? Organize your schedule with our 
+      <Link
+        onPress={[Function]}
+      >
+        calendar!
+      </Link>
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "grey",
+          "fontSize": 15,
+          "margin": 10,
+          "textAlign": "center",
+        }
+      }
+    >
+      Problems organizing your tasks? Try our 
+      <Link
+        onPress={[Function]}
+      >
+        todo list!
+      </Link>
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "grey",
+          "fontSize": 15,
+          "margin": 10,
+          "textAlign": "center",
+        }
+      }
+    >
+      Always forgetting your friend's last name? And what was her number again...? Use our 
+      <Link
+        onPress={[Function]}
+      >
+        contact list
+      </Link>
+       to keep track of who's who.
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "grey",
+          "fontSize": 15,
+          "margin": 10,
+          "textAlign": "center",
+        }
+      }
+    >
+      Tired of counting your steps? Getting distracted and losing count? Use our 
+      <Link
+        onPress={[Function]}
+      >
+        pedometer integration
+      </Link>
+       to handle the numbers for you!
+    </Text>
+  </Component>
+</Component>
+`;
