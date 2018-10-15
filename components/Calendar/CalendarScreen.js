@@ -7,7 +7,11 @@ import AgendaPersistence from "./AgendaPersistence";
 export default class CalendarScreen extends PureComponent {
 
   static navigationOptions = {
-    title: "Calendar"
+    title: "Calendar",
+    headerTitleStyle: {
+      textAlign: "center",
+      flex: 1
+    }
   };
 
   constructor(props) {
