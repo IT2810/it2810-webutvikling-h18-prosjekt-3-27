@@ -26,7 +26,7 @@ export default class PedometerScreen extends React.Component {
   subscribe = () => {
     const end = new Date();
     const start = new Date();
-    start.setDate(end.getDate() - 1);
+    start.setHours(0);
     Pedometer.getStepCountAsync(start, end).then(
       result => {
         this.setState({stepCount: result.steps});
