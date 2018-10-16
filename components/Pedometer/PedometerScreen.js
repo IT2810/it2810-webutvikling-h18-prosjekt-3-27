@@ -20,17 +20,13 @@ export default class PedometerScreen extends React.Component {
   };
 
   componentDidMount() {
-    this._subscribe();
+    this.subscribe();
   }
 
-  componentWillUnmount() {
-    this._unsubscribe();
-  }
-
-  _subscribe = () => {
+  subscribe = () => {
     const end = new Date();
     const start = new Date();
-    start.setDate(end.getDate() - 1);
+    start.setHours(0);
     Pedometer.getStepCountAsync(start, end).then(
       result => {
         this.setState({stepCount: result.steps});
@@ -44,16 +40,10 @@ export default class PedometerScreen extends React.Component {
     );
   };
 
-  _unsubscribe = () => {
-    this._subscription && this._subscription.remove();
-    this._subscription = null;
-  };
-
   getProgress = () => {
     const goal = 10000;
     let count = this.state.stepCount;
-    let progress = count / goal;
-    return progress;
+    return count / goal;
   };
 
   render() {
