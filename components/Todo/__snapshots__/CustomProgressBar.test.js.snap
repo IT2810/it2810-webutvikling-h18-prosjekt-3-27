@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "center",
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "marginRight": 5,
+      }
+    }
+  >
+    1
+  </Text>
+  <ProgressBar
+    animated={true}
+    animationConfig={
+      Object {
+        "bounciness": 0,
+      }
+    }
+    animationType="spring"
+    borderRadius={4}
+    borderWidth={1}
+    color="#579d5b"
+    height={6}
+    indeterminate={false}
+    progress={1}
+    useNativeDriver={false}
+    width={150}
+  />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "marginLeft": 5,
+      }
+    }
+  >
+    1
+  </Text>
+</Component>
+`;
