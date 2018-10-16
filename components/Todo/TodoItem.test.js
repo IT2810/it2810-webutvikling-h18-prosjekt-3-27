@@ -7,6 +7,6 @@ import TodoItem from "./TodoItem";
 test('renders correctly', () => {
   const tree = renderer.create(<TodoItem
     item={{key: "key", text: "sometext", completed: false, color: "green"}}
-    />).toJSON();
+  />).toJSON();
   expect(tree).toMatchSnapshot();
 });

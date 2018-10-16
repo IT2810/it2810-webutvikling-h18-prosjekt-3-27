@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
 import {createBottomTabNavigator, createStackNavigator} from "react-navigation";
 import HomeScreen from "./components/HomeScreen";
-import ContactsScreen from "./components/ContactsScreen";
-import AddContactScreen from "./components/AddContactScreen";
+import ContactsScreen from "./components/Contacts/ContactsScreen";
+import AddContactScreen from "./components/Contacts/AddContactScreen";
 import Icon from "react-native-vector-icons/Ionicons";
 import {Text} from "react-native-elements";
+import EditContactScreen from "./components/Contacts/EditContactScreen";
 import TodoScreen from "./components/Todo/TodoScreen"
+import CalendarScreen from "./components/Calendar/CalendarScreen";
+import AddAgendaScreen from "./components/Calendar/AddAgendaScreen";
+import EditAgendaScreen from "./components/Calendar/EditAgendaScreen";
+import PedometerScreen from "./components/Pedometer/PedometerScreen";
+
 
 /*
  * This is the React Native entry point. The component
@@ -25,31 +30,14 @@ import TodoScreen from "./components/Todo/TodoScreen"
  *   * ContactsStack : StackNavigator
  *    * ContactsScreen
  *    * AddContactScreen
+ *    * EditContactScreen
  *   * CalendarStack : StackNavigator
  *    * CalendarScreen
+ *    * AddAgendaScreen
+ *    * EditAgendaScreen
  *   * TodoStack : StackNavigator
  *    * TodoScreen
  *
- */
-
-
-/*
- * These are temporary classes for Calendar,
- * they should be removed once those screens are implemented
- * */
-
-
-class CalendarScreen extends Component{
-  render() {
-    return (
-      <View>
-        <Text>CalendarScreen</Text>
-      </View>
-    );
-  }
-}
-/*
- * END temporary classes
  */
 
 
@@ -59,15 +47,32 @@ const HomeStack = createStackNavigator({
 
 const ContactsStack = createStackNavigator({
   Contacts: ContactsScreen,
-  AddContact: AddContactScreen
+  AddContact: AddContactScreen,
+  EditContact: EditContactScreen
 });
 
 const CalendarStack = createStackNavigator({
-  Calendar: CalendarScreen
+  Calendar: CalendarScreen,
+  AddAgenda: AddAgendaScreen,
+  EditAgenda: EditAgendaScreen
 });
+
+// hide tabbar on certain screens
+// from https://reactnavigation.org/docs/en/navigation-options-resolution.html
+CalendarStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+  return {tabBarVisible};
+};
 
 const TodoStack = createStackNavigator({
   Todo: TodoScreen
+});
+
+const PedometerStack = createStackNavigator({
+  Pedometer: PedometerScreen
 });
 
 const RootBottomTabNavigator = createBottomTabNavigator({
@@ -106,7 +111,20 @@ const RootBottomTabNavigator = createBottomTabNavigator({
         <Icon name="ios-checkmark-circle" color={tintColor} size={24}/>
       )
     }
-  }
+  },
+  Pedometer: {
+    screen: PedometerStack,
+    navigationOptions: {
+      tabBarLabel: 'Pedometer',
+      tabBarIcon: ({tintColor}) => (
+        <Icon name="ios-walk" color={tintColor} size={24}/>
+      )
+    }
+  },
+},{
+  tabBarOptions: {
+    activeTintColor:'green',
+  },
 });
 
 export default RootBottomTabNavigator;

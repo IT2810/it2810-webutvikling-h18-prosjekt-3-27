@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<AgendaView
+  firstDay={1}
+  items={Object {}}
+  loadItemsForMonth={[Function]}
+  renderEmptyDate={[Function]}
+  renderItem={[Function]}
+  rowHasChanged={[Function]}
+  style={
+    Object {
+      "minHeight": 200,
+    }
+  }
+  theme={
+    Object {
+      "agendaDayNumColor": "#56505d",
+      "agendaKnobColor": "#28bd10",
+      "agendaTodayColor": "#000000",
+      "dotColor": "#15a800",
+      "selectedDayBackgroundColor": "#299c25",
+      "selectedDotColor": "#ffffff",
+      "todayTextColor": "#005f1d",
+    }
+  }
+/>
+`;

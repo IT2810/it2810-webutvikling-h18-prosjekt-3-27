@@ -5,11 +5,20 @@ import {
   TextInput,
   Button
 } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default class AddContactScreen extends Component {
   state = {
     name: "",
     number: "",
+  };
+
+  static navigationOptions = {
+    title: "Add Contact",
+    headerTitleStyle: {
+      flex: 1,
+      textAlign: "center",
+    }
   };
 
   changeTextHandlerName = name => {
@@ -45,12 +54,13 @@ export default class AddContactScreen extends Component {
                    placeholder="Name"
         />
         <TextInput style={styles.input}
+                   keyboardType='numeric'
                    onChangeText={this.changeTextHandlerNumber}
                    value={this.state.number}
                    placeholder="Phone"
         />
         <Button
-          color='pink'
+          color='green'
           onPress={this.handleAddPress}
           value={this.state.name}
           title={"Add"}
@@ -70,7 +80,9 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
+    borderRadius: 5,
     margin: 20,
+    padding: 5,
   }
 });
 
