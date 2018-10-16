@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Component
+  style={
+    Object {
+      "flexDirection": "row",
+      "margin": 10,
+    }
+  }
+>
+  <Component>
+    <Icon
+      allowFontScaling={false}
+      color="green"
+      name="ios-person"
+      size={50}
+    />
+  </Component>
+  <Component
+    style={
+      Object {
+        "paddingLeft": 5,
+        "paddingTop": 7,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "green",
+        }
+      }
+    >
+      mama
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "grey",
+        }
+      }
+    >
+      1234
+    </Text>
+  </Component>
+</Component>
+`;
