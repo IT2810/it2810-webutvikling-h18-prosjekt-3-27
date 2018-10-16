@@ -5,8 +5,6 @@ const AsyncStorage = new MockStorage(storageCache);
 jest.setMock("AsyncStorage", AsyncStorage);
 import React from 'react';
 import ContactPersistence from './ContactPersistence';
-import AgendaPersistence from "../Calendar/AgendaPersistence";
-
 
 describe("Test ContactPersistence", () => {
   beforeEach(() => AsyncStorage.clear());
