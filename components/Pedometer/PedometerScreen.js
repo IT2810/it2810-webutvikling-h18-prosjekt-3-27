@@ -43,6 +43,9 @@ export default class PedometerScreen extends React.Component {
   getProgress = () => {
     const goal = 10000;
     let count = this.state.stepCount;
+    if (count / goal >= 1) {
+      return 1;
+    }
     return count / goal;
   };
 
