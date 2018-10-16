@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View>
+  <View
+    style={
+      Array [
+        Object {
+          "backgroundColor": "transparent",
+          "overflow": "hidden",
+        },
+        undefined,
+      ]
+    }
+  >
+    <ARTSurfaceView
+      style={
+        Array [
+          Object {
+            "transform": Array [
+              Object {
+                "rotate": "0deg",
+              },
+            ],
+          },
+          Object {
+            "height": 250,
+            "width": 250,
+          },
+        ]
+      }
+    >
+      <ARTShape
+        d={
+          Array [
+            0,
+            125,
+            6,
+            4,
+            125,
+            125,
+            119,
+            -1.5707963267948966,
+            1.5707963267948966,
+            1,
+            4,
+            125,
+            125,
+            119,
+            1.5707963267948966,
+            -1.5707963267948966,
+            1,
+            1,
+          ]
+        }
+        fill={null}
+        opacity={1}
+        stroke={
+          Array [
+            0.11372549019607843,
+            0.7490196078431373,
+            0,
+            1,
+          ]
+        }
+        strokeCap={0}
+        strokeDash={null}
+        strokeJoin={1}
+        strokeWidth={10}
+        transform={
+          Array [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+          ]
+        }
+      />
+      <ARTShape
+        d={
+          Array [
+            0,
+            125,
+            0.5,
+            4,
+            125,
+            125,
+            124.5,
+            -1.5707963267948966,
+            1.5707963267948966,
+            1,
+            4,
+            125,
+            125,
+            124.5,
+            1.5707963267948966,
+            -1.5707963267948966,
+            1,
+            1,
+          ]
+        }
+        fill={null}
+        opacity={1}
+        stroke={
+          Array [
+            0.11372549019607843,
+            0.7490196078431373,
+            0,
+            1,
+          ]
+        }
+        strokeCap={0}
+        strokeDash={null}
+        strokeJoin={1}
+        strokeWidth={1}
+        transform={
+          Array [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+          ]
+        }
+      />
+    </ARTSurfaceView>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "borderRadius": 114,
+          "height": 228,
+          "justifyContent": "center",
+          "left": 11,
+          "position": "absolute",
+          "top": 11,
+          "width": 228,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "color": "#1DBF00",
+              "fontSize": 50.666666666666664,
+              "fontWeight": "300",
+            },
+            undefined,
+          ]
+        }
+      >
+        0%
+      </Text>
+    </View>
+  </View>
+</View>
+`;
