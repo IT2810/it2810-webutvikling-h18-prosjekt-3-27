@@ -9,7 +9,10 @@ exports[`renders correctly 1`] = `
     }
   }
 >
-  <ScrollViewMock>
+  <ScrollViewMock
+    keyboardDismissMode="on-drag"
+    keyboardShouldPersistTaps="always"
+  >
     <SortedList
       onDeleteTask={[Function]}
       onEditFinish={[Function]}
@@ -33,7 +36,6 @@ exports[`renders correctly 1`] = `
     <TextInput
       allowFontScaling={true}
       autoCorrect={false}
-      autoFocus={true}
       blurOnSubmit={false}
       onChangeText={[Function]}
       onSubmitEditing={[Function]}
