@@ -12,7 +12,6 @@ import {
 import randomColor from "randomcolor";
 import {Header} from 'react-navigation';
 import CustomProgressBar from "./CustomProgressBar";
-import Util from "./Util";
 import SortedList from "./SortedList";
 import TaskPersistence from "./TaskPersistence";
 
@@ -34,7 +33,6 @@ export default class TodoScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.util = new Util();
     this.state = {
       tasks: [],
       completedTasks: [],
@@ -73,7 +71,7 @@ export default class TodoScreen extends Component {
    */
   handleAddTask = async () => {
     if (this.state.text.length > 0) {
-      let key = await this.util.retrieveAndIncreaseKeyCount();
+      let key = await TaskPersistence.retrieveAndIncreaseKeyCount();
       key = "task_" + key;
       const task = {
         key: key,

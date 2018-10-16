@@ -1,7 +1,17 @@
 import {AsyncStorage} from "react-native";
 
 export default class TaskPersistence {
-
+  static retrieveAndIncreaseKeyCount = async () => {
+    try {
+      const keyCountStr = await AsyncStorage.getItem("TodoKeyCount") || "0";
+      let keyCount = parseInt(keyCountStr);
+      keyCount = keyCount + 1;
+      await AsyncStorage.setItem("TodoKeyCount", ""+keyCount);
+      return keyCount;
+    } catch (e) {
+      console.error(e);
+    }
+  };
   /**
    * Saves the task as a new task in storage.
    * @param task, an object with a key, text, a completed boolean and a random color.
