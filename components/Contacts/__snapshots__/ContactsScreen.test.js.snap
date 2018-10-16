@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "stretch",
+      "backgroundColor": "white",
+      "flex": 1,
+      "flexDirection": "column",
+      "paddingBottom": 15,
+    }
+  }
+>
+  <ScrollViewMock>
+    <ContactList
+      contacts={Array []}
+      onAddContact={[Function]}
+      onContactPress={[Function]}
+      onDeleteContact={[Function]}
+    />
+  </ScrollViewMock>
+  <Component
+    style={
+      Object {
+        "backgroundColor": "white",
+        "bottom": 0,
+        "marginBottom": 10,
+        "position": "absolute",
+        "width": "100%",
+      }
+    }
+  >
+    <Button
+      color="green"
+      icon={
+        <Icon
+          allowFontScaling={false}
+          color="white"
+          name="ios-person-add"
+          size={12}
+        />
+      }
+      onPress={[Function]}
+      title="Add Contact"
+    />
+  </Component>
+</Component>
+`;

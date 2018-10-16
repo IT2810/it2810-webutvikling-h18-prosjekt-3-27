@@ -68,11 +68,14 @@ export default class ContactPersistence extends Component {
         keys.splice(index, 1);
       }
 
+
       // Set new contact_ids
       await AsyncStorage.setItem("CONTACT_IDS", JSON.stringify(keys));
 
       //remove key from asyncstorage
-      await AsyncStorage.removeItem(c.key.toString());
+      await AsyncStorage.removeItem("contact_" + c.key);
+
+      //await AsyncStorage.removeItem(c.key.toString());
     } catch (e) {
       console.error(e);
     }

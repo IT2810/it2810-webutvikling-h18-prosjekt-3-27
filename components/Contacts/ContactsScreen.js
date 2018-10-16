@@ -63,7 +63,7 @@ export default class ContactsScreen extends Component {
       // and add 1, this is the handleAddPress key
       const key = largestKey + 1;
       const myContact = {...contact, key: key, color: randomColor({luminosity: 'dark', hue: "green"})
-    };
+      };
       // add contact to state
       this.setState(prevState => {
         const contacts = [...prevState.contacts, myContact];
@@ -81,11 +81,11 @@ export default class ContactsScreen extends Component {
     const c = this.state.contacts.find(contact => contact.key === x);
 
     this.setState(prevState => {
-      const contacts = prevState.contacts.slice();
-      const contactToDelete = contacts.find(contact => contact.key === x);
-      const index = prevState.contacts.indexOf(contactToDelete);
-      contacts.splice(index, 1);
-      return { contacts: contacts };
+        const contacts = prevState.contacts.slice();
+        const contactToDelete = contacts.find(contact => contact.key === x);
+        const index = prevState.contacts.indexOf(contactToDelete);
+        contacts.splice(index, 1);
+        return { contacts: contacts };
       }
     );
     ContactPersistence.deleteContact(c);
@@ -109,12 +109,12 @@ export default class ContactsScreen extends Component {
       <View style={styles.container}>
         <ScrollView>
 
-        <ContactList
-          contacts={this.state.contacts}
-          onDeleteContact={this.deleteContact}
-          onAddContact={this.handleAddContactPress}
-          onContactPress={this.handleContactPress}
-        />
+          <ContactList
+            contacts={this.state.contacts}
+            onDeleteContact={this.deleteContact}
+            onAddContact={this.handleAddContactPress}
+            onContactPress={this.handleContactPress}
+          />
 
         </ScrollView>
 
