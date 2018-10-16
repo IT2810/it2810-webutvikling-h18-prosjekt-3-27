@@ -3,11 +3,9 @@ import MockStorage from "../../__mocks__/MockStorage";
 const storageCache = {};
 const AsyncStorage = new MockStorage(storageCache);
 jest.setMock("AsyncStorage", AsyncStorage);
-
-
 import React from 'react';
-
 import ContactPersistence from './ContactPersistence';
+import AgendaPersistence from "../Calendar/AgendaPersistence";
 
 
 describe("Test ContactPersistence", () => {
@@ -52,11 +50,7 @@ describe("Test ContactPersistence", () => {
     expect(resultWithContact).toBeDefined();
     expect(Object.keys(resultWithContact).length).toEqual(1);
 
-    //Throws error msg: No such key. Need to fix, but test works
-    console.log("før");
     await ContactPersistence.deleteContact(contact);
-    console.log("etter");
-
     const resultId = await ContactPersistence.allIds();
     const result = await ContactPersistence.getContactsByIds(resultId);
     expect(result).toBeDefined();

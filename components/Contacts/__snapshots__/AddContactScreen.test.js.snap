@@ -17,23 +17,28 @@ exports[`renders correctly 1`] = `
     style={
       Object {
         "borderColor": "gray",
+        "borderRadius": 5,
         "borderWidth": 1,
         "height": 40,
         "margin": 20,
+        "padding": 5,
       }
     }
     value=""
   />
   <TextInput
     allowFontScaling={true}
+    keyboardType="numeric"
     onChangeText={[Function]}
     placeholder="Phone"
     style={
       Object {
         "borderColor": "gray",
+        "borderRadius": 5,
         "borderWidth": 1,
         "height": 40,
         "margin": 20,
+        "padding": 5,
       }
     }
     value=""
