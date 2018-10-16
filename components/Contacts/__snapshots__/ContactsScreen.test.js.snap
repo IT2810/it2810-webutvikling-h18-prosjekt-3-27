@@ -13,19 +13,11 @@ exports[`renders correctly 1`] = `
   }
 >
   <ScrollViewMock>
-    <FlatList
-      data={Array []}
-      disableVirtualization={false}
-      horizontal={false}
-      initialNumToRender={10}
-      keyExtractor={[Function]}
-      maxToRenderPerBatch={10}
-      numColumns={1}
-      onEndReachedThreshold={2}
-      renderItem={[Function]}
-      scrollEventThrottle={50}
-      updateCellsBatchingPeriod={50}
-      windowSize={21}
+    <ContactList
+      contacts={Array []}
+      onAddContact={[Function]}
+      onContactPress={[Function]}
+      onDeleteContact={[Function]}
     />
   </ScrollViewMock>
   <Component

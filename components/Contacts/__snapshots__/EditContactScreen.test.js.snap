@@ -59,7 +59,7 @@ exports[`renders correctly 1`] = `
     <Button
       color="green"
       onPress={[Function]}
-      title="delete"
+      title="Delete"
     />
   </Component>
 </Component>

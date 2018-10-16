@@ -3,10 +3,14 @@ import EditContactScreen from './EditContactScreen';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
 
-it('renders correctly', () => {
+it("renders correctly", () => {
+  const testContact = {
+    name: 'mama',
+    number: '1234',
+    key: '1',
+    color: 'green'
+  };
   const renderer = new ShallowRenderer();
-  const tree = renderer.render(<EditContactScreen name={'someName'}
-                                                  number={1234565}/>);
+  const tree = renderer.render(<EditContactScreen contact={testContact}/>);
   expect(tree).toMatchSnapshot();
 });
-
