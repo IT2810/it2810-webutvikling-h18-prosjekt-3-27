@@ -7,13 +7,16 @@ import {
   Platform,
   View,
   NativeModules,
-  StatusBarIOS
+  StatusBarIOS,
 } from "react-native";
 import randomColor from "randomcolor";
 import {Header} from 'react-navigation';
 import CustomProgressBar from "./CustomProgressBar";
 import SortedList from "./SortedList";
 import TaskPersistence from "./TaskPersistence";
+import Icon from "react-native-vector-icons/Ionicons";
+import {Button} from "react-native-elements";
+
 
 const {StatusBarManager} = NativeModules;
 
@@ -30,6 +33,9 @@ export default class TodoScreen extends Component {
       flex: 1
     }
   };
+  handleToAdd = () => {
+    this.setState(prevState => {return {addTask: !prevState.addTask}});
+  };
 
   constructor(props) {
     super(props);
@@ -38,6 +44,7 @@ export default class TodoScreen extends Component {
       completedTasks: [],
       text: "",
       selected: null,
+      addTask: false,
     };
   }
 
@@ -189,15 +196,26 @@ export default class TodoScreen extends Component {
             numUncompleted={numUncompleted}
             progress={progress}
           />
-          <TextInput
-            style={styles.textInput}
-            onChangeText={this.handleChangeText}
-            onSubmitEditing={this.handleAddTask}
-            blurOnSubmit={false}
-            value={this.state.text}
-            placeholder="Add task.."
-            autoCorrect={false}
-          />
+
+          {this.state.addTask ?
+              <View>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={this.handleChangeText}
+                  onSubmitEditing={this.handleAddTask}
+                  value={this.state.text}
+                  onBlur={this.handleToAdd}
+                  placeholder="Add task.."
+                  autoCorrect={false}
+                  autoFocus={true}
+                />
+              </View>
+              :
+              <View style={{alignItems: "center", justifyContent: "center"}} >
+                <Icon name={isAndroid ? "md-add-circle" : "ios-add-circle"} color={randomColor({luminosity: 'dark', hue: "green"})} size={50} onPress={this.handleToAdd}/>
+              </View>
+          }
+
         </KeyboardAvoidingView>
       </View>
     );
@@ -211,8 +229,6 @@ const styles = StyleSheet.create({
   },
   textInput: {
     textAlign: "center",
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
     marginBottom: 5,
     fontSize: 25,
     height: 50,
