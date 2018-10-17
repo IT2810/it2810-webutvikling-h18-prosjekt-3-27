@@ -8,7 +8,6 @@ import {
   View,
   NativeModules,
   StatusBarIOS,
-  AsyncStorage
 } from "react-native";
 import randomColor from "randomcolor";
 import {Header} from 'react-navigation';
