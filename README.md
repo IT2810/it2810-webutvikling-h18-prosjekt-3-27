@@ -298,3 +298,15 @@ Vi gikk systematisk til verk med manuell testing, og dette knyttet seg naturlig 
 ## Testautomatisering
 
 Testautomatisering er å automatisere håndtering av tester og er en sentral del av kontinuerlig integrering. Vi er tilhengere av kontinuerlig testing og vurderte å legge til CI (Continuous Integration) til GitHub via f.eks. CircleCI eller TravisCI. På grunn av at vi hadde mye å lære i dette prosjektet, den relativt korte varigheten av prosjektet, og problemer med Enzyme, valgte vi å ikke sette opp Continual Integration.
+
+
+## Bibliotek og kilder
+
+ * [React Native Progress](https://github.com/oblador/react-native-progress)
+ * [React Native Vector Icons](https://www.github.com/oblador/react-native-vector-icons)
+ * [React Native Calendar](https://github.com/wix/react-native-calendars)
+ * [React Navigation](https://reactnavigation.org)
+ * [RandomColor](https://www.npmjs.com/package/randomcolor)
+ 
+ 
+ 
