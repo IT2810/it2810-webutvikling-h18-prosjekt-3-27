@@ -82,18 +82,30 @@ class EditAgendaScreen extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.margins}>Name:</Text>
+        <Text style={{
+          marginTop: 10,
+          marginBottom: 5
+        }}>Name:</Text>
         <TextInput
-          style={[styles.textInput, styles.margins]}
+          style={[styles.textInput, {
+            marginTop: 5,
+            marginBottom: 10
+          }]}
           value={this.state.name}
           underlineColorAndroid="transparent"
           placeholder={"Name"}
           onChangeText={this.handleNameChange}
           autoCorrect={false}
         />
-        <Text style={styles.margins}>Description:</Text>
+        <Text style={{
+          marginTop: 10,
+          marginBottom: 5
+        }}>Description:</Text>
         <TextInput
-          style={[styles.textInput, styles.margins]}
+          style={[styles.textInput, {
+            marginTop: 5,
+            marginBottom: 10
+          }]}
           value={this.state.note}
           multiline={true}
           numberOfLines={5}
@@ -103,9 +115,17 @@ class EditAgendaScreen extends PureComponent {
           onChangeText={this.handleNoteChange}
           autoCorrect={false}
         />
-        <Button title={"Save event"} onPress={this.handleSaveAgendaPress}/>
+        <Button
+          title={"Save event"}
+          onPress={this.handleSaveAgendaPress}
+          color="green"
+        />
         <View style={{margin: 10}}/>
-        <Button title={"Delete event"} onPress={this.handleDeleteAgendaPress}/>
+        <Button
+          title={"Delete event"}
+          onPress={this.handleDeleteAgendaPress}
+          color="green"
+        />
       </View>
     );
   }
@@ -120,14 +140,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     backgroundColor: "white"
   },
-  margins: {
-    marginTop: 10,
-    marginBottom: 10
-  },
   textInput: {
     width: "80%",
     padding: 5,
     borderWidth: 1,
-    borderColor: "#000"
+    borderColor: "#606060",
+    borderRadius: 5
   }
 });

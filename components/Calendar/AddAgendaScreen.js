@@ -54,21 +54,38 @@ class AddAgendaScreen extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={[styles.margins, {fontSize: 26}]}>
+        <Text style={[{
+          marginTop: 10,
+          marginBottom: 10
+        }, {fontSize: 26}]}>
           {this.getDateReadable()}
         </Text>
-        <Text style={styles.margins}>Name:</Text>
+        <Text style={{
+          marginTop: 10,
+          marginBottom: 5
+        }}>Name:</Text>
         <TextInput
-          style={[styles.margins, styles.textInput]}
+          style={[{
+            marginTop: 5,
+            marginBottom: 10
+          }, styles.textInput]}
           value={this.state.name}
           underlineColorAndroid="transparent"
           placeholder={"Name"}
           onChangeText={this.handleNameChange}
           autoCorrect={false}
         />
-        <Text style={styles.margins}>Description:</Text>
+        <Text
+          style={{
+          marginTop: 10,
+          marginBottom: 5
+        }}
+        >Description:</Text>
         <TextInput
-          style={[styles.margins, styles.textInput]}
+          style={[{
+            marginTop: 5,
+            marginBottom: 10
+          }, styles.textInput]}
           value={this.state.note}
           multiline={true}
           numberOfLines={5}
@@ -78,7 +95,12 @@ class AddAgendaScreen extends PureComponent {
           onChangeText={this.handleNoteChange}
           autoCorrect={false}
         />
-        <Button style={styles.margins} title={"Add new event"} onPress={this.handleAddAgendaPress}/>
+        <Button
+          style={styles.margins}
+          title={"Add new event"}
+          onPress={this.handleAddAgendaPress}
+          color="green"
+        />
       </View>
     );
   }
@@ -101,6 +123,7 @@ const styles = StyleSheet.create({
     width: "80%",
     padding: 5,
     borderWidth: 1,
-    borderColor: "#000"
+    borderColor: "#606060",
+    borderRadius: 5
   }
 });
