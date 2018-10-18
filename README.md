@@ -19,7 +19,10 @@ Da vil du få opp en QR-code som du scanner i Expo-appen på din telefon som vil
 
 Vi har laget en applikasjon med fire ulike features: **Kontaktliste**, **Kalender**, **Todoliste** og **Skritteller**.
 
-![App](readme/app.gif)
+Android        | iOS
+:-------------------------:|:-------------------------:
+![App](readme/androidApp.gif) | ![App](readme/iosApp.gif)
+
 
 I kontaktlista er det muligheter for å se, legge til og slette kontakter med navn og telefonnummer.  
 I kalenderen kan man se, legge til, endre og slette avtaler på ulike datoer.  
