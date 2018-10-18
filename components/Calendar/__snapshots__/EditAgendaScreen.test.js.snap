@@ -17,7 +17,7 @@ exports[`renders correctly 1`] = `
     ellipsizeMode="tail"
     style={
       Object {
-        "marginBottom": 10,
+        "marginBottom": 5,
         "marginTop": 10,
       }
     }
@@ -32,14 +32,15 @@ exports[`renders correctly 1`] = `
     style={
       Array [
         Object {
-          "borderColor": "#000",
+          "borderColor": "#606060",
+          "borderRadius": 5,
           "borderWidth": 1,
           "padding": 5,
           "width": "80%",
         },
         Object {
           "marginBottom": 10,
-          "marginTop": 10,
+          "marginTop": 5,
         },
       ]
     }
@@ -52,7 +53,7 @@ exports[`renders correctly 1`] = `
     ellipsizeMode="tail"
     style={
       Object {
-        "marginBottom": 10,
+        "marginBottom": 5,
         "marginTop": 10,
       }
     }
@@ -69,14 +70,15 @@ exports[`renders correctly 1`] = `
     style={
       Array [
         Object {
-          "borderColor": "#000",
+          "borderColor": "#606060",
+          "borderRadius": 5,
           "borderWidth": 1,
           "padding": 5,
           "width": "80%",
         },
         Object {
           "marginBottom": 10,
-          "marginTop": 10,
+          "marginTop": 5,
         },
       ]
     }
@@ -123,6 +125,9 @@ exports[`renders correctly 1`] = `
               "fontSize": 18,
               "padding": 8,
               "textAlign": "center",
+            },
+            Object {
+              "color": "green",
             },
           ]
         }
@@ -177,6 +182,9 @@ exports[`renders correctly 1`] = `
               "fontSize": 18,
               "padding": 8,
               "textAlign": "center",
+            },
+            Object {
+              "color": "green",
             },
           ]
         }

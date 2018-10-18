@@ -82,18 +82,18 @@ class EditAgendaScreen extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.margins}>Name:</Text>
+        <Text style={styles.itemTop}>Name:</Text>
         <TextInput
-          style={[styles.textInput, styles.margins]}
+          style={[styles.textInput, styles.itemBot]}
           value={this.state.name}
           underlineColorAndroid="transparent"
           placeholder={"Name"}
           onChangeText={this.handleNameChange}
           autoCorrect={false}
         />
-        <Text style={styles.margins}>Description:</Text>
+        <Text style={styles.itemTop}>Description:</Text>
         <TextInput
-          style={[styles.textInput, styles.margins]}
+          style={[styles.textInput, styles.itemBot]}
           value={this.state.note}
           multiline={true}
           numberOfLines={5}
@@ -103,9 +103,17 @@ class EditAgendaScreen extends PureComponent {
           onChangeText={this.handleNoteChange}
           autoCorrect={false}
         />
-        <Button title={"Save event"} onPress={this.handleSaveAgendaPress}/>
+        <Button
+          title={"Save event"}
+          onPress={this.handleSaveAgendaPress}
+          color="green"
+        />
         <View style={{margin: 10}}/>
-        <Button title={"Delete event"} onPress={this.handleDeleteAgendaPress}/>
+        <Button
+          title={"Delete event"}
+          onPress={this.handleDeleteAgendaPress}
+          color="green"
+        />
       </View>
     );
   }
@@ -124,10 +132,19 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10
   },
+  itemTop: {
+    marginTop: 10,
+    marginBottom: 5
+  },
+  itemBot: {
+    marginTop: 5,
+    marginBottom: 10
+  },
   textInput: {
     width: "80%",
     padding: 5,
     borderWidth: 1,
-    borderColor: "#000"
+    borderColor: "#606060",
+    borderRadius: 5
   }
 });
