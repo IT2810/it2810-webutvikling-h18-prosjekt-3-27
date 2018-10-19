@@ -43,7 +43,7 @@ exports[`renders correctly 1`] = `
     >
       <Icon
         allowFontScaling={false}
-        color="#10ad0d"
+        color="green"
         name="ios-add-circle"
         onPress={[Function]}
         size={50}
