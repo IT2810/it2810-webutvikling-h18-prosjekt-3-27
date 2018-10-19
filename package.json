@@ -12,7 +12,6 @@
     "updatesnapshots": "node node_modules/jest/bin/jest.js -u"
   },
   "dependencies": {
-    "enzyme": "^3.7.0",
     "expo": "^30.0.1",
     "randomcolor": "^0.5.3",
     "react": "16.3.1",
