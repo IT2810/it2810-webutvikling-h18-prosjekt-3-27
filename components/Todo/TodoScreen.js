@@ -211,8 +211,8 @@ export default class TodoScreen extends Component {
                 />
               </View>
               :
-              <View style={{alignItems: "center", justifyContent: "center"}} >
-                <Icon name={isAndroid ? "md-add-circle" : "ios-add-circle"} color={randomColor({luminosity: 'dark', hue: "green"})} size={50} onPress={this.handleToAdd}/>
+              <View style={styles.centering} >
+                <Icon name={isAndroid ? "md-add-circle" : "ios-add-circle"} color="green" size={50} onPress={this.handleToAdd}/>
               </View>
           }
 
@@ -232,5 +232,9 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 25,
     height: 50,
+  },
+  centering: {
+    alignItems: "center",
+    justifyContent: "center"
   }
 });

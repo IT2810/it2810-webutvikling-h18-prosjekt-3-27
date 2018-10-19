@@ -33,25 +33,22 @@ exports[`renders correctly 1`] = `
       numUncompleted={0}
       progress={NaN}
     />
-    <TextInput
-      allowFontScaling={true}
-      autoCorrect={false}
-      blurOnSubmit={false}
-      onChangeText={[Function]}
-      onSubmitEditing={[Function]}
-      placeholder="Add task.."
+    <Component
       style={
         Object {
-          "borderBottomColor": "gray",
-          "borderBottomWidth": 1,
-          "fontSize": 25,
-          "height": 50,
-          "marginBottom": 5,
-          "textAlign": "center",
+          "alignItems": "center",
+          "justifyContent": "center",
         }
       }
-      value=""
-    />
+    >
+      <Icon
+        allowFontScaling={false}
+        color="green"
+        name="ios-add-circle"
+        onPress={[Function]}
+        size={50}
+      />
+    </Component>
   </KeyboardAvoidingView>
 </Component>
 `;
