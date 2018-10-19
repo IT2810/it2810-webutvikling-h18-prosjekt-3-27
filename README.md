@@ -302,6 +302,13 @@ Vi gikk systematisk til verk med manuell testing, og dette knyttet seg naturlig 
 
 Testautomatisering er å automatisere håndtering av tester og er en sentral del av kontinuerlig integrering. Vi er tilhengere av kontinuerlig testing og vurderte å legge til CI (Continuous Integration) til GitHub via f.eks. CircleCI eller TravisCI. På grunn av at vi hadde mye å lære i dette prosjektet, den relativt korte varigheten av prosjektet, og problemer med Enzyme, valgte vi å ikke sette opp Continual Integration.
 
+## Kort om vår bruk av Github
+
+Oppgaven ble dekomponert til utviklingsoppgaver og hver utviklingsoppgave fikk sin egen issue. Vi fordelte arbeidsoppgaver, og lagde greiner for hver nye utviklingsoppgave ettersom vi jobbet med de (f.eks. `feat_todo`, `dev_tests`). Når en utviklingsoppgave var moden opprettet vi Pull Request mot master. Før en PR blir merget må den godkjennes av minst en annen bidragsgiver, og godkjenningsprosessen innebærte kjøring av tester og test av appen lokalt.
+
+Alle endringer til master ble merget gjennom Pull Requests. Ved å gå til oversikten av commits er det mulig å gå direkte til den PRen som førte til at commit-en ble merget til master.
+
+Mye av kommunikasjonen gikk direkte eller over eksterne kanaler, og arbeidet ble koordinert ved bruk av greiner, pull requests og GitHub issues. Dersom to eller flere jobbet på samme utviklingsoppgave (utenom parprogrammering på en PC) brukte vi flere greiner der det behøvdes slik at arbeidet kunne koordineres uten uforutsette merge conflicts. Som et eksempel: om Per og Kari jobbet med `feat_todo`, kunne de lage `feat_todo_kari` og `feat_todo_per`, og pushe og pulle sine endringer til og fra `feat_todo`, og så opprette en Pull Request for `feat_todo` når utviklingsoppgaven ble ferdig utviklet.
 
 ## Bibliotek og kilder
 
